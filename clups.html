@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clups - Windgriff</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #e63946;
+            --secondary: #f1faee;
+            --dark: #000000;
+            --darker: #000000;
+            --light: #f1faee;
+            --card-bg: #0a0a0a;
+            --gradient-start: #e63946;
+            --gradient-end: #a8dadc;
+        }
+        
+        body {
+            background: #000000;
+            font-family: 'Inter', sans-serif;
+            color: var(--light);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(230, 57, 70, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(168, 218, 220, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .clups-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .school-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 6rem 2rem;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 40px;
+            border: 1px solid rgba(230, 57, 70, 0.2);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .school-header:hover {
+            transform: translateY(-5px);
+        }
+
+        .school-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(230, 57, 70, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(168, 218, 220, 0.1) 0%, transparent 50%);
+            animation: headerGlow 8s ease infinite;
+        }
+
+        .school-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(230, 57, 70, 0.1),
+                transparent
+            );
+            animation: headerShine 8s ease infinite;
+        }
+
+        @keyframes headerShine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .school-header h1 {
+            font-size: 4.5rem;
+            margin: 0;
+            font-weight: 800;
+            letter-spacing: 2px;
+            position: relative;
+            text-transform: uppercase;
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: titleGlow 3s ease infinite;
+            text-shadow: 0 0 30px rgba(230, 57, 70, 0.3);
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.2); }
+        }
+
+        .school-header p {
+            color: var(--secondary);
+            margin: 1.5rem 0 0 0;
+            font-size: 2.2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 12px;
+            position: relative;
+            text-shadow: 0 0 20px rgba(168, 218, 220, 0.4);
+        }
+
+        .school-header p::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 4px;
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            border-radius: 4px;
+            box-shadow: 0 0 20px rgba(230, 57, 70, 0.4);
+        }
+
+        .clups-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .clups-header h1 {
+            font-size: 2.5rem;
+            color: var(--light);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .clups-header p {
+            color: #888;
+        }
+
+        .clups-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .clups-content {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            padding: 2rem;
+        }
+
+        .clups-content::before {
+            content: '';
+            position: absolute;
+            top: -2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: calc(100% + 4rem);
+            background: linear-gradient(
+                to bottom,
+                transparent,
+                rgba(255, 107, 53, 0.3),
+                transparent
+            );
+        }
+
+        .clup-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .clup-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+        }
+
+        .clup-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.1);
+            border-color: rgba(255, 107, 53, 0.2);
+        }
+
+        .clup-image {
+            width: 100%;
+            height: 200px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .clup-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" opacity="0.1"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>') repeat;
+            opacity: 0.1;
+        }
+
+        .clup-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .clup-title i {
+            color: var(--primary);
+        }
+
+        .clup-founders {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .clup-founders i {
+            color: var(--secondary);
+        }
+
+        .clup-description {
+            color: #aaa;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        .clup-stats {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-item {
+            flex: 1;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .clup-button {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .clup-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .school-header {
+                padding: 4rem 1rem;
+                margin-bottom: 2rem;
+                border-radius: 20px;
+            }
+
+            .school-header h1 {
+                font-size: 2.8rem;
+            }
+            
+            .school-header p {
+                font-size: 1.8rem;
+                letter-spacing: 6px;
+            }
+
+            .clups-content {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            .clups-content::before {
+                display: none;
+            }
+
+            .home-button {
+                top: 20px;
+                left: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+        }
+
+        @keyframes wave {
+            0% { transform: translateX(0) translateY(0); }
+            25% { transform: translateX(-2px) translateY(2px); }
+            50% { transform: translateX(0) translateY(0); }
+            75% { transform: translateX(2px) translateY(-2px); }
+            100% { transform: translateX(0) translateY(0); }
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        .retro-text {
+            font-family: 'VT323', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: wave 3s infinite ease-in-out;
+        }
+
+        .computer-card {
+            background: #000;
+            border: 2px solid #00ff00;
+            border-radius: 20px;
+            padding: 0;
+            position: relative;
+            overflow: visible;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.2);
+            width: 100%;
+            margin: 0 auto;
+            transition: all 0.3s ease;
+        }
+
+        .computer-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 40px rgba(0, 255, 0, 0.3);
+            border-color: #00ff00;
+        }
+
+        .computer-screen {
+            background: #000;
+            border: none;
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            min-height: 500px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .computer-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('hack.gif') center center;
+            background-size: cover;
+            opacity: 0.15;
+            z-index: 0;
+            animation: glitch 5s infinite;
+        }
+
+        .computer-screen::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: linear-gradient(
+                transparent 50%,
+                rgba(0, 255, 0, 0.025) 50%
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            from { background-position: 0 0; }
+            to { background-position: 0 100%; }
+        }
+
+        .computer-header {
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .computer-header::before {
+            content: 'COMPUTER CLUB v1.0';
+            position: absolute;
+            top: -30px;
+            left: 0;
+            right: 0;
+            color: #00ff00;
+            font-size: 12px;
+            text-align: center;
+            opacity: 0.5;
+        }
+
+        .computer-title {
+            color: #00ff00;
+            font-size: 24px;
+            margin: 0;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+            font-family: 'VT323', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: textGlow 2s infinite;
+        }
+
+        .computer-content {
+            position: relative;
+            z-index: 1;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            color: #00ff00;
+            font-family: 'VT323', monospace;
+        }
+
+        .computer-content p {
+            color: #00ff00;
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+            line-height: 1.5;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+        }
+
+        .computer-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(0, 255, 0, 0.05);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            border-radius: 10px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: rgba(0, 255, 0, 0.05);
+            border: 1px solid rgba(0, 255, 0, 0.2);
+            border-radius: 5px;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            color: #00ff00;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #00ff00;
+            font-family: 'VT323', monospace;
+            font-size: 16px;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+        }
+
+        .computer-button {
+            background: transparent;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 15px 30px;
+            font-family: 'VT323', monospace;
+            font-size: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .computer-button:hover {
+            background: #00ff00;
+            color: #000;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.5);
+        }
+
+        .computer-button::before {
+            content: '>';
+            margin-right: 10px;
+        }
+
+        .computer-button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(0, 255, 0, 0.1),
+                transparent
+            );
+            transform: rotate(45deg);
+            animation: buttonGlow 3s infinite;
+        }
+
+        @keyframes buttonGlow {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .computer-footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #00ff00;
+            opacity: 0.5;
+            padding: 10px;
+            border-top: 1px solid rgba(0, 255, 0, 0.2);
+        }
+
+        .computer-footer::before {
+            content: 'READY';
+            display: block;
+            margin-bottom: 5px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .fish-eye {
+            display: none;
+        }
+
+        .economy-card {
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(255, 107, 53, 0.1);
+            width: 100%;
+            margin: 0 auto;
+            transition: all 0.3s ease;
+        }
+
+        .economy-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 159, 28, 0.1) 0%, transparent 50%);
+            z-index: 0;
+            animation: gradientMove 10s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .economy-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35" opacity="0.1"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>') repeat;
+            opacity: 0.1;
+            animation: moneyFloat 20s linear infinite;
+        }
+
+        @keyframes moneyFloat {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .economy-content {
+            position: relative;
+            z-index: 1;
+            color: #fff;
+        }
+
+        .economy-title {
+            color: #ff6b35;
+            font-size: 28px;
+            margin: 0 0 1rem 0;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-shadow: 0 0 10px rgba(255, 107, 53, 0.3);
+        }
+
+        .economy-title i {
+            font-size: 24px;
+            color: #ff9f1c;
+            animation: iconPulse 2s ease infinite;
+        }
+
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .economy-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            border-color: rgba(255, 107, 53, 0.4);
+            background: rgba(255, 107, 53, 0.05);
+        }
+
+        .economy-stat-number {
+            font-size: 32px;
+            color: #ff6b35;
+            font-weight: 700;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px rgba(255, 107, 53, 0.3);
+            position: relative;
+        }
+
+        .stat-label {
+            color: #ff9f1c;
+            font-size: 16px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .economy-button {
+            background: linear-gradient(to right, #ff6b35, #ff9f1c);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 30px;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .economy-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .economy-button:hover::before {
+            left: 100%;
+        }
+
+        .economy-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .home-button {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(230, 57, 70, 0.3);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 28px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .home-button:hover {
+            background: rgba(230, 57, 70, 0.2);
+            transform: scale(1.1) rotate(360deg);
+            box-shadow: 0 0 30px rgba(230, 57, 70, 0.4);
+            border-color: rgba(230, 57, 70, 0.5);
+        }
+
+        .home-button i {
+            transition: transform 0.3s ease;
+        }
+
+        .home-button:hover i {
+            transform: scale(1.2);
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</head>
+<body>
+    <a href="index.html" class="home-button">
+        <i class="fas fa-home"></i>
+    </a>
+    <div class="clups-container">
+        <div class="school-header">
+            <h1>Rüzgar Anatolian HighSchool</h1>
+            <p>Clups</p>
+        </div>
+       
+        <div class="clups-content">
+            <div class="clup-card economy-card">
+                <div class="economy-content">
+                    <h2 class="economy-title">
+                        <i class="fas fa-chart-line"></i>
+                        Economy Club
+                    </h2>
+                    <p class="clup-founders">
+                        <i class="fas fa-users"></i> Founders: John Smith, Sarah Johnson
+                    </p>
+                    <div class="economy-stats">
+                        <div class="stat-item">
+                            <div class="economy-stat-number">150+</div>
+                            <div class="stat-label">Members</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="economy-stat-number">25+</div>
+                            <div class="stat-label">Events</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="economy-stat-number">10+</div>
+                            <div class="stat-label">Projects</div>
+                        </div>
+                    </div>
+                    <p class="clup-description">
+                        Discover the dynamics of the business world, develop entrepreneurial spirit, and expand your professional network.
+                    </p>
+                    <button class="economy-button">
+                        <i class="fas fa-arrow-right"></i> View Details
+                    </button>
+                </div>
+            </div>
+
+            <div class="clup-card computer-card">
+                <div class="computer-screen">
+                    <div class="computer-content">
+                        <div>
+                            <div class="computer-header">
+                                <h2 class="computer-title">Computer Club</h2>
+                            </div>
+                            <p>Founders: Alan Turing, Ada Lovelace</p>
+                            <div class="computer-stats">
+                                <div class="stat-item">
+                                    <div class="stat-number">200+</div>
+                                    <div class="stat-label">Hackers</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">50+</div>
+                                    <div class="stat-label">Projects</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">100+</div>
+                                    <div class="stat-label">Events</div>
+                                </div>
+                            </div>
+                            <p>Enter the digital realm where code meets creativity. From AI to cybersecurity, we're building the future one byte at a time.</p>
+                        </div>
+                        <div>
+                            <button class="computer-button">Access System</button>
+                            <div class="computer-footer"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
