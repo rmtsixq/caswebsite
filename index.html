@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IB CAS Program</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="logo">
+                <img src="https://via.placeholder.com/150x50?text=IB+School" alt="School Logo">
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#programs">Programs</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <h1>IB CAS Program</h1>
+            <p>Creativity, Activity, Service</p>
+            <div class="hero-buttons">
+                <a href="#programs" class="btn btn-primary">Explore Programs</a>
+                <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+            </div>
+        </section>
+
+        <section id="programs" class="cas-pillars">
+            <div class="pillar">
+                <i class="fas fa-paint-brush"></i>
+                <h2>Creativity</h2>
+                <p>Explore your creative potential through various artistic and innovative projects.</p>
+                <a href="#" class="pillar-link">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="pillar">
+                <i class="fas fa-running"></i>
+                <h2>Activity</h2>
+                <p>Engage in physical activities that promote health and well-being.</p>
+                <a href="#" class="pillar-link">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="pillar">
+                <i class="fas fa-hands-helping"></i>
+                <h2>Service</h2>
+                <p>Make a positive impact on your community through meaningful service projects.</p>
+                <a href="#" class="pillar-link">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </section>
+
+        <section id="about" class="about-cas">
+            <h2>About CAS</h2>
+            <p>CAS is a fundamental part of the IB Diploma Programme, encouraging students to engage in a range of activities alongside their academic studies.</p>
+            <div class="cas-features">
+                <div class="feature">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Personal Growth</h3>
+                    <p>Develop new skills and discover your potential through challenging experiences.</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-globe-americas"></i>
+                    <h3>Community Impact</h3>
+                    <p>Make a difference in your local and global community through meaningful service.</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-balance-scale"></i>
+                    <h3>Holistic Development</h3>
+                    <p>Balance academic excellence with personal development and social responsibility.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="globe-section">
+            <div class="globe-container">
+                <div class="globe-content">
+                    <h2>IB Schools Worldwide</h2>
+                    <p class="globe-description">The International Baccalaureate (IB) is a global leader in international education, developing inquiring, knowledgeable, confident, and caring young people.</p>
+                    <div class="globe-stats">
+                        <div class="stat">
+                            <span class="number">5,000+</span>
+                            <span class="label">IB Schools</span>
+                        </div>
+                        <div class="stat">
+                            <span class="number">150+</span>
+                            <span class="label">Countries</span>
+                        </div>
+                        <div class="stat">
+                            <span class="number">1M+</span>
+                            <span class="label">Students</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="globe"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="contact-info">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-envelope"></i> info@school.com</p>
+                <p><i class="fas fa-phone"></i> (123) 456-7890</p>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Education Street, City</p>
+            </div>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="globe.js"></script>
+</body>
+</html> 
