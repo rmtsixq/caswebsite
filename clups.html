@@ -6,6 +6,7 @@
     <title>Clups - Windgriff</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #e63946;
@@ -19,12 +20,13 @@
         }
         
         body {
-            background: #000000;
+            background: linear-gradient(135deg, #10141a 0%, #181c24 100%);
             font-family: 'Inter', sans-serif;
             color: var(--light);
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
+            line-height: 1.6;
         }
 
         body::before {
@@ -35,8 +37,8 @@
             width: 100%;
             height: 100%;
             background: 
-                radial-gradient(circle at 20% 20%, rgba(230, 57, 70, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(168, 218, 220, 0.05) 0%, transparent 50%);
+                radial-gradient(circle at 20% 20%, rgba(230, 57, 70, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(168, 218, 220, 0.08) 0%, transparent 50%);
             pointer-events: none;
             z-index: 0;
         }
@@ -51,21 +53,22 @@
 
         .school-header {
             text-align: center;
-            margin-bottom: 4rem;
-            padding: 6rem 2rem;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 40px;
+            margin-bottom: 3rem;
+            padding: 3rem 2rem;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
             border: 1px solid rgba(230, 57, 70, 0.2);
-            backdrop-filter: blur(20px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             position: relative;
             overflow: hidden;
             transform: translateY(0);
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         .school-header:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(230, 57, 70, 0.1);
         }
 
         .school-header::before {
@@ -81,103 +84,62 @@
             animation: headerGlow 8s ease infinite;
         }
 
-        .school-header::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                45deg,
-                transparent,
-                rgba(230, 57, 70, 0.1),
-                transparent
-            );
-            animation: headerShine 8s ease infinite;
-        }
-
-        @keyframes headerShine {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
-
         .school-header h1 {
-            font-size: 4.5rem;
+            font-size: 2.8rem;
             margin: 0;
-            font-weight: 800;
-            letter-spacing: 2px;
+            font-weight: 700;
+            letter-spacing: 1px;
             position: relative;
             text-transform: uppercase;
             background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: titleGlow 3s ease infinite;
-            text-shadow: 0 0 30px rgba(230, 57, 70, 0.3);
-        }
-
-        @keyframes titleGlow {
-            0%, 100% { filter: brightness(1); }
-            50% { filter: brightness(1.2); }
+            text-shadow: 0 0 20px rgba(230, 57, 70, 0.2);
         }
 
         .school-header p {
             color: var(--secondary);
-            margin: 1.5rem 0 0 0;
-            font-size: 2.2rem;
-            font-weight: 600;
+            margin: 0.8rem 0 0 0;
+            font-size: 1.4rem;
+            font-weight: 500;
             text-transform: uppercase;
-            letter-spacing: 12px;
+            letter-spacing: 8px;
             position: relative;
-            text-shadow: 0 0 20px rgba(168, 218, 220, 0.4);
-        }
-
-        .school-header p::after {
-            content: '';
-            position: absolute;
-            bottom: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 200px;
-            height: 4px;
-            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
-            border-radius: 4px;
-            box-shadow: 0 0 20px rgba(230, 57, 70, 0.4);
+            text-shadow: 0 0 15px rgba(168, 218, 220, 0.3);
+            opacity: 0.9;
         }
 
         .clups-header {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 20px;
+            border: 1px solid rgba(230, 57, 70, 0.1);
+            backdrop-filter: blur(10px);
         }
 
         .clups-header h1 {
-            font-size: 2.5rem;
+            font-size: 3rem;
             color: var(--light);
             margin-bottom: 1rem;
             position: relative;
             display: inline-block;
+            font-weight: 700;
         }
 
         .clups-header p {
             color: #888;
-        }
-
-        .clups-header h1::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 4px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            border-radius: 2px;
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .clups-content {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
             width: 100%;
             max-width: 1400px;
             margin: 0 auto;
@@ -185,47 +147,28 @@
             padding: 2rem;
         }
 
-        .clups-content::before {
-            content: '';
-            position: absolute;
-            top: -2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 2px;
-            height: calc(100% + 4rem);
-            background: linear-gradient(
-                to bottom,
-                transparent,
-                rgba(255, 107, 53, 0.3),
-                transparent
-            );
-        }
-
         .clup-card {
             background: var(--card-bg);
             border-radius: 20px;
             padding: 2rem;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             position: relative;
             overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
         .clup-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
+            display: none !important;
         }
 
         .clup-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.1);
-            border-color: rgba(255, 107, 53, 0.2);
+            box-shadow: 0 15px 40px rgba(230, 57, 70, 0.15);
+            border-color: rgba(230, 57, 70, 0.2);
         }
 
         .clup-image {
@@ -242,17 +185,6 @@
             font-weight: bold;
             position: relative;
             overflow: hidden;
-        }
-
-        .clup-image::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" opacity="0.1"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>') repeat;
-            opacity: 0.1;
         }
 
         .clup-title {
@@ -340,58 +272,37 @@
 
         @media (max-width: 768px) {
             .school-header {
-                padding: 4rem 1rem;
+                padding: 2rem 1rem;
                 margin-bottom: 2rem;
-                border-radius: 20px;
             }
 
             .school-header h1 {
-                font-size: 2.8rem;
+                font-size: 2rem;
             }
-            
+
             .school-header p {
-                font-size: 1.8rem;
+                font-size: 1.2rem;
                 letter-spacing: 6px;
+            }
+
+            .clups-header h1 {
+                font-size: 2.5rem;
             }
 
             .clups-content {
                 grid-template-columns: 1fr;
                 padding: 1rem;
             }
-
-            .clups-content::before {
-                display: none;
-            }
-
-            .home-button {
-                top: 20px;
-                left: 20px;
-                width: 50px;
-                height: 50px;
-                font-size: 24px;
-            }
         }
 
-        @keyframes wave {
-            0% { transform: translateX(0) translateY(0); }
-            25% { transform: translateX(-2px) translateY(2px); }
-            50% { transform: translateX(0) translateY(0); }
-            75% { transform: translateX(2px) translateY(-2px); }
-            100% { transform: translateX(0) translateY(0); }
+        @keyframes headerGlow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
         }
 
-        @keyframes scanline {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100%); }
-        }
-
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            80% { transform: translate(2px, -2px); }
-            100% { transform: translate(0); }
+        @keyframes titleGlow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.2); }
         }
 
         .retro-text {
@@ -407,7 +318,7 @@
             border-radius: 20px;
             padding: 0;
             position: relative;
-            overflow: visible;
+            overflow: hidden;
             box-shadow: 0 0 30px rgba(0, 255, 0, 0.2);
             width: 100%;
             margin: 0 auto;
@@ -460,11 +371,6 @@
             background-size: 100% 4px;
             pointer-events: none;
             animation: scan 8s linear infinite;
-        }
-
-        @keyframes scan {
-            from { background-position: 0 0; }
-            to { background-position: 0 100%; }
         }
 
         .computer-header {
@@ -567,39 +473,34 @@
             margin-top: 30px;
             position: relative;
             overflow: hidden;
-        }
-
-        .computer-button:hover {
-            background: #00ff00;
-            color: #000;
-            box-shadow: 0 0 30px rgba(0, 255, 0, 0.5);
+            background: url('hack.gif') center center / cover no-repeat;
+            box-shadow: 0 0 20px #00ff00aa;
         }
 
         .computer-button::before {
-            content: '>';
-            margin-right: 10px;
-        }
-
-        .computer-button::after {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                45deg,
-                transparent,
-                rgba(0, 255, 0, 0.1),
-                transparent
-            );
-            transform: rotate(45deg);
-            animation: buttonGlow 3s infinite;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.65);
+            z-index: 1;
         }
 
-        @keyframes buttonGlow {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
+        .computer-button span, .computer-button i {
+            position: relative;
+            z-index: 2;
+        }
+
+        .computer-button:hover {
+            background: #00ff00 !important;
+            color: #000 !important;
+            box-shadow: 0 0 30px #00ff00cc;
+        }
+
+        .computer-button:hover::before {
+            background: transparent !important;
         }
 
         .computer-footer {
@@ -628,168 +529,454 @@
             display: none;
         }
 
+        /* === VINTAGE ECONOMY CARD === */
         .economy-card {
-            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 2rem;
+            background: url('https://www.transparenttextures.com/patterns/old-mathematics.png'), linear-gradient(135deg, #f5ecd7 0%, #e9dbc2 100%);
+            border-radius: 18px;
+            border: 2.5px solid #bfa16a;
+            box-shadow: 0 4px 32px #bfa16a33, 0 1.5px 0 #bfa16a;
+            padding: 2.2rem 2rem 2rem 2rem;
+            font-family: 'Georgia', 'Garamond', 'Times New Roman', serif;
+            color: #4b3e2e;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 0 30px rgba(255, 107, 53, 0.1);
+            margin: 0 auto;
+            transition: all 0.4s cubic-bezier(0.4,0,0.2,1) !important;
+        }
+
+        .economy-card:hover {
+            box-shadow: 0 8px 40px #7a1a2e55, 0 1.5px 0 #bfa16a;
+            border-color: #7a1a2e;
+        }
+
+        .economy-stamp {
+            position: absolute;
+            bottom: 18px;
+            right: 18px;
+            width: 90px;
+            height: 90px;
+            opacity: 0.85;
+            transform: rotate(-12deg);
+            z-index: 3;
+            filter: drop-shadow(0 2px 8px #7a1a2e88);
+        }
+
+        .dashboard-header {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            border-bottom: 2.5px solid #7a1a2e;
+            padding-bottom: 0.7rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .dashboard-title h2 {
+            font-family: 'Garamond', 'Georgia', serif;
+            font-size: 2.1rem;
+            font-weight: 700;
+            color: #7a1a2e;
+            letter-spacing: 2px;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .dashboard-title h2 i {
+            color: #bfa16a;
+            font-size: 1.5rem;
+        }
+
+        .market-status { display: none; }
+        .dashboard-stats { display: none; }
+        .price-tag { display: none; }
+
+        .dashboard-content {
+            background: transparent;
+            border-radius: 0;
+            border: none;
+            padding: 0;
+            color: #4b3e2e;
+            font-family: 'Georgia', serif;
+            margin-bottom: 1.2rem;
+            font-size: 1.08rem;
+        }
+
+        .content-header h3 {
+            font-family: 'Garamond', serif;
+            font-size: 1.2rem;
+            color: #7a1a2e;
+            margin: 0 0 0.5rem 0;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .club-actions {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .club-btn.join-btn {
+            background: #7a1a2e;
+            color: #fffbe6;
+            border: 2px solid #bfa16a;
+            border-radius: 8px;
+            font-family: 'Georgia', serif;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 8px #bfa16a33;
+            padding: 10px 22px;
+            transition: all 0.2s;
+        }
+
+        .club-btn.join-btn:hover {
+            background: #bfa16a;
+            color: #7a1a2e;
+            border-color: #7a1a2e;
+            box-shadow: 0 0 16px #bfa16a88;
+        }
+
+        .club-btn.learn-btn {
+            background: #fffbe6;
+            color: #7a1a2e;
+            border: 2px solid #bfa16a;
+            border-radius: 8px;
+            font-family: 'Georgia', serif;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 8px #bfa16a33;
+            padding: 10px 22px;
+            transition: all 0.2s;
+        }
+
+        .club-btn.learn-btn:hover {
+            background: #7a1a2e;
+            color: #fffbe6;
+            border-color: #bfa16a;
+            box-shadow: 0 0 16px #7a1a2e88;
+        }
+
+        .economy-stats {
+            display: flex;
+            gap: 1.2rem;
+            margin: 1.2rem 0 1.5rem 0;
+        }
+
+        .vintage-stat-card {
+            background: #f8f3e7;
+            border: 1.5px solid #bfa16a;
+            border-radius: 12px;
+            padding: 1.1rem 1rem 1rem 1rem;
+            font-family: 'Georgia', serif;
+            color: #4b3e2e;
+            box-shadow: 0 1px 8px #bfa16a22;
+            min-width: 0;
+            flex: 1;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.3rem;
+        }
+
+        .vintage-stat-icon {
+            font-size: 1.3rem;
+            color: #7a1a2e;
+            margin-bottom: 0.2rem;
+        }
+
+        .vintage-stat-label {
+            font-size: 1.05rem;
+            color: #7a1a2e;
+            font-family: 'Garamond', serif;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .vintage-stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #4b3e2e;
+            font-family: 'Georgia', serif;
+        }
+
+        .economy-globe-img {
+            position: absolute;
+            top: -32px;
+            left: -32px;
+            width: 110px;
+            height: auto;
+            z-index: 3;
+            box-shadow: 0 4px 18px #7a1a2e33;
+            opacity: 0.92;
+            pointer-events: none;
+        }
+
+        .economy-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('https://www.transparenttextures.com/patterns/scratched-metal.png'), url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+            opacity: 0.38;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .economy-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('https://www.transparenttextures.com/patterns/worn-dots.png');
+            opacity: 0.18;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* === COMPUTER CARD === */
+        .computer-card {
+            background: #000;
+            border: 2px solid #00ff00;
+            border-radius: 20px;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.2);
             width: 100%;
             margin: 0 auto;
             transition: all 0.3s ease;
         }
 
-        .economy-card::before {
+        .computer-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 40px rgba(0, 255, 0, 0.3);
+            border-color: #00ff00;
+        }
+
+        .computer-screen {
+            background: #000;
+            border: none;
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            min-height: 500px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .computer-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('hack.gif') center center;
+            background-size: cover;
+            opacity: 0.15;
+            z-index: 0;
+            animation: glitch 5s infinite;
+        }
+
+        .computer-screen::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: linear-gradient(
+                transparent 50%,
+                rgba(0, 255, 0, 0.025) 50%
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            animation: scan 8s linear infinite;
+        }
+
+        .computer-header {
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .computer-header::before {
+            content: 'COMPUTER CLUB v1.0';
+            position: absolute;
+            top: -30px;
+            left: 0;
+            right: 0;
+            color: #00ff00;
+            font-size: 12px;
+            text-align: center;
+            opacity: 0.5;
+        }
+
+        .computer-title {
+            color: #00ff00;
+            font-size: 24px;
+            margin: 0;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+            font-family: 'VT323', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: textGlow 2s infinite;
+        }
+
+        .computer-content {
+            position: relative;
+            z-index: 1;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            color: #00ff00;
+            font-family: 'VT323', monospace;
+        }
+
+        .computer-content p {
+            color: #00ff00;
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+            line-height: 1.5;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+        }
+
+        .computer-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(0, 255, 0, 0.05);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            border-radius: 10px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: rgba(0, 255, 0, 0.05);
+            border: 1px solid rgba(0, 255, 0, 0.2);
+            border-radius: 5px;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            color: #00ff00;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #00ff00;
+            font-family: 'VT323', monospace;
+            font-size: 16px;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+        }
+
+        .computer-button {
+            background: transparent;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 15px 30px;
+            font-family: 'VT323', monospace;
+            font-size: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 30px;
+            position: relative;
+            overflow: hidden;
+            background: url('hack.gif') center center / cover no-repeat;
+            box-shadow: 0 0 20px #00ff00aa;
+        }
+
+        .computer-button::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                radial-gradient(circle at 20% 20%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(255, 159, 28, 0.1) 0%, transparent 50%);
-            z-index: 0;
-            animation: gradientMove 10s ease infinite;
-        }
-
-        @keyframes gradientMove {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        .economy-card::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35" opacity="0.1"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>') repeat;
-            opacity: 0.1;
-            animation: moneyFloat 20s linear infinite;
-        }
-
-        @keyframes moneyFloat {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        .economy-content {
-            position: relative;
+            background: rgba(0,0,0,0.65);
             z-index: 1;
-            color: #fff;
         }
 
-        .economy-title {
-            color: #ff6b35;
-            font-size: 28px;
-            margin: 0 0 1rem 0;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            text-shadow: 0 0 10px rgba(255, 107, 53, 0.3);
-        }
-
-        .economy-title i {
-            font-size: 24px;
-            color: #ff9f1c;
-            animation: iconPulse 2s ease infinite;
-        }
-
-        @keyframes iconPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        .economy-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin: 30px 0;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 107, 53, 0.2);
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-        }
-
-        .stat-item {
-            text-align: center;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 107, 53, 0.2);
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .stat-item:hover {
-            border-color: rgba(255, 107, 53, 0.4);
-            background: rgba(255, 107, 53, 0.05);
-        }
-
-        .economy-stat-number {
-            font-size: 32px;
-            color: #ff6b35;
-            font-weight: 700;
-            margin-bottom: 5px;
-            text-shadow: 0 0 10px rgba(255, 107, 53, 0.3);
+        .computer-button span, .computer-button i {
             position: relative;
+            z-index: 2;
         }
 
-        .stat-label {
-            color: #ff9f1c;
-            font-size: 16px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .computer-button:hover {
+            background: #00ff00 !important;
+            color: #000 !important;
+            box-shadow: 0 0 30px #00ff00cc;
         }
 
-        .economy-button {
-            background: linear-gradient(to right, #ff6b35, #ff9f1c);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 16px;
+        .computer-button:hover::before {
+            background: transparent !important;
+        }
+
+        .computer-footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #00ff00;
+            opacity: 0.5;
+            padding: 10px;
+            border-top: 1px solid rgba(0, 255, 0, 0.2);
+        }
+
+        .computer-footer::before {
+            content: 'READY';
+            display: block;
+            margin-bottom: 5px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .computer-action-btn {
+            background: rgba(0,255,136,0.12);
+            color: #00ff88;
+            border: 1.5px solid #00ff88;
+            border-radius: 8px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 10px 0;
             width: 100%;
-            margin-top: 30px;
-            border-radius: 10px;
-            position: relative;
-            overflow: hidden;
         }
 
-        .economy-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.2),
-                transparent
-            );
-            transition: 0.5s;
-        }
-
-        .economy-button:hover::before {
-            left: 100%;
-        }
-
-        .economy-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        .computer-action-btn:hover {
+            background: transparent;
+            color: #00ff88;
+            border: 1.5px solid #00ff88;
         }
 
         .home-button {
@@ -827,8 +1014,210 @@
         .home-button:hover i {
             transform: scale(1.2);
         }
+
+        .club-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.3s;
+        }
+        .club-modal.active {
+            display: flex;
+        }
+        .club-modal-content {
+            background: #1a1a1a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            padding: 2.5rem;
+            max-width: 800px;
+            width: 95vw;
+            color: #fff;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            animation: modalFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .club-modal-header {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .club-modal-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #00ff88;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+        }
+        .club-modal-header h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin: 0;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+        .club-modal-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .club-modal-info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .club-modal-info-label {
+            font-size: 0.9rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .club-modal-info-value {
+            font-size: 1.1rem;
+            color: #fff;
+            font-weight: 500;
+        }
+        .club-modal-description {
+            font-size: 1.1rem;
+            color: #ccc;
+            line-height: 1.7;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .club-modal-gallery {
+            position: relative;
+            margin: 1rem 0;
+            padding: 1rem 0;
+        }
+        .gallery-container {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding: 1rem 0;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: thin;
+            -webkit-overflow-scrolling: touch;
+        }
+        .gallery-container::-webkit-scrollbar {
+            height: 8px;
+            background: rgba(255,255,255,0.05);
+        }
+        .gallery-container::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.15);
+            border-radius: 4px;
+        }
+        .gallery-item {
+            flex: 0 0 300px;
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            scroll-snap-align: start;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        .gallery-item::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .gallery-item:hover::after {
+            opacity: 1;
+        }
+        .club-modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .club-modal-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(90deg);
+        }
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @media (max-width: 768px) {
+            .club-modal-content {
+                padding: 1.5rem;
+                max-height: 95vh;
+            }
+            
+            .club-modal-header h2 {
+                font-size: 1.8rem;
+            }
+            
+            .club-modal-icon {
+                width: 48px;
+                height: 48px;
+                font-size: 1.5rem;
+            }
+            
+            .club-modal-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-item {
+                flex: 0 0 250px;
+                height: 180px;
+            }
+        }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
 </head>
 <body>
     <a href="index.html" class="home-button">
@@ -842,34 +1231,42 @@
        
         <div class="clups-content">
             <div class="clup-card economy-card">
-                <div class="economy-content">
-                    <h2 class="economy-title">
-                        <i class="fas fa-chart-line"></i>
-                        Economy Club
-                    </h2>
-                    <p class="clup-founders">
-                        <i class="fas fa-users"></i> Founders: John Smith, Sarah Johnson
-                    </p>
-                    <div class="economy-stats">
-                        <div class="stat-item">
-                            <div class="economy-stat-number">150+</div>
-                            <div class="stat-label">Members</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="economy-stat-number">25+</div>
-                            <div class="stat-label">Events</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="economy-stat-number">10+</div>
-                            <div class="stat-label">Projects</div>
+                <div class="economy-dashboard">
+                    <div class="dashboard-header">
+                        <div class="dashboard-title">
+                            <h2><i class="fas fa-chart-line"></i> Economy Club</h2>
                         </div>
                     </div>
-                    <p class="clup-description">
-                        Discover the dynamics of the business world, develop entrepreneurial spirit, and expand your professional network.
-                    </p>
-                    <button class="economy-button">
-                        <i class="fas fa-arrow-right"></i> View Details
-                    </button>
+                    <div class="economy-stats">
+                        <div class="vintage-stat-card">
+                            <span class="vintage-stat-icon"><i class="fas fa-users"></i></span>
+                            <span class="vintage-stat-label">Members</span>
+                            <span class="vintage-stat-value">150+</span>
+                        </div>
+                        <div class="vintage-stat-card">
+                            <span class="vintage-stat-icon"><i class="fas fa-calendar-check"></i></span>
+                            <span class="vintage-stat-label">Events</span>
+                            <span class="vintage-stat-value">25+</span>
+                        </div>
+                        <div class="vintage-stat-card">
+                            <span class="vintage-stat-icon"><i class="fas fa-project-diagram"></i></span>
+                            <span class="vintage-stat-label">Projects</span>
+                            <span class="vintage-stat-value">10+</span>
+                        </div>
+                    </div>
+                    <div class="dashboard-content">
+                        <div class="content-header">
+                            <h3 class="content-title">About the Club</h3>
+                        </div>
+                        <p class="content-description">
+                            Discover the dynamics of the business world, develop entrepreneurial spirit, and expand your professional network. Join us to learn about market trends, investment strategies, and economic principles.
+                        </p>
+                    </div>
+                    <div class="club-actions">
+                        <button class="club-btn learn-btn"><i class="fas fa-info-circle"></i> Learn More</button>
+                    </div>
+                    <img src="mühür.png" alt="Mühür" class="economy-stamp" />
+                    <img src="retro-globe.png" alt="Vintage Globe" class="economy-globe-img" />
                 </div>
             </div>
 
@@ -880,7 +1277,7 @@
                             <div class="computer-header">
                                 <h2 class="computer-title">Computer Club</h2>
                             </div>
-                            <p>Founders: Alan Turing, Ada Lovelace</p>
+                            <p>Founders: Kişi 1, Kişi 2</p>
                             <div class="computer-stats">
                                 <div class="stat-item">
                                     <div class="stat-number">200+</div>
@@ -898,7 +1295,9 @@
                             <p>Enter the digital realm where code meets creativity. From AI to cybersecurity, we're building the future one byte at a time.</p>
                         </div>
                         <div>
-                            <button class="computer-button">Access System</button>
+                            <div style="display:flex;gap:12px;margin-top:18px;">
+                                <button class="computer-action-btn computer-learn-btn" style="flex:1;"><i class="fas fa-info-circle"></i> Learn More</button>
+                            </div>
                             <div class="computer-footer"></div>
                         </div>
                     </div>
@@ -906,5 +1305,356 @@
             </div>
         </div>
     </div>
+
+    <!-- Club Detail Modal -->
+    <div id="clubModal" class="club-modal">
+        <div class="club-modal-content">
+            <span class="club-modal-close" id="closeClubModal">&times;</span>
+            <div class="club-modal-header">
+                <div class="club-modal-icon" id="modalClubIcon"></div>
+                <h2 id="modalClubName">Club Name</h2>
+            </div>
+            <div class="club-modal-info">
+                <div class="club-modal-info-item">
+                    <span class="club-modal-info-label">Founded</span>
+                    <span class="club-modal-info-value" id="modalClubFounded">2020</span>
+                </div>
+                <div class="club-modal-info-item">
+                    <span class="club-modal-info-label">Founders</span>
+                    <span class="club-modal-info-value" id="modalClubFounders">John Doe, Jane Smith</span>
+                </div>
+                <div class="club-modal-info-item">
+                    <span class="club-modal-info-label">Open Hours</span>
+                    <span class="club-modal-info-value" id="modalClubHours">Mon-Fri 14:00-18:00</span>
+                </div>
+                <div class="club-modal-info-item">
+                    <span class="club-modal-info-label">Participants</span>
+                    <span class="club-modal-info-value" id="modalClubParticipants">150+</span>
+                </div>
+            </div>
+            <div class="club-modal-description" id="modalClubDescription">
+                Club description goes here. This is a modern modal for club details.
+            </div>
+            <div class="club-modal-gallery">
+                <div class="gallery-container">
+                    <div class="gallery-item">
+                        <img src="https://source.unsplash.com/random/300x200?event" alt="Club Event">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://source.unsplash.com/random/300x200?meeting" alt="Club Meeting">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://source.unsplash.com/random/300x200?workshop" alt="Club Workshop">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://source.unsplash.com/random/300x200?activity" alt="Club Activity">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script>
+    // Use the global db instance from firebase-config.js
+    // const db = firebase.firestore(); // Remove this line since we're using the global instance
+
+    // Example club data (can be replaced with real data)
+    const clubs = {
+      economy: {
+        name: 'Economy Club',
+        icon: '<i class="fas fa-chart-line"></i>',
+        founded: '2018',
+        founders: 'John Smith, Sarah Johnson',
+        hours: 'Mon-Fri 15:00-18:00',
+        participants: '150+',
+        description: 'Discover the dynamics of the business world, develop entrepreneurial spirit, and expand your professional network. Join us to learn about market trends, investment strategies, and economic principles.'
+      },
+      computer: {
+        name: 'Computer Club',
+        icon: '<i class="fas fa-microchip"></i>',
+        founded: '2016',
+        founders: 'Kişi 1, Kişi 2',
+        hours: 'Wed 17:00-20:00',
+        participants: '200+',
+        description: 'Enter the digital realm where code meets creativity. From AI to cybersecurity, we\'re building the future one byte at a time.'
+      }
+    };
+
+    // Listen for real-time updates from Firestore for both clubs
+    function listenClubData() {
+      db.collection('clubs').doc('economy').onSnapshot(doc => {
+        if (doc.exists) {
+          clubs.economy = doc.data();
+          updateClubCard('economy');
+        }
+      });
+      db.collection('clubs').doc('computer').onSnapshot(doc => {
+        if (doc.exists) {
+          clubs.computer = doc.data();
+          updateClubCard('computer');
+        }
+      });
+    }
+
+    function updateClubCard(clubKey) {
+      const club = clubs[clubKey];
+      if (!club) return;
+
+      try {
+        if (clubKey === 'economy') {
+          const titleElement = document.querySelector('.economy-card .dashboard-title h2');
+          const descElement = document.querySelector('.economy-card .content-description');
+          const participantsElement = document.querySelector('.economy-card .vintage-stat-value:nth-child(1)');
+
+          if (titleElement) titleElement.innerHTML = `${club.icon} ${club.name}`;
+          if (descElement) descElement.textContent = club.description;
+          if (participantsElement) participantsElement.textContent = club.participants;
+        } else if (clubKey === 'computer') {
+          const titleElement = document.querySelector('.computer-card .computer-title');
+          const foundersElement = document.querySelector('.computer-card .computer-content p:first-of-type');
+          const descElement = document.querySelector('.computer-card .computer-content p:last-of-type');
+          const participantsElement = document.querySelector('.computer-card .stat-number:nth-child(1)');
+
+          if (titleElement) titleElement.textContent = club.name;
+          if (foundersElement) foundersElement.textContent = `Founders: ${club.founders}`;
+          if (descElement) descElement.textContent = club.description;
+          if (participantsElement) participantsElement.textContent = club.participants;
+        }
+      } catch (error) {
+        console.error(`Error updating ${clubKey} card:`, error);
+      }
+    }
+
+    // Wait for DOM to be fully loaded before initializing
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof firebase !== 'undefined' && firebase.apps.length) {
+        listenClubData();
+      } else {
+        console.error('Firebase is not initialized');
+      }
+    });
+
+    function openClubModal(clubKey) {
+      const club = clubs[clubKey];
+      if (!club) return;
+      
+      document.getElementById('modalClubName').textContent = club.name;
+      document.getElementById('modalClubIcon').innerHTML = club.icon;
+      document.getElementById('modalClubFounded').textContent = club.founded;
+      document.getElementById('modalClubFounders').textContent = club.founders;
+      document.getElementById('modalClubHours').textContent = club.hours;
+      document.getElementById('modalClubParticipants').textContent = club.participants;
+      document.getElementById('modalClubDescription').textContent = club.description;
+      
+      document.getElementById('clubModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeClubModal() {
+      document.getElementById('clubModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('closeClubModal').onclick = closeClubModal;
+    document.getElementById('clubModal').onclick = function(e) {
+      if (e.target === this) closeClubModal();
+    };
+
+    // Attach to buttons
+    document.querySelectorAll('.club-btn.join-btn').forEach(btn => {
+      btn.onclick = () => openClubModal('economy');
+    });
+    document.querySelectorAll('.club-btn.learn-btn').forEach(btn => {
+      btn.onclick = () => openClubModal('economy');
+    });
+    // Computer Club Learn More button
+    document.querySelectorAll('.computer-learn-btn').forEach(btn => {
+      btn.onclick = () => openClubModal('computer');
+    });
+
+    // Access System button opens Computer Club modal
+    document.querySelectorAll('.computer-action-btn').forEach(btn => {
+      if (btn.classList.contains('computer-learn-btn')) {
+        btn.onclick = () => openClubModal('computer');
+      }
+    });
+
+    // Kullanıcıyı kontrol et ve edit butonunu göster
+    let currentUserEmail = null;
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        currentUserEmail = user.email;
+      } else {
+        currentUserEmail = null;
+      }
+    });
+
+    // Edit butonunu ve edit modunu ekle
+    function addEditButtonIfOwner() {
+      // Edit butonu zaten varsa tekrar ekleme
+      if (document.getElementById('modalEditBtn')) return;
+      if (currentUserEmail === 'naslan7321@gmail.com') {
+        const modalContent = document.querySelector('.club-modal-content');
+        const editBtn = document.createElement('button');
+        editBtn.id = 'modalEditBtn';
+        editBtn.textContent = 'Edit';
+        editBtn.style = 'position:absolute;top:1.5rem;left:1.5rem;z-index:10;padding:8px 18px;border-radius:8px;background:#e63946;color:#fff;border:none;font-weight:600;cursor:pointer;';
+        editBtn.onclick = enableEditMode;
+        modalContent.appendChild(editBtn);
+      }
+    }
+
+    function enableEditMode() {
+      const clubKey = document.getElementById('modalClubName').getAttribute('data-club-key');
+      const club = clubs[clubKey];
+      // Modal içeriğini düzenlenebilir yap
+      const name = document.getElementById('modalClubName');
+      const founded = document.getElementById('modalClubFounded');
+      const founders = document.getElementById('modalClubFounders');
+      const hours = document.getElementById('modalClubHours');
+      const participants = document.getElementById('modalClubParticipants');
+      const description = document.getElementById('modalClubDescription');
+
+      name.innerHTML = `<input id='editName' value='${name.textContent}' style='width:90%;padding:8px;border-radius:4px;border:1px solid #444;background:#2a2a2a;color:#fff;'>`;
+      founded.innerHTML = `<input id='editFounded' value='${founded.textContent}' style='width:90%;padding:8px;border-radius:4px;border:1px solid #444;background:#2a2a2a;color:#fff;'>`;
+      founders.innerHTML = `<input id='editFounders' value='${founders.textContent}' style='width:90%;padding:8px;border-radius:4px;border:1px solid #444;background:#2a2a2a;color:#fff;'>`;
+      hours.innerHTML = `<input id='editHours' value='${hours.textContent}' style='width:90%;padding:8px;border-radius:4px;border:1px solid #444;background:#2a2a2a;color:#fff;'>`;
+      participants.innerHTML = `<input id='editParticipants' value='${participants.textContent}' style='width:90%;padding:8px;border-radius:4px;border:1px solid #444;background:#2a2a2a;color:#fff;'>`;
+      description.innerHTML = `<textarea id='editDescription' style='width:100%;height:120px;padding:8px;border-radius:4px;border:1px solid #444;background:#2a2a2a;color:#fff;resize:vertical;'>${description.textContent}</textarea>`;
+
+      // Önce eski stat inputlarını temizle
+      document.querySelectorAll('.club-modal-info.stats-edit').forEach(el => el.remove());
+
+      // Sadece ilgili kartın stat inputlarını ekle
+      let statInputs = '';
+      if (clubKey === 'economy') {
+        statInputs = `
+          <div class="club-modal-info-item">
+            <span class="club-modal-info-label">Members</span>
+            <input id='editStatMembers' value='${club.statMembers || "150+"}' style='width:90%;padding:8px;border-radius:4px;border:1px solid #444;background:#2a2a2a;color:#fff;'>
+          </div>
+          <div class="club-modal-info-item">
+            <span class="club-modal-info-label">Events</span>
+            <input id='editStatEvents' value='${club.statEvents || "25+"}' style='width:90%;padding:8px;border-radius:4px;border:1px solid #444;background:#2a2a2a;color:#fff;'>
+          </div>
+          <div class="club-modal-info-item">
+            <span class="club-modal-info-label">Projects</span>
+            <input id='editStatProjects' value='${club.statProjects || "10+"}' style='width:90%;padding:8px;border-radius:4px;border:1px solid #444;background:#2a2a2a;color:#fff;'>
+          </div>
+        `;
+      } else if (clubKey === 'computer') {
+        statInputs = `
+          <div class="club-modal-info-item">
+            <span class="club-modal-info-label">Hackers</span>
+            <input id='editStatHackers' value='${club.statHackers || "200+"}' style='width:90%;padding:8px;border-radius:4px;border:1px solid #444;background:#2a2a2a;color:#fff;'>
+          </div>
+          <div class="club-modal-info-item">
+            <span class="club-modal-info-label">Projects</span>
+            <input id='editStatProjects' value='${club.statProjects || "50+"}' style='width:90%;padding:8px;border-radius:4px;border:1px solid #444;background:#2a2a2a;color:#fff;'>
+          </div>
+          <div class="club-modal-info-item">
+            <span class="club-modal-info-label">Events</span>
+            <input id='editStatEvents' value='${club.statEvents || "100+"}' style='width:90%;padding:8px;border-radius:4px;border:1px solid #444;background:#2a2a2a;color:#fff;'>
+          </div>
+        `;
+      }
+
+      const statDiv = document.createElement('div');
+      statDiv.className = 'club-modal-info stats-edit';
+      statDiv.style.marginTop = '1rem';
+      statDiv.style.borderTop = '1px solid rgba(255,255,255,0.1)';
+      statDiv.style.paddingTop = '1rem';
+      statDiv.innerHTML = `
+        <h3 style="color:#fff;margin-bottom:1rem;">Statistics</h3>
+        ${statInputs}
+        <button id='modalSaveBtn' style='margin-top:1rem;padding:12px 24px;border-radius:8px;background:#00b894;color:#fff;border:none;font-weight:600;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.2);width:100%;'>Save</button>
+      `;
+      document.querySelector('.club-modal-content').insertBefore(statDiv, document.querySelector('.club-modal-gallery'));
+      document.getElementById('modalSaveBtn').onclick = () => saveEditMode(clubKey);
+    }
+
+    // Helper to safely get input values
+    function getInputValue(id, fallback = "") {
+      const el = document.getElementById(id);
+      return el ? el.value : fallback;
+    }
+
+    async function saveEditMode(clubKey) {
+      try {
+        // Yeni verileri al
+        const updatedClub = {
+          name: getInputValue('editName', clubs[clubKey].name),
+          icon: clubs[clubKey].icon,
+          founded: getInputValue('editFounded', clubs[clubKey].founded),
+          founders: getInputValue('editFounders', clubs[clubKey].founders),
+          hours: getInputValue('editHours', clubs[clubKey].hours),
+          participants: getInputValue('editParticipants', clubs[clubKey].participants),
+          description: getInputValue('editDescription', clubs[clubKey].description),
+          cardName: getInputValue('editCardName', clubs[clubKey].cardName || clubs[clubKey].name),
+          cardDescription: getInputValue('editCardDesc', clubs[clubKey].cardDescription || clubs[clubKey].description)
+        };
+        // Stat-card değerlerini de ekle
+        if (clubKey === 'economy') {
+          updatedClub.statMembers = getInputValue('editStatMembers', clubs[clubKey].statMembers || "150+");
+          updatedClub.statEvents = getInputValue('editStatEvents', clubs[clubKey].statEvents || "25+");
+          updatedClub.statProjects = getInputValue('editStatProjects', clubs[clubKey].statProjects || "10+");
+        } else if (clubKey === 'computer') {
+          updatedClub.statHackers = getInputValue('editStatHackers', clubs[clubKey].statHackers || "200+");
+          updatedClub.statProjects = getInputValue('editStatProjects', clubs[clubKey].statProjects || "50+");
+          updatedClub.statEvents = getInputValue('editStatEvents', clubs[clubKey].statEvents || "100+");
+        }
+        // Firestore'a kaydet
+        await db.collection('clubs').doc(clubKey).set(updatedClub, { merge: true });
+        // Local clubs objesini güncelle
+        clubs[clubKey] = updatedClub;
+        // Modal ve kart içeriğini güncelle
+        document.getElementById('modalClubName').textContent = updatedClub.name;
+        document.getElementById('modalClubFounded').textContent = updatedClub.founded;
+        document.getElementById('modalClubFounders').textContent = updatedClub.founders;
+        document.getElementById('modalClubHours').textContent = updatedClub.hours;
+        document.getElementById('modalClubParticipants').textContent = updatedClub.participants;
+        document.getElementById('modalClubDescription').textContent = updatedClub.description;
+        if (clubKey === 'economy') {
+          document.querySelector('.economy-card .dashboard-title h2').innerHTML = `${updatedClub.icon} ${updatedClub.cardName}`;
+          document.querySelector('.economy-card .content-description').textContent = updatedClub.cardDescription;
+          // Stat-cardları güncelle
+          const statValues = document.querySelectorAll('.economy-card .vintage-stat-value');
+          if (statValues[0]) statValues[0].textContent = updatedClub.statMembers;
+          if (statValues[1]) statValues[1].textContent = updatedClub.statEvents;
+          if (statValues[2]) statValues[2].textContent = updatedClub.statProjects;
+        } else if (clubKey === 'computer') {
+          document.querySelector('.computer-card .computer-title').textContent = updatedClub.cardName;
+          document.querySelector('.computer-card .computer-content p:last-of-type').textContent = updatedClub.cardDescription;
+          // Stat-cardları güncelle
+          const statNumbers = document.querySelectorAll('.computer-card .stat-number');
+          if (statNumbers[0]) statNumbers[0].textContent = updatedClub.statHackers;
+          if (statNumbers[1]) statNumbers[1].textContent = updatedClub.statProjects;
+          if (statNumbers[2]) statNumbers[2].textContent = updatedClub.statEvents;
+        }
+        // Edit modundan çık
+        const statDiv = document.querySelector('.club-modal-info.stats-edit');
+        if (statDiv) statDiv.remove();
+        const cardInfoDiv = document.querySelector('.club-modal-info:last-child');
+        if (cardInfoDiv) cardInfoDiv.remove();
+        alert('Changes saved!');
+      } catch (error) {
+        console.error("Error saving club data:", error);
+        alert('An error occurred while saving changes! Please check your internet connection.');
+      }
+    }
+
+    // Modal açıldığında edit butonunu kontrol et
+    const originalOpenClubModal = openClubModal;
+    openClubModal = function(clubKey) {
+      originalOpenClubModal(clubKey);
+      // Club key'i modal'a ekle
+      document.getElementById('modalClubName').setAttribute('data-club-key', clubKey);
+      setTimeout(addEditButtonIfOwner, 100);
+    }
+    </script>
 </body>
 </html> 
