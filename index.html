@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WİNDGRİFF</title>
+    <title>Private Ruzgar Anatolian Lisesi - CAS Program</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -220,15 +220,15 @@
     <header>
         <nav class="main-nav">
             <div class="logo">
-                <img src="images/logo.png" alt="School Logo">
+                <img src="mühür.png" alt="Private Ruzgar Anatolian Lisesi">
             </div>
             <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#programs">Programs</a></li>
-                <li><a href="museum.html">Students</a></li>
-                <li><a href="clups.html">Clups</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#home" data-translate="Ana Sayfa">Ana Sayfa</a></li>
+                <li><a href="students.html" data-translate="Öğrenciler">Öğrenciler</a></li>
+                <li><a href="projects.html" data-translate="Projeler">Projeler</a></li>
+                <li><a href="about-cas.html" data-translate="CAS Hakkında">CAS Hakkında</a></li>
+                <li><a href="#contact" data-translate="İletişim">İletişim</a></li>
+                <li><a href="#" id="langToggle" class="lang-toggle">EN</a></li>
             </ul>
             <div class="auth-buttons">
                 <button class="auth-btn login-btn" id="showLoginBtn">Login</button>
@@ -292,53 +292,57 @@
 
     <main>
         <section id="home" class="hero">
-            <h1>WINDGRİFF</h1>
-            <p>Creativity, Activity, Service</p>
+            <div class="hero-logo">
+                <img src="mühür.png" alt="Private Ruzgar Anatolian Lisesi" class="school-logo">
+                <h1 data-translate="Private Ruzgar Anatolian Lisesi">Private Ruzgar Anatolian Lisesi</h1>
+                <span class="cas-badge" data-translate="CAS Program">CAS Programı</span>
+            </div>
+            <p class="hero-description" data-translate="IB Diploma Programı öğrencilerimizin Creativity, Activity, Service deneyimlerini ve kişisel gelişim yolculuklarını keşfedin.">IB Diploma Programı öğrencilerimizin Creativity, Activity, Service deneyimlerini ve kişisel gelişim yolculuklarını keşfedin.</p>
             <div class="hero-buttons">
-                <a href="#programs" class="btn btn-primary">Explore Programs</a>
-                <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+                <a href="students.html" class="btn btn-primary" data-translate="Öğrencileri Keşfet">Öğrencileri Keşfet</a>
+                <a href="projects.html" class="btn btn-secondary" data-translate="Projelerimizi Gör">Projelerimizi Gör</a>
             </div>
         </section>
 
         <section id="programs" class="cas-pillars">
-            <div class="pillar">
+            <div class="pillar creativity">
                 <i class="fas fa-paint-brush"></i>
-                <h2>Creativity</h2>
-                <p>Explore your creative potential through various artistic and innovative projects.</p>
-                <a href="#" class="pillar-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                <h2 data-translate="Creativity">Yaratıcılık</h2>
+                <p data-translate="Sanatsal ve yaratıcı projeler aracılığıyla öğrencilerimizin hayal gücünü ve inovasyon becerilerini geliştiriyoruz.">Sanatsal ve yaratıcı projeler aracılığıyla öğrencilerimizin hayal gücünü ve inovasyon becerilerini geliştiriyoruz.</p>
+                <a href="projects.html?filter=creativity" class="pillar-link" data-translate="Projeleri Gör">Projeleri Gör <i class="fas fa-arrow-right"></i></a>
             </div>
-            <div class="pillar">
+            <div class="pillar activity">
                 <i class="fas fa-running"></i>
-                <h2>Activity</h2>
-                <p>Engage in physical activities that promote health and well-being.</p>
-                <a href="#" class="pillar-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                <h2 data-translate="Activity">Aktivite</h2>
+                <p data-translate="Fiziksel aktiviteler ve spor aracılığıyla sağlıklı yaşam alışkanlıkları kazandırıyoruz.">Fiziksel aktiviteler ve spor aracılığıyla sağlıklı yaşam alışkanlıkları kazandırıyoruz.</p>
+                <a href="projects.html?filter=activity" class="pillar-link" data-translate="Projeleri Gör">Projeleri Gör <i class="fas fa-arrow-right"></i></a>
             </div>
-            <div class="pillar">
+            <div class="pillar service">
                 <i class="fas fa-hands-helping"></i>
-                <h2>Service</h2>
-                <p>Make a positive impact on your community through meaningful service projects.</p>
-                <a href="#" class="pillar-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                <h2 data-translate="Service">Hizmet</h2>
+                <p data-translate="Topluma hizmet projeleri ile öğrencilerimizin sosyal sorumluluk bilincini artırıyoruz.">Topluma hizmet projeleri ile öğrencilerimizin sosyal sorumluluk bilincini artırıyoruz.</p>
+                <a href="projects.html?filter=service" class="pillar-link" data-translate="Projeleri Gör">Projeleri Gör <i class="fas fa-arrow-right"></i></a>
             </div>
         </section>
 
         <section id="about" class="about-cas">
-            <h2>About CAS</h2>
-            <p>CAS is a fundamental part of the IB Diploma Programme, encouraging students to engage in a range of activities alongside their academic studies.</p>
+            <h2 data-translate="CAS Hakkında">CAS Nedir?</h2>
+            <p data-translate="CAS, IB Diploma Programının temel bileşenidir ve öğrencilerin akademik çalışmalarının yanı sıra kişisel gelişim alanlarında da deneyim kazanmalarını sağlar.">CAS, IB Diploma Programının temel bileşenidir ve öğrencilerin akademik çalışmalarının yanı sıra kişisel gelişim alanlarında da deneyim kazanmalarını sağlar.</p>
             <div class="cas-features">
                 <div class="feature">
                     <i class="fas fa-chart-line"></i>
-                    <h3>Personal Growth</h3>
-                    <p>Develop new skills and discover your potential through challenging experiences.</p>
+                    <h3 data-translate="Kişisel Gelişim">Kişisel Gelişim</h3>
+                    <p data-translate="Zorlayıcı deneyimler yoluyla yeni beceriler geliştirin ve potansiyelinizi keşfedin.">Zorlayıcı deneyimler yoluyla yeni beceriler geliştirin ve potansiyelinizi keşfedin.</p>
                 </div>
                 <div class="feature">
                     <i class="fas fa-globe-americas"></i>
-                    <h3>Community Impact</h3>
-                    <p>Make a difference in your local and global community through meaningful service.</p>
+                    <h3 data-translate="Toplumsal Etki">Toplumsal Etki</h3>
+                    <p data-translate="Anlamlı hizmet projeleri ile yerel ve küresel topluluğunuzda fark yaratın.">Anlamlı hizmet projeleri ile yerel ve küresel topluluğunuzda fark yaratın.</p>
                 </div>
                 <div class="feature">
                     <i class="fas fa-balance-scale"></i>
-                    <h3>Holistic Development</h3>
-                    <p>Balance academic excellence with personal development and social responsibility.</p>
+                    <h3 data-translate="Bütünsel Gelişim">Bütünsel Gelişim</h3>
+                    <p data-translate="Akademik mükemmellik ile kişisel gelişim ve sosyal sorumluluk arasında denge kurun.">Akademik mükemmellik ile kişisel gelişim ve sosyal sorumluluk arasında denge kurun.</p>
                 </div>
             </div>
         </section>
@@ -371,10 +375,20 @@
     <footer id="contact">
         <div class="footer-content">
             <div class="contact-info">
-                <h3>Contact Us</h3>
-                <p><i class="fas fa-envelope"></i> info@school.com</p>
-                <p><i class="fas fa-phone"></i> (123) 456-7890</p>
-                <p><i class="fas fa-map-marker-alt"></i> 123 Education Street, City</p>
+                <h3 data-translate="İletişim">İletişim</h3>
+                <p><i class="fas fa-envelope"></i> cas@ruzgaranatolian.edu.tr</p>
+                <p><i class="fas fa-phone"></i> (0412) 123 45 67</p>
+                <p><i class="fas fa-map-marker-alt"></i> Diyarbakır, Türkiye</p>
+                <div class="coordinator-contact">
+                    <h4>CAS Koordinatörü</h4>
+                    <p><i class="fas fa-user-tie"></i> Dr. Ahmet Kılıç</p>
+                    <p><i class="fas fa-envelope"></i> ahmet.kilic@ruzgaranatolian.edu.tr</p>
+                </div>
+            </div>
+            <div class="school-info">
+                <img src="mühür.png" alt="Private Ruzgar Anatolian Lisesi" class="footer-logo">
+                <h4>Private Ruzgar Anatolian Lisesi</h4>
+                <p>IB World School</p>
             </div>
             <div class="social-links">
                 <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
@@ -399,5 +413,7 @@
     <script src="js/firebase-config.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/auth-ui.js"></script>
+    <script src="js/language.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html> 

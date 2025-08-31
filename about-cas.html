@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAS Hakkında - Private Ruzgar Anatolian Lisesi</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* About CAS Page Styles */
+        .about-hero {
+            background: linear-gradient(135deg, rgba(18, 18, 18, 0.95), rgba(26, 26, 26, 0.95)),
+                        url('https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 8rem 5% 4rem;
+            text-align: center;
+            margin-top: 70px;
+        }
+
+        .about-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+
+        .cas-definition {
+            padding: 4rem 5%;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .cas-definition h2 {
+            color: var(--secondary-color);
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .cas-definition p {
+            color: var(--text-light);
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .learning-outcomes {
+            padding: 4rem 5%;
+            background: var(--dark-bg);
+        }
+
+        .learning-outcomes h2 {
+            text-align: center;
+            color: var(--white);
+            font-size: 2.2rem;
+            margin-bottom: 3rem;
+        }
+
+        .outcomes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
+
+        .outcome-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .outcome-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+        }
+
+        .outcome-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            border-color: var(--secondary-color);
+        }
+
+        .outcome-number {
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            color: var(--white);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .outcome-title {
+            color: var(--white);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .outcome-description {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .school-approach {
+            padding: 4rem 5%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .approach-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 3rem;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .coordinator-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 2rem;
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid var(--white);
+        }
+
+        .coordinator-photo i {
+            font-size: 3rem;
+            color: var(--white);
+        }
+
+        .coordinator-name {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .coordinator-title {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .coordinator-message {
+            color: var(--text-light);
+            line-height: 1.7;
+            font-size: 1.1rem;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .about-hero h1 {
+                font-size: 2rem;
+            }
+
+            .outcomes-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="logo">
+                <img src="mühür.png" alt="Private Ruzgar Anatolian Lisesi">
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li><a href="students.html">Öğrenciler</a></li>
+                <li><a href="projects.html">Projeler</a></li>
+                <li><a href="about-cas.html" class="active">CAS Hakkında</a></li>
+                <li><a href="index.html#contact">İletişim</a></li>
+                <li><a href="#" id="langToggle" class="lang-toggle">EN</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <button class="auth-btn login-btn" id="showLoginBtn">Giriş</button>
+                <button class="auth-btn signup-btn" id="showSignupBtn">Kayıt Ol</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="about-hero">
+            <h1>CAS Hakkında</h1>
+            <p>Creativity, Activity, Service - IB Diploma Programının kalbi</p>
+        </section>
+
+        <section class="cas-definition">
+            <h2>CAS Nedir?</h2>
+            <p>
+                CAS (Creativity, Activity, Service), IB Diploma Programının temel bileşenlerinden biridir. 
+                Öğrencilerin akademik çalışmalarının yanı sıra kişisel gelişim, yaratıcılık ve topluma hizmet 
+                alanlarında deneyim kazanmalarını sağlar.
+            </p>
+            <p>
+                Bu program, öğrencilerin sadece akademik başarı değil, aynı zamanda karakter gelişimi, 
+                sosyal sorumluluk ve yaşam boyu öğrenme becerilerini kazanmalarını hedefler.
+            </p>
+        </section>
+
+        <section class="learning-outcomes">
+            <h2>CAS Öğrenim Çıktıları</h2>
+            <div class="outcomes-grid">
+                <div class="outcome-card">
+                    <div class="outcome-number">1</div>
+                    <h3 class="outcome-title">Güçlü ve Zayıf Yönleri Belirleme</h3>
+                    <p class="outcome-description">
+                        Öğrenciler kendi güçlü ve zayıf yönlerini tanır, bunları geliştirmek için plan yapar.
+                    </p>
+                </div>
+
+                <div class="outcome-card">
+                    <div class="outcome-number">2</div>
+                    <h3 class="outcome-title">Zorlukları Üstlenmek</h3>
+                    <p class="outcome-description">
+                        Yeni beceriler geliştirmek ve zorlukların üstesinden gelmek için risk alır.
+                    </p>
+                </div>
+
+                <div class="outcome-card">
+                    <div class="outcome-number">3</div>
+                    <h3 class="outcome-title">Planlamak ve Başlatmak</h3>
+                    <p class="outcome-description">
+                        Aktiviteleri planlama, organize etme ve başlatma becerilerini gösterir.
+                    </p>
+                </div>
+
+                <div class="outcome-card">
+                    <div class="outcome-number">4</div>
+                    <h3 class="outcome-title">Kararlılık ve İstikrar</h3>
+                    <p class="outcome-description">
+                        Zorluklarla karşılaştığında kararlılık gösterir ve engellerin üstesinden gelir.
+                    </p>
+                </div>
+
+                <div class="outcome-card">
+                    <div class="outcome-number">5</div>
+                    <h3 class="outcome-title">İşbirliği Becerileri</h3>
+                    <p class="outcome-description">
+                        Başkalarıyla etkili şekilde çalışma becerilerini geliştirir.
+                    </p>
+                </div>
+
+                <div class="outcome-card">
+                    <div class="outcome-number">6</div>
+                    <h3 class="outcome-title">Küresel Önem</h3>
+                    <p class="outcome-description">
+                        Küresel öneme sahip konularda farkındalık geliştirir ve harekete geçer.
+                    </p>
+                </div>
+
+                <div class="outcome-card">
+                    <div class="outcome-number">7</div>
+                    <h3 class="outcome-title">Etik Düşünme</h3>
+                    <p class="outcome-description">
+                        Eylemlerin etik boyutlarını göz önünde bulundurur ve sorumlu davranır.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="school-approach">
+            <div class="approach-card">
+                <div class="coordinator-photo">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <h3 class="coordinator-name">Dr. Ahmet Kılıç</h3>
+                <p class="coordinator-title">CAS Koordinatörü</p>
+                <div class="coordinator-message">
+                    "Private Ruzgar Anatolian Lisesi olarak, CAS programını sadece bir gereklilik değil, 
+                    öğrencilerimizin hayatlarını zenginleştiren bir fırsat olarak görüyoruz. 
+                    Her öğrencimizin kendine özgü yetenek ve ilgi alanlarını keşfetmesi, 
+                    bunları topluma fayda sağlayacak şekilde kullanması bizim en büyük amacımızdır. 
+                    CAS yolculuğunda öğrencilerimize rehberlik etmek ve onların kişisel gelişimlerine 
+                    tanık olmak bizim için büyük bir onur."
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="contact-info">
+                <h3>İletişim</h3>
+                <p><i class="fas fa-envelope"></i> info@ruzgaranatolian.edu.tr</p>
+                <p><i class="fas fa-phone"></i> (0412) 123 45 67</p>
+                <p><i class="fas fa-map-marker-alt"></i> Diyarbakır, Türkiye</p>
+            </div>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
