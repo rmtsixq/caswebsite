@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Makale Yönetimi - Admin Panel</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Admin Articles Management Styles */
+        .admin-table-container {
+            background: var(--card-bg);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .admin-table th {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .admin-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            vertical-align: top;
+        }
+
+        .admin-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .article-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .article-thumbnail {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .article-details h4 {
+            color: var(--white);
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            line-height: 1.3;
+        }
+
+        .article-details p {
+            color: var(--text-light);
+            font-size: 0.8rem;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        .status-select {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+        }
+
+        .status-select:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+        }
+
+        .status-select option {
+            background: var(--dark-bg);
+            color: var(--white);
+        }
+
+        .category-badge {
+            background: var(--secondary-color);
+            color: var(--white);
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            padding: 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .action-btn.edit:hover {
+            color: #3b82f6;
+        }
+
+        .action-btn.delete:hover {
+            color: #ef4444;
+        }
+
+        .bulk-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .bulk-delete-btn {
+            background: #ef4444;
+            color: var(--white);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .bulk-delete-btn:hover {
+            background: #dc2626;
+        }
+
+        .select-all {
+            margin-right: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .admin-table-container {
+                overflow-x: auto;
+            }
+            
+            .admin-table {
+                min-width: 800px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="logo">
+                <img src="mühür.png" alt="Private Ruzgar Anatolian Lisesi">
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" data-translate="Ana Sayfa">Ana Sayfa</a></li>
+                <li><a href="students.html" data-translate="Öğrenciler">Öğrenciler</a></li>
+                <li><a href="projects.html" data-translate="Projeler">Projeler</a></li>
+                <li><a href="articles.html" data-translate="Makaleler">Makaleler</a></li>
+                <li><a href="videos.html" data-translate="Videolar">Videolar</a></li>
+                <li><a href="about-cas.html" data-translate="CAS Hakkında">CAS Hakkında</a></li>
+                <li><a href="#contact" data-translate="İletişim">İletişim</a></li>
+                <li><a href="#" id="langToggle" class="lang-toggle">EN</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <button class="auth-btn login-btn" id="showLoginBtn">Login</button>
+                <button class="auth-btn signup-btn" id="showSignupBtn">Sign Up</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Auth Modal -->
+    <div class="auth-modal" id="authModal">
+        <span class="close-modal" id="closeModal">&times;</span>
+        
+        <!-- Login Form -->
+        <div class="auth-form" id="loginForm">
+            <h2>Login</h2>
+            <form id="loginFormElement">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <div class="error-message" id="loginError"></div>
+                <button type="submit" class="auth-submit">Login</button>
+            </form>
+            <div class="auth-toggle">
+                Don't have an account? <a id="showSignup">Sign up</a>
+            </div>
+        </div>
+
+        <!-- Signup Form -->
+        <div class="auth-form" id="signupForm" style="display: none;">
+            <h2>Sign Up</h2>
+            <form id="signupFormElement">
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupConfirmPassword">Confirm Password</label>
+                    <input type="password" id="signupConfirmPassword" required>
+                </div>
+                <div class="error-message" id="signupError"></div>
+                <button type="submit" class="auth-submit">Sign Up</button>
+            </form>
+            <div class="auth-toggle">
+                Already have an account? <a id="showLogin">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <div class="admin-form-container" style="margin-top: 90px;">
+            
+            <!-- Loading State -->
+            <div id="loadingState" class="loading-article">
+                <i class="fas fa-spinner fa-spin"></i>
+                <h3>Makaleler yükleniyor...</h3>
+            </div>
+
+            <!-- Access Denied -->
+            <div id="accessDenied" class="access-denied" style="display: none;">
+                <i class="fas fa-lock"></i>
+                <h2>Erişim Engellendi</h2>
+                <p>Bu sayfaya erişim için admin yetkileriniz olmalı.</p>
+                <a href="index.html" class="action-btn primary">
+                    <i class="fas fa-home"></i>
+                    Ana Sayfaya Dön
+                </a>
+            </div>
+
+            <!-- Management Content -->
+            <div id="managementContent" style="display: none;">
+                <!-- Header -->
+                <div class="admin-form-header">
+                    <div class="header-left">
+                        <button class="back-btn" onclick="window.history.back()">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <div>
+                            <h1 style="color: var(--white); margin-bottom: 0.5rem;">Makale Yönetimi</h1>
+                            <p style="color: var(--text-light);">Tüm makaleleri görüntüle, düzenle ve yönet</p>
+                        </div>
+                    </div>
+                    <a href="admin-new-article.html" class="view-all-btn">
+                        <i class="fas fa-plus"></i>
+                        Yeni Makale
+                    </a>
+                </div>
+
+                <!-- Filters -->
+                <div class="filters-section">
+                    <div class="filters-container">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="searchInput" class="search-input" placeholder="Makalelerde ara...">
+                        </div>
+                        
+                        <div class="filters-group">
+                            <select id="statusFilter" class="filter-select">
+                                <option value="all">Tüm Durumlar</option>
+                                <option value="published">Yayınlanmış</option>
+                                <option value="draft">Taslak</option>
+                            </select>
+                            
+                            <div class="bulk-actions">
+                                <span id="selectionCount">0 makale seçili</span>
+                                <button id="bulkDeleteBtn" class="bulk-delete-btn" style="display: none;">
+                                    <i class="fas fa-trash"></i>
+                                    Seçilileri Sil
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Articles Table -->
+                <div class="admin-table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" id="selectAll" class="select-all">
+                                </th>
+                                <th>Makale</th>
+                                <th>Durum</th>
+                                <th>Kategori</th>
+                                <th>Yazar</th>
+                                <th>Tarih</th>
+                                <th>İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody id="articlesTableBody">
+                            <!-- Articles will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="empty-state" style="display: none;">
+                    <i class="fas fa-book-open"></i>
+                    <h3>Henüz makale yok</h3>
+                    <p>İlk makalenizi oluşturmak için "Yeni Makale" butonuna tıklayın.</p>
+                    <a href="admin-new-article.html" class="view-all-btn">
+                        <i class="fas fa-plus"></i>
+                        İlk Makaleyi Oluştur
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="contact-info">
+                <h3 data-translate="İletişim">İletişim</h3>
+                <p><i class="fas fa-envelope"></i> cas@ruzgaranatolian.edu.tr</p>
+                <p><i class="fas fa-phone"></i> (0412) 123 45 67</p>
+                <p><i class="fas fa-map-marker-alt"></i> Diyarbakır, Türkiye</p>
+            </div>
+            <div class="school-info">
+                <img src="mühür.png" alt="Private Ruzgar Anatolian Lisesi" class="footer-logo">
+                <h4>Private Ruzgar Anatolian Lisesi</h4>
+                <p>IB World School</p>
+            </div>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/auth-ui.js"></script>
+    <script src="js/articles.js"></script>
+    <script src="js/language.js"></script>
+    
+    <script>
+        // Admin Articles Management Functionality
+        class AdminArticlesManagement {
+            constructor() {
+                this.user = null;
+                this.userProfile = null;
+                this.articles = [];
+                this.filteredArticles = [];
+                this.selectedArticles = [];
+                this.filters = {
+                    search: '',
+                    status: 'all'
+                };
+                this.init();
+            }
+
+            async init() {
+                // Check authentication
+                firebase.auth().onAuthStateChanged(async (user) => {
+                    this.user = user;
+                    
+                    if (user) {
+                        await this.checkAdminStatus();
+                        if (this.userProfile?.isAdmin) {
+                            await this.loadArticles();
+                            this.setupEventListeners();
+                            this.applyFilters();
+                            this.showManagement();
+                        } else {
+                            this.showAccessDenied();
+                        }
+                    } else {
+                        this.showAccessDenied();
+                    }
+                });
+            }
+
+            async checkAdminStatus() {
+                try {
+                    const userDoc = await firebase.firestore().collection('users').doc(this.user.uid).get();
+                    if (userDoc.exists()) {
+                        this.userProfile = userDoc.data();
+                    } else {
+                        const isAdmin = this.user.email === 'admin@ruzgaranatolian.edu.tr';
+                        this.userProfile = {
+                            uid: this.user.uid,
+                            email: this.user.email,
+                            displayName: this.user.displayName || 'Admin',
+                            isAdmin: isAdmin,
+                            createdAt: new Date().toISOString()
+                        };
+                        await firebase.firestore().collection('users').doc(this.user.uid).set(this.userProfile);
+                    }
+                } catch (error) {
+                    console.error('Error checking admin status:', error);
+                    this.userProfile = null;
+                }
+            }
+
+            async loadArticles() {
+                try {
+                    const snapshot = await firebase.firestore().collection('articles')
+                        .orderBy('createdAt', 'desc')
+                        .get();
+                    
+                    this.articles = snapshot.docs.map(doc => ({
+                        id: doc.id,
+                        ...doc.data()
+                    }));
+                    
+                    console.log('Articles loaded for management:', this.articles);
+                } catch (error) {
+                    console.error('Error loading articles:', error);
+                    this.articles = [];
+                }
+            }
+
+            setupEventListeners() {
+                // Search
+                document.getElementById('searchInput').addEventListener('input', (e) => {
+                    this.filters.search = e.target.value;
+                    this.applyFilters();
+                });
+
+                // Status filter
+                document.getElementById('statusFilter').addEventListener('change', (e) => {
+                    this.filters.status = e.target.value;
+                    this.applyFilters();
+                });
+
+                // Select all
+                document.getElementById('selectAll').addEventListener('change', (e) => {
+                    this.handleSelectAll(e.target.checked);
+                });
+
+                // Bulk delete
+                document.getElementById('bulkDeleteBtn').addEventListener('click', () => {
+                    this.handleBulkDelete();
+                });
+            }
+
+            applyFilters() {
+                let filtered = [...this.articles];
+
+                // Search filter
+                if (this.filters.search) {
+                    const searchTerm = this.filters.search.toLowerCase();
+                    filtered = filtered.filter(article => 
+                        article.title.toLowerCase().includes(searchTerm) ||
+                        article.excerpt.toLowerCase().includes(searchTerm)
+                    );
+                }
+
+                // Status filter
+                if (this.filters.status !== 'all') {
+                    filtered = filtered.filter(article => article.status === this.filters.status);
+                }
+
+                this.filteredArticles = filtered;
+                this.renderArticles();
+            }
+
+            renderArticles() {
+                const tbody = document.getElementById('articlesTableBody');
+                const emptyState = document.getElementById('emptyState');
+                
+                if (this.filteredArticles.length === 0) {
+                    tbody.innerHTML = '';
+                    emptyState.style.display = 'block';
+                    return;
+                }
+
+                emptyState.style.display = 'none';
+                tbody.innerHTML = this.filteredArticles.map(article => {
+                    const authorName = typeof article.author === 'string' ? article.author : 'Unknown Author';
+                    
+                    return `
+                        <tr data-id="${article.id}">
+                            <td>
+                                <input type="checkbox" class="article-checkbox" value="${article.id}">
+                            </td>
+                            <td>
+                                <div class="article-info">
+                                    <img src="${article.featuredImage || '/images/default-article.jpg'}" 
+                                         alt="${article.title}" class="article-thumbnail">
+                                    <div class="article-details">
+                                        <h4>${article.title}</h4>
+                                        <p>${article.excerpt}</p>
+                                        ${article.isEditorsPick ? '<span style="background: #fbbf24; color: #000; padding: 2px 6px; border-radius: 10px; font-size: 0.7rem;">Editor\'s Pick</span>' : ''}
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <select class="status-select" data-id="${article.id}" data-current="${article.status}">
+                                    <option value="draft" ${article.status === 'draft' ? 'selected' : ''}>Taslak</option>
+                                    <option value="published" ${article.status === 'published' ? 'selected' : ''}>Yayınlanmış</option>
+                                </select>
+                            </td>
+                            <td>
+                                <span class="category-badge">${article.category}</span>
+                            </td>
+                            <td style="color: var(--text-color);">${authorName}</td>
+                            <td style="color: var(--text-light); font-size: 0.85rem;">
+                                ${this.formatDate(article.publishedAt)}
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn edit" onclick="editArticle('${article.id}')" title="Düzenle">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn delete" onclick="deleteArticle('${article.id}')" title="Sil">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+
+                // Setup event listeners for checkboxes and status selects
+                this.setupTableEventListeners();
+            }
+
+            setupTableEventListeners() {
+                // Article checkboxes
+                document.querySelectorAll('.article-checkbox').forEach(checkbox => {
+                    checkbox.addEventListener('change', () => {
+                        this.updateSelection();
+                    });
+                });
+
+                // Status selects
+                document.querySelectorAll('.status-select').forEach(select => {
+                    select.addEventListener('change', async (e) => {
+                        const articleId = e.target.dataset.id;
+                        const newStatus = e.target.value;
+                        await this.updateArticleStatus(articleId, newStatus);
+                    });
+                });
+            }
+
+            updateSelection() {
+                const checkboxes = document.querySelectorAll('.article-checkbox:checked');
+                this.selectedArticles = Array.from(checkboxes).map(cb => cb.value);
+                
+                // Update UI
+                const selectionCount = document.getElementById('selectionCount');
+                const bulkDeleteBtn = document.getElementById('bulkDeleteBtn');
+                
+                selectionCount.textContent = `${this.selectedArticles.length} makale seçili`;
+                bulkDeleteBtn.style.display = this.selectedArticles.length > 0 ? 'block' : 'none';
+
+                // Update select all checkbox
+                const selectAllCheckbox = document.getElementById('selectAll');
+                const allCheckboxes = document.querySelectorAll('.article-checkbox');
+                selectAllCheckbox.checked = this.selectedArticles.length === allCheckboxes.length;
+            }
+
+            handleSelectAll(checked) {
+                const checkboxes = document.querySelectorAll('.article-checkbox');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = checked;
+                });
+                this.updateSelection();
+            }
+
+            async updateArticleStatus(articleId, newStatus) {
+                try {
+                    await window.articleSystem.updateArticle(articleId, { status: newStatus });
+                    
+                    // Update local data
+                    this.articles = this.articles.map(article => 
+                        article.id === articleId ? { ...article, status: newStatus } : article
+                    );
+                    
+                    console.log(`Article ${articleId} status updated to ${newStatus}`);
+                } catch (error) {
+                    console.error('Error updating article status:', error);
+                    alert('Durum güncellenirken hata oluştu');
+                    // Revert the select value
+                    const select = document.querySelector(`[data-id="${articleId}"]`);
+                    if (select) {
+                        select.value = select.dataset.current;
+                    }
+                }
+            }
+
+            async handleBulkDelete() {
+                if (this.selectedArticles.length === 0) return;
+                
+                if (confirm(`${this.selectedArticles.length} makaleyi silmek istediğinizden emin misiniz?`)) {
+                    try {
+                        // Delete articles
+                        await Promise.all(this.selectedArticles.map(id => 
+                            window.articleSystem.deleteArticle(id)
+                        ));
+                        
+                        // Update local data
+                        this.articles = this.articles.filter(article => 
+                            !this.selectedArticles.includes(article.id)
+                        );
+                        
+                        this.selectedArticles = [];
+                        this.applyFilters();
+                        
+                        alert('Seçili makaleler başarıyla silindi');
+                    } catch (error) {
+                        console.error('Bulk delete error:', error);
+                        alert('Makaleler silinirken hata oluştu');
+                    }
+                }
+            }
+
+            formatDate(dateString) {
+                return new Date(dateString).toLocaleDateString('tr-TR', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            }
+
+            showManagement() {
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('managementContent').style.display = 'block';
+            }
+
+            showAccessDenied() {
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('accessDenied').style.display = 'block';
+            }
+        }
+
+        // Global functions for inline onclick handlers
+        async function editArticle(articleId) {
+            // For now, just show an alert. In the future, implement edit page
+            alert('Düzenleme özelliği yakında eklenecek');
+        }
+
+        async function deleteArticle(articleId) {
+            if (confirm('Bu makaleyi silmek istediğinizden emin misiniz?')) {
+                try {
+                    await window.articleSystem.deleteArticle(articleId);
+                    
+                    // Reload the page to refresh the table
+                    window.location.reload();
+                } catch (error) {
+                    console.error('Error deleting article:', error);
+                    alert('Makale silinirken hata oluştu');
+                }
+            }
+        }
+
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            window.adminArticlesManagement = new AdminArticlesManagement();
+        });
+    </script>
+</body>
+</html>

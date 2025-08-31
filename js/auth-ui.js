@@ -61,6 +61,7 @@ loginFormElement.onsubmit = async (e) => {
 signupFormElement.onsubmit = async (e) => {
   e.preventDefault();
   signupError.textContent = '';
+  const name = document.getElementById('signupName').value;
   const email = document.getElementById('signupEmail').value;
   const password = document.getElementById('signupPassword').value;
   const confirm = document.getElementById('signupConfirmPassword').value;
@@ -69,7 +70,7 @@ signupFormElement.onsubmit = async (e) => {
     return;
   }
   try {
-    await authApi.register(email, password);
+    await authApi.register(email, password, name);
     authModal.classList.remove('active');
     signupError.textContent = '';
     window.location.reload();

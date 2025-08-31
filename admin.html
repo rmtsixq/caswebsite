@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Private Ruzgar Anatolian Lisesi CAS</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Admin Panel Specific Styles */
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 5% 4rem;
+        }
+
+        .admin-header {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .admin-header h1 {
+            color: var(--white);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .admin-user-info {
+            background: var(--secondary-color);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+            border-color: var(--secondary-color);
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon.blue { background: rgba(59, 130, 246, 0.2); color: #3b82f6; }
+        .stat-icon.red { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .stat-icon.green { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+        .stat-icon.purple { background: rgba(168, 85, 247, 0.2); color: #a855f7; }
+
+        .stat-details h3 {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-number {
+            color: var(--white);
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .action-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--secondary-color);
+            transform: scaleX(0);
+            transition: var(--transition);
+        }
+
+        .action-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+            border-color: var(--secondary-color);
+        }
+
+        .action-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .action-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+
+        .action-icon.blue { background: rgba(59, 130, 246, 0.2); color: #3b82f6; }
+        .action-icon.red { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .action-icon.green { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+        .action-icon.purple { background: rgba(168, 85, 247, 0.2); color: #a855f7; }
+
+        .action-bg-icon {
+            font-size: 2rem;
+            color: rgba(255, 255, 255, 0.1);
+        }
+
+        .action-title {
+            color: var(--white);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .action-description {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .action-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .action-link.blue { color: #3b82f6; }
+        .action-link.red { color: #ef4444; }
+        .action-link.green { color: #22c55e; }
+        .action-link.purple { color: #a855f7; }
+
+        .recent-activity {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .recent-activity h2 {
+            color: var(--white);
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+        }
+
+        .no-activity {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-light);
+        }
+
+        .no-activity i {
+            font-size: 3rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .no-activity h3 {
+            color: var(--white);
+            margin-bottom: 0.5rem;
+        }
+
+        .access-denied {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-light);
+        }
+
+        .access-denied i {
+            font-size: 4rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .access-denied h2 {
+            color: var(--white);
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .admin-header {
+                text-align: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="logo">
+                <img src="mühür.png" alt="Private Ruzgar Anatolian Lisesi">
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" data-translate="Ana Sayfa">Ana Sayfa</a></li>
+                <li><a href="students.html" data-translate="Öğrenciler">Öğrenciler</a></li>
+                <li><a href="projects.html" data-translate="Projeler">Projeler</a></li>
+                <li><a href="articles.html" data-translate="Makaleler">Makaleler</a></li>
+                <li><a href="videos.html" data-translate="Videolar">Videolar</a></li>
+                <li><a href="about-cas.html" data-translate="CAS Hakkında">CAS Hakkında</a></li>
+                <li><a href="#contact" data-translate="İletişim">İletişim</a></li>
+                <li><a href="#" id="langToggle" class="lang-toggle">EN</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <button class="auth-btn login-btn" id="showLoginBtn">Login</button>
+                <button class="auth-btn signup-btn" id="showSignupBtn">Sign Up</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Auth Modal -->
+    <div class="auth-modal" id="authModal">
+        <span class="close-modal" id="closeModal">&times;</span>
+        
+        <!-- Login Form -->
+        <div class="auth-form" id="loginForm">
+            <h2>Login</h2>
+            <form id="loginFormElement">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <div class="error-message" id="loginError"></div>
+                <button type="submit" class="auth-submit">Login</button>
+            </form>
+            <div class="auth-toggle">
+                Don't have an account? <a id="showSignup">Sign up</a>
+            </div>
+        </div>
+
+        <!-- Signup Form -->
+        <div class="auth-form" id="signupForm" style="display: none;">
+            <h2>Sign Up</h2>
+            <form id="signupFormElement">
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupConfirmPassword">Confirm Password</label>
+                    <input type="password" id="signupConfirmPassword" required>
+                </div>
+                <div class="error-message" id="signupError"></div>
+                <button type="submit" class="auth-submit">Sign Up</button>
+            </form>
+            <div class="auth-toggle">
+                Already have an account? <a id="showLogin">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <div class="admin-container" style="margin-top: 90px;">
+            
+            <!-- Access Denied -->
+            <div id="accessDenied" class="access-denied" style="display: none;">
+                <i class="fas fa-lock"></i>
+                <h2>Erişim Engellendi</h2>
+                <p>Bu sayfaya erişim için admin yetkileriniz olmalı.</p>
+                <a href="index.html" class="action-btn primary">
+                    <i class="fas fa-home"></i>
+                    Ana Sayfaya Dön
+                </a>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loadingState" class="loading-article">
+                <i class="fas fa-spinner fa-spin"></i>
+                <h3>Admin panel yükleniyor...</h3>
+            </div>
+
+            <!-- Admin Content -->
+            <div id="adminContent" style="display: none;">
+                <!-- Header -->
+                <div class="admin-header">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                        <div>
+                            <h1>Admin Dashboard</h1>
+                            <p>İçerik yönetimi ve site istatistikleri</p>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <span class="admin-user-info">Admin</span>
+                            <span id="adminEmail" style="color: var(--text-light); font-size: 0.9rem;"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon blue">
+                                <i class="fas fa-file-text"></i>
+                            </div>
+                            <div class="stat-details">
+                                <h3>Toplam Makale</h3>
+                                <div class="stat-number" id="totalArticles">...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon red">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            <div class="stat-details">
+                                <h3>Toplam Video</h3>
+                                <div class="stat-number" id="totalVideos">...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon green">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <div class="stat-details">
+                                <h3>Toplam Görüntüleme</h3>
+                                <div class="stat-number" id="totalViews">...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon purple">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-details">
+                                <h3>Kayıtlı Kullanıcı</h3>
+                                <div class="stat-number" id="totalUsers">1</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <a href="admin-new-article.html" class="action-card">
+                        <div class="action-header">
+                            <div class="action-icon blue">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                            <div class="action-bg-icon">
+                                <i class="fas fa-file-text"></i>
+                            </div>
+                        </div>
+                        <h3 class="action-title">Yeni Makale</h3>
+                        <p class="action-description">Yeni bir makale oluştur ve yayınla.</p>
+                        <div class="action-link blue">
+                            <span>Makale Oluştur</span>
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </a>
+
+                    <a href="admin-new-video.html" class="action-card">
+                        <div class="action-header">
+                            <div class="action-icon red">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                            <div class="action-bg-icon">
+                                <i class="fas fa-video"></i>
+                            </div>
+                        </div>
+                        <h3 class="action-title">Yeni Video</h3>
+                        <p class="action-description">YouTube video ekle ve yönet.</p>
+                        <div class="action-link red">
+                            <span>Video Ekle</span>
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </a>
+
+                    <a href="admin-articles.html" class="action-card">
+                        <div class="action-header">
+                            <div class="action-icon green">
+                                <i class="fas fa-file-text"></i>
+                            </div>
+                            <div class="action-bg-icon">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                        </div>
+                        <h3 class="action-title">Makale Yönetimi</h3>
+                        <p class="action-description">Makaleleri düzenle, sil veya durumunu değiştir.</p>
+                        <div class="action-link green">
+                            <span>Makaleleri Yönet</span>
+                            <i class="fas fa-cog"></i>
+                        </div>
+                    </a>
+
+                    <a href="admin-videos.html" class="action-card">
+                        <div class="action-header">
+                            <div class="action-icon purple">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            <div class="action-bg-icon">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                        </div>
+                        <h3 class="action-title">Video Yönetimi</h3>
+                        <p class="action-description">Videoları düzenle, sil veya durumunu değiştir.</p>
+                        <div class="action-link purple">
+                            <span>Videoları Yönet</span>
+                            <i class="fas fa-cog"></i>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="recent-activity">
+                    <h2>Son Aktiviteler</h2>
+                    <div class="no-activity">
+                        <i class="fas fa-file-text"></i>
+                        <h3>Henüz aktivite yok</h3>
+                        <p>İçerik eklemeye başladığınızda burada son aktiviteler görünecek.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="contact-info">
+                <h3 data-translate="İletişim">İletişim</h3>
+                <p><i class="fas fa-envelope"></i> cas@ruzgaranatolian.edu.tr</p>
+                <p><i class="fas fa-phone"></i> (0412) 123 45 67</p>
+                <p><i class="fas fa-map-marker-alt"></i> Diyarbakır, Türkiye</p>
+                <div class="coordinator-contact">
+                    <h4>CAS Koordinatörü</h4>
+                    <p><i class="fas fa-user-tie"></i> Dr. Ahmet Kılıç</p>
+                    <p><i class="fas fa-envelope"></i> ahmet.kilic@ruzgaranatolian.edu.tr</p>
+                </div>
+            </div>
+            <div class="school-info">
+                <img src="mühür.png" alt="Private Ruzgar Anatolian Lisesi" class="footer-logo">
+                <h4>Private Ruzgar Anatolian Lisesi</h4>
+                <p>IB World School</p>
+            </div>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/auth-ui.js"></script>
+    <script src="js/articles.js"></script>
+    <script src="js/language.js"></script>
+    
+    <script>
+        // Admin Panel Functionality
+        class AdminPanel {
+            constructor() {
+                this.user = null;
+                this.userProfile = null;
+                this.stats = {
+                    totalArticles: 0,
+                    totalVideos: 0,
+                    totalViews: 0,
+                    totalUsers: 1
+                };
+                this.init();
+            }
+
+            async init() {
+                // Check authentication
+                firebase.auth().onAuthStateChanged(async (user) => {
+                    this.user = user;
+                    
+                    if (user) {
+                        await this.checkAdminStatus();
+                        if (this.userProfile?.isAdmin) {
+                            await this.loadStats();
+                            this.renderAdminPanel();
+                        } else {
+                            this.showAccessDenied();
+                        }
+                    } else {
+                        this.showAccessDenied();
+                    }
+                });
+            }
+
+            async checkAdminStatus() {
+                try {
+                    const userDoc = await firebase.firestore().collection('users').doc(this.user.uid).get();
+                    if (userDoc.exists()) {
+                        this.userProfile = userDoc.data();
+                    } else {
+                        // Create user profile if doesn't exist
+                        const isAdmin = this.user.email === 'admin@ruzgaranatolian.edu.tr';
+                        this.userProfile = {
+                            uid: this.user.uid,
+                            email: this.user.email,
+                            displayName: this.user.displayName || 'Admin',
+                            isAdmin: isAdmin,
+                            createdAt: new Date().toISOString()
+                        };
+                        await firebase.firestore().collection('users').doc(this.user.uid).set(this.userProfile);
+                    }
+                } catch (error) {
+                    console.error('Error checking admin status:', error);
+                    this.userProfile = null;
+                }
+            }
+
+            async loadStats() {
+                try {
+                    // Load articles
+                    const articlesSnapshot = await firebase.firestore().collection('articles').get();
+                    this.stats.totalArticles = articlesSnapshot.size;
+
+                    // Load videos
+                    const videosSnapshot = await firebase.firestore().collection('videos').get();
+                    this.stats.totalVideos = videosSnapshot.size;
+
+                    // Calculate total views
+                    let totalViews = 0;
+                    articlesSnapshot.docs.forEach(doc => {
+                        const data = doc.data();
+                        totalViews += data.views || 0;
+                    });
+                    videosSnapshot.docs.forEach(doc => {
+                        const data = doc.data();
+                        totalViews += data.views || 0;
+                    });
+                    this.stats.totalViews = totalViews;
+
+                    console.log('Stats loaded:', this.stats);
+                } catch (error) {
+                    console.error('Error loading stats:', error);
+                }
+            }
+
+            renderAdminPanel() {
+                // Update email
+                document.getElementById('adminEmail').textContent = this.user.email;
+
+                // Update stats
+                document.getElementById('totalArticles').textContent = this.stats.totalArticles;
+                document.getElementById('totalVideos').textContent = this.stats.totalVideos;
+                document.getElementById('totalViews').textContent = this.stats.totalViews.toLocaleString();
+                document.getElementById('totalUsers').textContent = this.stats.totalUsers;
+
+                // Show admin content
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('adminContent').style.display = 'block';
+            }
+
+            showAccessDenied() {
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('accessDenied').style.display = 'block';
+            }
+        }
+
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            window.adminPanel = new AdminPanel();
+        });
+    </script>
+</body>
+</html>

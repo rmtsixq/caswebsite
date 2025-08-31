@@ -226,8 +226,11 @@
                 <li><a href="#home" data-translate="Ana Sayfa">Ana Sayfa</a></li>
                 <li><a href="students.html" data-translate="Öğrenciler">Öğrenciler</a></li>
                 <li><a href="projects.html" data-translate="Projeler">Projeler</a></li>
+                <li><a href="articles.html" data-translate="Makaleler">Makaleler</a></li>
+                <li><a href="videos.html" data-translate="Videolar">Videolar</a></li>
                 <li><a href="about-cas.html" data-translate="CAS Hakkında">CAS Hakkında</a></li>
                 <li><a href="#contact" data-translate="İletişim">İletişim</a></li>
+                <li><a href="admin.html" id="adminLink" data-translate="Admin" style="display: none;">Admin</a></li>
                 <li><a href="#" id="langToggle" class="lang-toggle">EN</a></li>
             </ul>
             <div class="auth-buttons">
@@ -347,6 +350,42 @@
             </div>
         </section>
 
+        <!-- Latest Articles Section -->
+        <section id="articles" class="articles-section">
+            <div class="section-header">
+                <h2 data-translate="Son Makaleler">Son Makaleler</h2>
+                <p data-translate="Öğrencilerimizin akademik çalışmaları ve araştırma projelerini keşfedin.">Öğrencilerimizin akademik çalışmaları ve araştırma projelerini keşfedin.</p>
+                <a href="articles.html" class="view-all-btn" data-translate="Tüm Makaleleri Gör">
+                    Tüm Makaleleri Gör <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div id="latest-articles-container" class="articles-grid">
+                <!-- Articles will be loaded here -->
+                <div class="loading-state">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Makaleler yükleniyor...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Latest Videos Section -->
+        <section id="videos" class="videos-section">
+            <div class="section-header">
+                <h2 data-translate="Son Videolar">Son Videolar</h2>
+                <p data-translate="Öğrencilerimizin video projeleri ve sunumlarını izleyin.">Öğrencilerimizin video projeleri ve sunumlarını izleyin.</p>
+                <a href="videos.html" class="view-all-btn" data-translate="Tüm Videoları Gör">
+                    Tüm Videoları Gör <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div id="latest-videos-container" class="videos-grid">
+                <!-- Videos will be loaded here -->
+                <div class="loading-state">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Videolar yükleniyor...</p>
+                </div>
+            </div>
+        </section>
+
         <section class="globe-section">
             <div class="globe-container">
                 <div class="globe-content">
@@ -413,6 +452,7 @@
     <script src="js/firebase-config.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/auth-ui.js"></script>
+    <script src="js/articles.js"></script>
     <script src="js/language.js"></script>
     <script src="js/main.js"></script>
 </body>

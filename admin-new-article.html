@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yeni Makale - Admin Panel</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Admin New Article Specific Styles */
+        .admin-form-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 5% 4rem;
+        }
+
+        .admin-form-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            border: none;
+            border-radius: 8px;
+            padding: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--white);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+        }
+
+        .main-form {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--white);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.2);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-light);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .content-editor {
+            min-height: 300px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.2);
+        }
+
+        .form-select option {
+            background: var(--dark-bg);
+            color: var(--white);
+        }
+
+        .image-upload-area {
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .image-upload-area:hover {
+            border-color: var(--secondary-color);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .image-upload-area i {
+            font-size: 2.5rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .image-preview {
+            max-width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .sidebar-section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-section h3 {
+            color: var(--white);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--secondary-color);
+        }
+
+        .checkbox-group label {
+            color: var(--text-color);
+            margin-bottom: 0;
+            font-weight: 500;
+        }
+
+        .submit-btn {
+            background: var(--secondary-color);
+            color: var(--white);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .submit-btn:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .cancel-btn {
+            background: transparent;
+            color: var(--text-light);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .cancel-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .help-text {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 1024px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .admin-form-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="logo">
+                <img src="mühür.png" alt="Private Ruzgar Anatolian Lisesi">
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" data-translate="Ana Sayfa">Ana Sayfa</a></li>
+                <li><a href="students.html" data-translate="Öğrenciler">Öğrenciler</a></li>
+                <li><a href="projects.html" data-translate="Projeler">Projeler</a></li>
+                <li><a href="articles.html" data-translate="Makaleler">Makaleler</a></li>
+                <li><a href="videos.html" data-translate="Videolar">Videolar</a></li>
+                <li><a href="about-cas.html" data-translate="CAS Hakkında">CAS Hakkında</a></li>
+                <li><a href="#contact" data-translate="İletişim">İletişim</a></li>
+                <li><a href="#" id="langToggle" class="lang-toggle">EN</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <button class="auth-btn login-btn" id="showLoginBtn">Login</button>
+                <button class="auth-btn signup-btn" id="showSignupBtn">Sign Up</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Auth Modal -->
+    <div class="auth-modal" id="authModal">
+        <span class="close-modal" id="closeModal">&times;</span>
+        
+        <!-- Login Form -->
+        <div class="auth-form" id="loginForm">
+            <h2>Login</h2>
+            <form id="loginFormElement">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <div class="error-message" id="loginError"></div>
+                <button type="submit" class="auth-submit">Login</button>
+            </form>
+            <div class="auth-toggle">
+                Don't have an account? <a id="showSignup">Sign up</a>
+            </div>
+        </div>
+
+        <!-- Signup Form -->
+        <div class="auth-form" id="signupForm" style="display: none;">
+            <h2>Sign Up</h2>
+            <form id="signupFormElement">
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupConfirmPassword">Confirm Password</label>
+                    <input type="password" id="signupConfirmPassword" required>
+                </div>
+                <div class="error-message" id="signupError"></div>
+                <button type="submit" class="auth-submit">Sign Up</button>
+            </form>
+            <div class="auth-toggle">
+                Already have an account? <a id="showLogin">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <div class="admin-form-container" style="margin-top: 90px;">
+            
+            <!-- Loading State -->
+            <div id="loadingState" class="loading-article">
+                <i class="fas fa-spinner fa-spin"></i>
+                <h3>Admin panel yükleniyor...</h3>
+            </div>
+
+            <!-- Access Denied -->
+            <div id="accessDenied" class="access-denied" style="display: none;">
+                <i class="fas fa-lock"></i>
+                <h2>Erişim Engellendi</h2>
+                <p>Bu sayfaya erişim için admin yetkileriniz olmalı.</p>
+                <a href="index.html" class="action-btn primary">
+                    <i class="fas fa-home"></i>
+                    Ana Sayfaya Dön
+                </a>
+            </div>
+
+            <!-- Form Content -->
+            <div id="formContent" style="display: none;">
+                <!-- Header -->
+                <div class="admin-form-header">
+                    <div class="header-left">
+                        <button class="back-btn" onclick="window.history.back()">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <div>
+                            <h1 style="color: var(--white); margin-bottom: 0.5rem;">Yeni Makale</h1>
+                            <p style="color: var(--text-light);">Yeni bir makale oluştur ve yayınla</p>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="articleForm" class="form-grid">
+                    <!-- Main Form -->
+                    <div class="main-form">
+                        <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+                        <!-- Title -->
+                        <div class="form-group">
+                            <label for="title">Başlık *</label>
+                            <input type="text" id="title" class="form-input" placeholder="Makale başlığını girin" required>
+                        </div>
+
+                        <!-- Author -->
+                        <div class="form-group">
+                            <label for="author">Yazar *</label>
+                            <input type="text" id="author" class="form-input" placeholder="Yazar adı" required>
+                        </div>
+
+                        <!-- Excerpt -->
+                        <div class="form-group">
+                            <label for="excerpt">Özet *</label>
+                            <textarea id="excerpt" class="form-input form-textarea" placeholder="Makale özeti" required></textarea>
+                            <div class="help-text">Makalenin kısa açıklaması (150-200 karakter önerilir)</div>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="form-group">
+                            <label for="content">İçerik *</label>
+                            <textarea id="content" class="form-input content-editor" placeholder="Makale içeriğini girin... HTML etiketleri desteklenir." required></textarea>
+                            <div class="help-text">
+                                HTML etiketleri desteklenir: &lt;h2&gt;, &lt;h3&gt;, &lt;p&gt;, &lt;strong&gt;, &lt;em&gt;, &lt;ul&gt;, &lt;ol&gt;, &lt;li&gt;, &lt;blockquote&gt;
+                            </div>
+                        </div>
+
+                        <!-- Category -->
+                        <div class="form-group">
+                            <label for="category">Kategori</label>
+                            <select id="category" class="form-select">
+                                <option value="">Kategori seçin</option>
+                                <option value="STEM">STEM</option>
+                                <option value="Social Studies">Social Studies</option>
+                                <option value="Politics">Politics</option>
+                                <option value="Philosophy">Philosophy</option>
+                                <option value="Art & Literature">Art & Literature</option>
+                                <option value="Women Rights">Women Rights</option>
+                                <option value="Science & Technology">Science & Technology</option>
+                            </select>
+                        </div>
+
+                        <!-- Custom Category -->
+                        <div class="form-group">
+                            <label for="customCategory">Özel Kategori</label>
+                            <input type="text" id="customCategory" class="form-input" placeholder="Özel kategori adı (isteğe bağlı)">
+                            <div class="help-text">Yukarıdaki kategoriler uygun değilse özel kategori girebilirsiniz</div>
+                        </div>
+
+                        <!-- Tags -->
+                        <div class="form-group">
+                            <label for="tags">Etiketler</label>
+                            <input type="text" id="tags" class="form-input" placeholder="teknoloji, bilim, AI (virgülle ayırın)">
+                            <div class="help-text">Etiketleri virgülle ayırın</div>
+                        </div>
+
+                        <!-- Featured Image -->
+                        <div class="form-group">
+                            <label for="featuredImage">Öne Çıkan Görsel</label>
+                            <input type="url" id="featuredImage" class="form-input" placeholder="https://example.com/image.jpg">
+                            <div class="help-text">Görsel URL'si girin veya boş bırakın (varsayılan görsel kullanılır)</div>
+                            <div id="imagePreviewContainer" style="display: none;">
+                                <img id="imagePreview" class="image-preview" alt="Preview">
+                            </div>
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="form-actions">
+                            <button type="button" class="cancel-btn" onclick="window.history.back()">
+                                İptal
+                            </button>
+                            <button type="submit" id="submitBtn" class="submit-btn">
+                                <i class="fas fa-save"></i>
+                                <span>Makaleyi Kaydet</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar -->
+                    <div class="sidebar">
+                        <!-- Settings -->
+                        <div class="sidebar-section">
+                            <h3>Ayarlar</h3>
+                            
+                            <div class="form-group">
+                                <label for="status">Durum</label>
+                                <select id="status" class="form-select">
+                                    <option value="draft">Taslak</option>
+                                    <option value="published">Yayınla</option>
+                                </select>
+                            </div>
+
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="isEditorsPick">
+                                <label for="isEditorsPick">Editor's Pick</label>
+                            </div>
+                        </div>
+
+                        <!-- Preview -->
+                        <div class="sidebar-section">
+                            <h3>Önizleme</h3>
+                            <div id="previewContent">
+                                <div style="color: var(--text-light); text-align: center; padding: 2rem;">
+                                    <i class="fas fa-eye"></i>
+                                    <p>Formu doldurdukça önizleme burada görünecek</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Help -->
+                        <div class="sidebar-section">
+                            <h3>Yardım</h3>
+                            <div style="color: var(--text-light); font-size: 0.9rem; line-height: 1.6;">
+                                <p><strong>İpuçları:</strong></p>
+                                <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                                    <li>Başlık ve özet arama için önemlidir</li>
+                                    <li>İçerikte HTML etiketlerini kullanabilirsiniz</li>
+                                    <li>Görsel URL'si opsiyoneldir</li>
+                                    <li>Taslak olarak kaydedip sonra yayınlayabilirsiniz</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="contact-info">
+                <h3 data-translate="İletişim">İletişim</h3>
+                <p><i class="fas fa-envelope"></i> cas@ruzgaranatolian.edu.tr</p>
+                <p><i class="fas fa-phone"></i> (0412) 123 45 67</p>
+                <p><i class="fas fa-map-marker-alt"></i> Diyarbakır, Türkiye</p>
+            </div>
+            <div class="school-info">
+                <img src="mühür.png" alt="Private Ruzgar Anatolian Lisesi" class="footer-logo">
+                <h4>Private Ruzgar Anatolian Lisesi</h4>
+                <p>IB World School</p>
+            </div>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/auth-ui.js"></script>
+    <script src="js/articles.js"></script>
+    <script src="js/language.js"></script>
+    
+    <script>
+        // Admin New Article Functionality
+        class AdminNewArticle {
+            constructor() {
+                this.user = null;
+                this.userProfile = null;
+                this.init();
+            }
+
+            async init() {
+                // Check authentication
+                firebase.auth().onAuthStateChanged(async (user) => {
+                    this.user = user;
+                    
+                    if (user) {
+                        await this.checkAdminStatus();
+                        if (this.userProfile?.isAdmin) {
+                            this.setupForm();
+                            this.showForm();
+                        } else {
+                            this.showAccessDenied();
+                        }
+                    } else {
+                        this.showAccessDenied();
+                    }
+                });
+            }
+
+            async checkAdminStatus() {
+                try {
+                    const userDoc = await firebase.firestore().collection('users').doc(this.user.uid).get();
+                    if (userDoc.exists()) {
+                        this.userProfile = userDoc.data();
+                    } else {
+                        const isAdmin = this.user.email === 'admin@ruzgaranatolian.edu.tr';
+                        this.userProfile = {
+                            uid: this.user.uid,
+                            email: this.user.email,
+                            displayName: this.user.displayName || 'Admin',
+                            isAdmin: isAdmin,
+                            createdAt: new Date().toISOString()
+                        };
+                        await firebase.firestore().collection('users').doc(this.user.uid).set(this.userProfile);
+                    }
+                } catch (error) {
+                    console.error('Error checking admin status:', error);
+                    this.userProfile = null;
+                }
+            }
+
+            setupForm() {
+                const form = document.getElementById('articleForm');
+                
+                // Preview updates
+                ['title', 'excerpt', 'category', 'customCategory', 'tags', 'status'].forEach(field => {
+                    document.getElementById(field).addEventListener('input', () => {
+                        this.updatePreview();
+                    });
+                });
+
+                document.getElementById('isEditorsPick').addEventListener('change', () => {
+                    this.updatePreview();
+                });
+
+                // Image preview
+                document.getElementById('featuredImage').addEventListener('input', (e) => {
+                    this.updateImagePreview(e.target.value);
+                });
+
+                // Form submission
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.submitArticle();
+                });
+            }
+
+            updatePreview() {
+                const previewContainer = document.getElementById('previewContent');
+                const title = document.getElementById('title').value || 'Başlık';
+                const excerpt = document.getElementById('excerpt').value || 'Özet';
+                const category = document.getElementById('customCategory').value || 
+                               document.getElementById('category').value || 'Kategori belirtilmedi';
+                const tags = document.getElementById('tags').value || 'Etiket yok';
+                const status = document.getElementById('status').value;
+                const isEditorsPick = document.getElementById('isEditorsPick').checked;
+
+                previewContainer.innerHTML = `
+                    <div style="border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 1.5rem;">
+                        <h4 style="color: var(--white); font-size: 1.2rem; margin-bottom: 1rem;">${title}</h4>
+                        <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 1rem;">${excerpt}</p>
+                        <div style="font-size: 0.8rem; color: var(--text-light);">
+                            <p><strong>Kategori:</strong> ${category}</p>
+                            <p><strong>Etiketler:</strong> ${tags}</p>
+                            <p><strong>Durum:</strong> ${status === 'published' ? 'Yayınlanacak' : 'Taslak'}</p>
+                            ${isEditorsPick ? '<p style="color: #fbbf24;"><strong>⭐ Editor\'s Pick</strong></p>' : ''}
+                        </div>
+                    </div>
+                `;
+            }
+
+            updateImagePreview(url) {
+                const container = document.getElementById('imagePreviewContainer');
+                const preview = document.getElementById('imagePreview');
+                
+                if (url) {
+                    preview.src = url;
+                    container.style.display = 'block';
+                } else {
+                    container.style.display = 'none';
+                }
+            }
+
+            async submitArticle() {
+                const submitBtn = document.getElementById('submitBtn');
+                const errorMessage = document.getElementById('errorMessage');
+                
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <span>Kaydediliyor...</span>
+                `;
+
+                try {
+                    const formData = {
+                        title: document.getElementById('title').value,
+                        author: document.getElementById('author').value,
+                        excerpt: document.getElementById('excerpt').value,
+                        content: document.getElementById('content').value,
+                        category: document.getElementById('customCategory').value || document.getElementById('category').value,
+                        tags: document.getElementById('tags').value.split(',').map(tag => tag.trim()).filter(tag => tag),
+                        featuredImage: document.getElementById('featuredImage').value || '/images/default-article.jpg',
+                        status: document.getElementById('status').value,
+                        isEditorsPick: document.getElementById('isEditorsPick').checked,
+                        publishedAt: new Date().toISOString(),
+                        readTime: Math.ceil(document.getElementById('content').value.split(' ').length / 200),
+                        createdBy: this.user.uid,
+                        slug: this.createSlug(document.getElementById('title').value)
+                    };
+
+                    console.log('Creating article with data:', formData);
+                    const articleId = await window.articleSystem.createArticle(formData);
+                    
+                    alert('Makale başarıyla oluşturuldu!');
+                    window.location.href = 'admin.html';
+                    
+                } catch (error) {
+                    console.error('Error creating article:', error);
+                    errorMessage.textContent = 'Makale oluşturulurken bir hata oluştu: ' + error.message;
+                    errorMessage.style.display = 'block';
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = `
+                        <i class="fas fa-save"></i>
+                        <span>Makaleyi Kaydet</span>
+                    `;
+                }
+            }
+
+            createSlug(title) {
+                return title
+                    .toLowerCase()
+                    .replace(/[^\w\s-]/g, '')
+                    .replace(/[\s_-]+/g, '-')
+                    .replace(/^-+|-+$/g, '');
+            }
+
+            showForm() {
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('formContent').style.display = 'block';
+            }
+
+            showAccessDenied() {
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('accessDenied').style.display = 'block';
+            }
+        }
+
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            window.adminNewArticle = new AdminNewArticle();
+        });
+    </script>
+</body>
+</html>

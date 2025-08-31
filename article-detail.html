@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Makale Detayı - Private Ruzgar Anatolian Lisesi CAS</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Article Detail Specific Styles */
+        .article-detail-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 5% 4rem;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-light);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .back-button:hover {
+            color: var(--secondary-color);
+        }
+
+        .back-button i {
+            transition: var(--transition);
+        }
+
+        .back-button:hover i {
+            transform: translateX(-2px);
+        }
+
+        .article-header {
+            margin-bottom: 3rem;
+        }
+
+        .article-badges {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .category-badge {
+            background: var(--secondary-color);
+            color: var(--white);
+        }
+
+        .editors-pick-badge {
+            background: #fbbf24;
+            color: #000;
+        }
+
+        .article-detail-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .article-detail-excerpt {
+            font-size: 1.3rem;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .article-detail-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .meta-item i {
+            color: var(--secondary-color);
+        }
+
+        .article-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .action-btn.primary {
+            background: var(--secondary-color);
+            color: var(--white);
+        }
+
+        .action-btn.primary:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .action-btn.secondary {
+            background: var(--card-bg);
+            color: var(--text-light);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .action-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .featured-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow);
+        }
+
+        .article-content-section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            line-height: 1.8;
+        }
+
+        .article-content-section h2 {
+            color: var(--secondary-color);
+            font-size: 1.8rem;
+            margin: 2rem 0 1rem;
+            font-weight: 600;
+        }
+
+        .article-content-section h3 {
+            color: var(--white);
+            font-size: 1.4rem;
+            margin: 1.5rem 0 1rem;
+            font-weight: 600;
+        }
+
+        .article-content-section p {
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        .article-content-section blockquote {
+            border-left: 4px solid var(--secondary-color);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            background: rgba(255, 255, 255, 0.05);
+            font-style: italic;
+            color: var(--text-light);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .article-content-section ul,
+        .article-content-section ol {
+            margin: 1.5rem 0;
+            padding-left: 2rem;
+        }
+
+        .article-content-section li {
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .article-content-section strong {
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        .article-content-section em {
+            color: var(--text-light);
+        }
+
+        .article-content-section a {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+
+        .article-content-section a:hover {
+            color: var(--accent-color);
+        }
+
+        .author-section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 3rem;
+        }
+
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            background: var(--secondary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.5rem;
+        }
+
+        .author-details h3 {
+            color: var(--white);
+            margin-bottom: 0.5rem;
+        }
+
+        .author-details p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .related-articles {
+            text-align: center;
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .related-articles h2 {
+            color: var(--white);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .related-articles p {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .loading-article {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-light);
+        }
+
+        .loading-article i {
+            font-size: 3rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .error-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .error-state i {
+            font-size: 4rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .error-state h2 {
+            color: var(--white);
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+
+        .error-state p {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .article-detail-title {
+                font-size: 2rem;
+            }
+
+            .article-detail-excerpt {
+                font-size: 1.1rem;
+            }
+
+            .article-detail-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .article-actions {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                text-align: center;
+                justify-content: center;
+            }
+
+            .article-content-section {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="logo">
+                <img src="mühür.png" alt="Private Ruzgar Anatolian Lisesi">
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" data-translate="Ana Sayfa">Ana Sayfa</a></li>
+                <li><a href="students.html" data-translate="Öğrenciler">Öğrenciler</a></li>
+                <li><a href="projects.html" data-translate="Projeler">Projeler</a></li>
+                <li><a href="articles.html" data-translate="Makaleler">Makaleler</a></li>
+                <li><a href="videos.html" data-translate="Videolar">Videolar</a></li>
+                <li><a href="about-cas.html" data-translate="CAS Hakkında">CAS Hakkında</a></li>
+                <li><a href="#contact" data-translate="İletişim">İletişim</a></li>
+                <li><a href="#" id="langToggle" class="lang-toggle">EN</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <button class="auth-btn login-btn" id="showLoginBtn">Login</button>
+                <button class="auth-btn signup-btn" id="showSignupBtn">Sign Up</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Auth Modal -->
+    <div class="auth-modal" id="authModal">
+        <span class="close-modal" id="closeModal">&times;</span>
+        
+        <!-- Login Form -->
+        <div class="auth-form" id="loginForm">
+            <h2>Login</h2>
+            <form id="loginFormElement">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <div class="error-message" id="loginError"></div>
+                <button type="submit" class="auth-submit">Login</button>
+            </form>
+            <div class="auth-toggle">
+                Don't have an account? <a id="showSignup">Sign up</a>
+            </div>
+        </div>
+
+        <!-- Signup Form -->
+        <div class="auth-form" id="signupForm" style="display: none;">
+            <h2>Sign Up</h2>
+            <form id="signupFormElement">
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupConfirmPassword">Confirm Password</label>
+                    <input type="password" id="signupConfirmPassword" required>
+                </div>
+                <div class="error-message" id="signupError"></div>
+                <button type="submit" class="auth-submit">Sign Up</button>
+            </form>
+            <div class="auth-toggle">
+                Already have an account? <a id="showLogin">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <div class="article-detail-container" style="margin-top: 90px;">
+            
+            <!-- Loading State -->
+            <div id="loadingState" class="loading-article">
+                <i class="fas fa-spinner fa-spin"></i>
+                <h3>Makale yükleniyor...</h3>
+            </div>
+
+            <!-- Error State -->
+            <div id="errorState" class="error-state" style="display: none;">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h2>Makale Bulunamadı</h2>
+                <p>Aradığınız makale mevcut değil veya kaldırılmış olabilir.</p>
+                <a href="articles.html" class="action-btn primary">
+                    <i class="fas fa-arrow-left"></i>
+                    Makalelere Dön
+                </a>
+            </div>
+
+            <!-- Article Content -->
+            <div id="articleContent" style="display: none;">
+                <a href="articles.html" class="back-button">
+                    <i class="fas fa-arrow-left"></i>
+                    <span data-translate="Makalelere Dön">Makalelere Dön</span>
+                </a>
+
+                <article class="article-header">
+                    <div class="article-badges" id="articleBadges">
+                        <!-- Badges will be inserted here -->
+                    </div>
+
+                    <h1 class="article-detail-title" id="articleTitle">
+                        <!-- Title will be inserted here -->
+                    </h1>
+
+                    <p class="article-detail-excerpt" id="articleExcerpt">
+                        <!-- Excerpt will be inserted here -->
+                    </p>
+
+                    <div class="article-detail-meta" id="articleMeta">
+                        <!-- Meta information will be inserted here -->
+                    </div>
+
+                    <div class="article-actions">
+                        <button class="action-btn primary" id="likeBtn">
+                            <i class="fas fa-heart"></i>
+                            <span data-translate="Beğen">Beğen</span>
+                        </button>
+                        <button class="action-btn secondary" id="saveBtn">
+                            <i class="fas fa-bookmark"></i>
+                            <span data-translate="Kaydet">Kaydet</span>
+                        </button>
+                        <button class="action-btn secondary" id="shareBtn">
+                            <i class="fas fa-share"></i>
+                            <span data-translate="Paylaş">Paylaş</span>
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Featured Image -->
+                <div id="featuredImageContainer" style="display: none;">
+                    <img id="featuredImage" class="featured-image" alt="">
+                </div>
+
+                <!-- Article Content -->
+                <div class="article-content-section">
+                    <div id="articleBody">
+                        <!-- Article content will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- Author Section -->
+                <div class="author-section">
+                    <h3 style="color: var(--white); margin-bottom: 1.5rem;">
+                        <span data-translate="Yazar Hakkında">Yazar Hakkında</span>
+                    </h3>
+                    <div class="author-info" id="authorInfo">
+                        <!-- Author info will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- Related Articles -->
+                <div class="related-articles">
+                    <h2 data-translate="Daha Fazla Makale Keşfet">Daha Fazla Makale Keşfet</h2>
+                    <p data-translate="Koleksiyonumuzdan daha fazla içgörülü makale keşfedin.">Koleksiyonumuzdan daha fazla içgörülü makale keşfedin.</p>
+                    <a href="articles.html" class="action-btn primary">
+                        <span data-translate="Tüm Makaleleri Gör">Tüm Makaleleri Gör</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="contact-info">
+                <h3 data-translate="İletişim">İletişim</h3>
+                <p><i class="fas fa-envelope"></i> cas@ruzgaranatolian.edu.tr</p>
+                <p><i class="fas fa-phone"></i> (0412) 123 45 67</p>
+                <p><i class="fas fa-map-marker-alt"></i> Diyarbakır, Türkiye</p>
+                <div class="coordinator-contact">
+                    <h4>CAS Koordinatörü</h4>
+                    <p><i class="fas fa-user-tie"></i> Dr. Ahmet Kılıç</p>
+                    <p><i class="fas fa-envelope"></i> ahmet.kilic@ruzgaranatolian.edu.tr</p>
+                </div>
+            </div>
+            <div class="school-info">
+                <img src="mühür.png" alt="Private Ruzgar Anatolian Lisesi" class="footer-logo">
+                <h4>Private Ruzgar Anatolian Lisesi</h4>
+                <p>IB World School</p>
+            </div>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/auth-ui.js"></script>
+    <script src="js/articles.js"></script>
+    <script src="js/language.js"></script>
+    
+    <script>
+        // Article Detail Page Functionality
+        class ArticleDetailPage {
+            constructor() {
+                this.article = null;
+                this.init();
+            }
+
+            async init() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const articleId = urlParams.get('id');
+                
+                if (!articleId) {
+                    this.showError();
+                    return;
+                }
+
+                await this.loadArticle(articleId);
+            }
+
+            async loadArticle(articleId) {
+                try {
+                    const doc = await firebase.firestore().collection('articles').doc(articleId).get();
+                    
+                    if (!doc.exists) {
+                        this.showError();
+                        return;
+                    }
+
+                    this.article = {
+                        id: doc.id,
+                        ...doc.data()
+                    };
+
+                    // Update page title
+                    document.title = `${this.article.title} - Private Ruzgar Anatolian Lisesi CAS`;
+
+                    this.renderArticle();
+                    this.hideLoading();
+
+                } catch (error) {
+                    console.error('Error loading article:', error);
+                    this.showError();
+                }
+            }
+
+            renderArticle() {
+                const article = this.article;
+                const authorName = typeof article.author === 'string' ? article.author : 'Unknown Author';
+
+                // Badges
+                const badgesContainer = document.getElementById('articleBadges');
+                let badges = `<span class="badge category-badge">${article.category}</span>`;
+                if (article.isEditorsPick) {
+                    badges += `<span class="badge editors-pick-badge">Editor's Pick</span>`;
+                }
+                badgesContainer.innerHTML = badges;
+
+                // Title and excerpt
+                document.getElementById('articleTitle').textContent = article.title;
+                document.getElementById('articleExcerpt').textContent = article.excerpt;
+
+                // Meta information
+                const metaContainer = document.getElementById('articleMeta');
+                metaContainer.innerHTML = `
+                    <div class="meta-item">
+                        <i class="fas fa-user"></i>
+                        <span>${authorName}</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-calendar"></i>
+                        <span>${this.formatDate(article.publishedAt)}</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span>${article.readTime} min read</span>
+                    </div>
+                    ${article.views ? `
+                        <div class="meta-item">
+                            <i class="fas fa-eye"></i>
+                            <span>${article.views.toLocaleString()} views</span>
+                        </div>
+                    ` : ''}
+                `;
+
+                // Featured image
+                if (article.featuredImage) {
+                    const imageContainer = document.getElementById('featuredImageContainer');
+                    const image = document.getElementById('featuredImage');
+                    image.src = article.featuredImage;
+                    image.alt = article.title;
+                    imageContainer.style.display = 'block';
+                }
+
+                // Article content
+                document.getElementById('articleBody').innerHTML = this.processContent(article.content || '');
+
+                // Author info
+                const authorContainer = document.getElementById('authorInfo');
+                authorContainer.innerHTML = `
+                    <div class="author-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="author-details">
+                        <h3>${authorName}</h3>
+                        <p>CAS öğrencisi, ${article.category.toLowerCase()} alanında içerik üreticisi.</p>
+                    </div>
+                `;
+
+                // Setup action buttons
+                this.setupActionButtons();
+            }
+
+            processContent(content) {
+                if (!content) return '<p>İçerik mevcut değil.</p>';
+
+                // Basic HTML processing
+                return content
+                    .replace(/<h1>/g, '<h1 style="color: var(--white); font-size: 2rem; margin: 2rem 0 1rem; font-weight: 700;">')
+                    .replace(/<h2>/g, '<h2 style="color: var(--secondary-color); font-size: 1.8rem; margin: 2rem 0 1rem; font-weight: 600;">')
+                    .replace(/<h3>/g, '<h3 style="color: var(--white); font-size: 1.4rem; margin: 1.5rem 0 1rem; font-weight: 600;">')
+                    .replace(/<p>/g, '<p style="color: var(--text-color); margin-bottom: 1.5rem; line-height: 1.8; text-align: justify;">')
+                    .replace(/<strong>/g, '<strong style="color: var(--white); font-weight: 600;">')
+                    .replace(/<em>/g, '<em style="color: var(--text-light);">')
+                    .replace(/<a /g, '<a style="color: var(--secondary-color); text-decoration: underline;" ')
+                    .replace(/<blockquote>/g, '<blockquote style="border-left: 4px solid var(--secondary-color); padding: 1.5rem; margin: 2rem 0; background: rgba(255, 255, 255, 0.05); font-style: italic; color: var(--text-light); border-radius: 0 8px 8px 0;">')
+                    .replace(/<ul>/g, '<ul style="margin: 1.5rem 0; padding-left: 2rem; color: var(--text-color);">')
+                    .replace(/<ol>/g, '<ol style="margin: 1.5rem 0; padding-left: 2rem; color: var(--text-color);">')
+                    .replace(/<li>/g, '<li style="margin-bottom: 0.5rem; color: var(--text-color);">');
+            }
+
+            setupActionButtons() {
+                // Like button
+                document.getElementById('likeBtn').addEventListener('click', () => {
+                    // Implement like functionality
+                    console.log('Article liked');
+                });
+
+                // Save button
+                document.getElementById('saveBtn').addEventListener('click', () => {
+                    // Implement save functionality
+                    console.log('Article saved');
+                });
+
+                // Share button
+                document.getElementById('shareBtn').addEventListener('click', () => {
+                    if (navigator.share) {
+                        navigator.share({
+                            title: this.article.title,
+                            text: this.article.excerpt,
+                            url: window.location.href
+                        });
+                    } else {
+                        // Fallback: copy to clipboard
+                        navigator.clipboard.writeText(window.location.href);
+                        alert('Link copied to clipboard!');
+                    }
+                });
+            }
+
+            formatDate(dateString) {
+                return new Date(dateString).toLocaleDateString('tr-TR', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            }
+
+            showError() {
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('errorState').style.display = 'block';
+            }
+
+            hideLoading() {
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('articleContent').style.display = 'block';
+            }
+        }
+
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            window.articleDetailPage = new ArticleDetailPage();
+        });
+    </script>
+</body>
+</html>

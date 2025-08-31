@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Videolar - Private Ruzgar Anatolian Lisesi CAS</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Videos Page Specific Styles */
+        .videos-hero {
+            background: linear-gradient(rgba(18, 18, 18, 0.9), rgba(18, 18, 18, 0.9)),
+                        url('https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 8rem 5% 4rem;
+            margin-top: 70px;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .videos-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+
+        .videos-hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            color: var(--text-light);
+        }
+
+        .youtube-cta {
+            background: #dc2626;
+            padding: 4rem 5%;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .youtube-cta h2 {
+            color: var(--white);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .youtube-cta p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .youtube-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: var(--white);
+            color: #dc2626;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+
+        .youtube-btn:hover {
+            background: #f3f4f6;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .youtube-btn i {
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="logo">
+                <img src="mühür.png" alt="Private Ruzgar Anatolian Lisesi">
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" data-translate="Ana Sayfa">Ana Sayfa</a></li>
+                <li><a href="students.html" data-translate="Öğrenciler">Öğrenciler</a></li>
+                <li><a href="projects.html" data-translate="Projeler">Projeler</a></li>
+                <li><a href="articles.html" data-translate="Makaleler">Makaleler</a></li>
+                <li><a href="videos.html" data-translate="Videolar" class="active">Videolar</a></li>
+                <li><a href="about-cas.html" data-translate="CAS Hakkında">CAS Hakkında</a></li>
+                <li><a href="#contact" data-translate="İletişim">İletişim</a></li>
+                <li><a href="#" id="langToggle" class="lang-toggle">EN</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <button class="auth-btn login-btn" id="showLoginBtn">Login</button>
+                <button class="auth-btn signup-btn" id="showSignupBtn">Sign Up</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Auth Modal -->
+    <div class="auth-modal" id="authModal">
+        <span class="close-modal" id="closeModal">&times;</span>
+        
+        <!-- Login Form -->
+        <div class="auth-form" id="loginForm">
+            <h2>Login</h2>
+            <form id="loginFormElement">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <div class="error-message" id="loginError"></div>
+                <button type="submit" class="auth-submit">Login</button>
+            </form>
+            <div class="auth-toggle">
+                Don't have an account? <a id="showSignup">Sign up</a>
+            </div>
+        </div>
+
+        <!-- Signup Form -->
+        <div class="auth-form" id="signupForm" style="display: none;">
+            <h2>Sign Up</h2>
+            <form id="signupFormElement">
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupConfirmPassword">Confirm Password</label>
+                    <input type="password" id="signupConfirmPassword" required>
+                </div>
+                <div class="error-message" id="signupError"></div>
+                <button type="submit" class="auth-submit">Sign Up</button>
+            </form>
+            <div class="auth-toggle">
+                Already have an account? <a id="showLogin">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="videos-hero">
+            <h1 data-translate="Tüm Videolar">Tüm Videolar</h1>
+            <p data-translate="Öğrencilerimizin video projeleri, sunumları ve eğitim içeriklerini izleyin.">Öğrencilerimizin video projeleri, sunumları ve eğitim içeriklerini izleyin.</p>
+        </section>
+
+        <!-- Filters Section -->
+        <section class="filters-section">
+            <div class="filters-container">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Videolarda ara..." data-translate-placeholder="Videolarda ara...">
+                </div>
+                
+                <div class="filters-group">
+                    <select id="categoryFilter" class="filter-select">
+                        <option value="all" data-translate="Tüm Kategoriler">Tüm Kategoriler</option>
+                        <option value="STEM">STEM</option>
+                        <option value="Social Studies">Social Studies</option>
+                        <option value="Politics">Politics</option>
+                        <option value="Philosophy">Philosophy</option>
+                        <option value="Art & Literature">Art & Literature</option>
+                        <option value="Women Rights">Women Rights</option>
+                        <option value="Science & Technology">Science & Technology</option>
+                    </select>
+                    
+                    <select id="sortFilter" class="filter-select">
+                        <option value="newest" data-translate="En Yeni">En Yeni</option>
+                        <option value="oldest" data-translate="En Eski">En Eski</option>
+                        <option value="popular" data-translate="En Popüler">En Popüler</option>
+                        <option value="title" data-translate="Alfabetik">Alfabetik</option>
+                    </select>
+                    
+                    <div class="view-mode-toggle">
+                        <button id="gridViewBtn" class="view-mode-btn active" title="Grid View">
+                            <i class="fas fa-th"></i>
+                        </button>
+                        <button id="listViewBtn" class="view-mode-btn" title="List View">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Info -->
+        <div class="results-info">
+            <p id="resultsCount">Videolar yükleniyor...</p>
+        </div>
+
+        <!-- Videos Content -->
+        <section class="articles-content">
+            <div id="all-videos-container" class="videos-grid">
+                <!-- Videos will be loaded here -->
+                <div class="loading-state">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Videolar yükleniyor...</p>
+                </div>
+            </div>
+            
+            <!-- No Results -->
+            <div id="noResults" class="no-results" style="display: none;">
+                <i class="fas fa-search"></i>
+                <h3>Sonuç bulunamadı</h3>
+                <p>Arama kriterlerinizi değiştirmeyi deneyin.</p>
+                <button id="clearFiltersBtn" class="clear-filters-btn">
+                    Filtreleri Temizle
+                </button>
+            </div>
+        </section>
+
+        <!-- YouTube Channel CTA -->
+        <section class="youtube-cta">
+            <h2 data-translate="YouTube Kanalımıza Abone Olun">YouTube Kanalımıza Abone Olun</h2>
+            <p data-translate="En son video içeriklerimizi kaçırmamak için YouTube kanalımıza abone olun.">En son video içeriklerimizi kaçırmamak için YouTube kanalımıza abone olun.</p>
+            <a href="https://youtube.com/@ruzgaranatolian" target="_blank" rel="noopener noreferrer" class="youtube-btn">
+                <i class="fab fa-youtube"></i>
+                <span data-translate="YouTube'da Abone Ol">YouTube'da Abone Ol</span>
+            </a>
+        </section>
+    </main>
+
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="contact-info">
+                <h3 data-translate="İletişim">İletişim</h3>
+                <p><i class="fas fa-envelope"></i> cas@ruzgaranatolian.edu.tr</p>
+                <p><i class="fas fa-phone"></i> (0412) 123 45 67</p>
+                <p><i class="fas fa-map-marker-alt"></i> Diyarbakır, Türkiye</p>
+                <div class="coordinator-contact">
+                    <h4>CAS Koordinatörü</h4>
+                    <p><i class="fas fa-user-tie"></i> Dr. Ahmet Kılıç</p>
+                    <p><i class="fas fa-envelope"></i> ahmet.kilic@ruzgaranatolian.edu.tr</p>
+                </div>
+            </div>
+            <div class="school-info">
+                <img src="mühür.png" alt="Private Ruzgar Anatolian Lisesi" class="footer-logo">
+                <h4>Private Ruzgar Anatolian Lisesi</h4>
+                <p>IB World School</p>
+            </div>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/auth-ui.js"></script>
+    <script src="js/articles.js"></script>
+    <script src="js/language.js"></script>
+    
+    <script>
+        // Videos Page Functionality
+        class VideosPage {
+            constructor() {
+                this.videos = [];
+                this.filteredVideos = [];
+                this.currentViewMode = 'grid';
+                this.filters = {
+                    search: '',
+                    category: 'all',
+                    sort: 'newest'
+                };
+                this.init();
+            }
+
+            async init() {
+                await this.loadVideos();
+                this.setupEventListeners();
+                this.applyFilters();
+            }
+
+            async loadVideos() {
+                try {
+                    const q = firebase.firestore().collection('videos')
+                        .where('status', '==', 'published');
+                        
+                    const snapshot = await q.get();
+                    
+                    this.videos = snapshot.docs.map(doc => ({
+                        id: doc.id,
+                        ...doc.data()
+                    }));
+                    
+                    console.log('All videos loaded:', this.videos);
+                } catch (error) {
+                    console.error('Error loading videos:', error);
+                    this.videos = [];
+                }
+            }
+
+            setupEventListeners() {
+                // Search
+                document.getElementById('searchInput').addEventListener('input', (e) => {
+                    this.filters.search = e.target.value;
+                    this.applyFilters();
+                });
+
+                // Category filter
+                document.getElementById('categoryFilter').addEventListener('change', (e) => {
+                    this.filters.category = e.target.value;
+                    this.applyFilters();
+                });
+
+                // Sort filter
+                document.getElementById('sortFilter').addEventListener('change', (e) => {
+                    this.filters.sort = e.target.value;
+                    this.applyFilters();
+                });
+
+                // View mode toggle
+                document.getElementById('gridViewBtn').addEventListener('click', () => {
+                    this.setViewMode('grid');
+                });
+
+                document.getElementById('listViewBtn').addEventListener('click', () => {
+                    this.setViewMode('list');
+                });
+
+                // Clear filters
+                document.getElementById('clearFiltersBtn').addEventListener('click', () => {
+                    this.clearFilters();
+                });
+            }
+
+            setViewMode(mode) {
+                this.currentViewMode = mode;
+                
+                const container = document.getElementById('all-videos-container');
+                const gridBtn = document.getElementById('gridViewBtn');
+                const listBtn = document.getElementById('listViewBtn');
+                
+                if (mode === 'grid') {
+                    container.classList.remove('list-view');
+                    gridBtn.classList.add('active');
+                    listBtn.classList.remove('active');
+                } else {
+                    container.classList.add('list-view');
+                    listBtn.classList.add('active');
+                    gridBtn.classList.remove('active');
+                }
+            }
+
+            applyFilters() {
+                let filtered = [...this.videos];
+
+                // Search filter
+                if (this.filters.search) {
+                    const searchTerm = this.filters.search.toLowerCase();
+                    filtered = filtered.filter(video => 
+                        video.title.toLowerCase().includes(searchTerm) ||
+                        video.description.toLowerCase().includes(searchTerm)
+                    );
+                }
+
+                // Category filter
+                if (this.filters.category !== 'all') {
+                    filtered = filtered.filter(video => video.category === this.filters.category);
+                }
+
+                // Sort
+                switch (this.filters.sort) {
+                    case 'newest':
+                        filtered.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+                        break;
+                    case 'oldest':
+                        filtered.sort((a, b) => new Date(a.publishedAt).getTime() - new Date(b.publishedAt).getTime());
+                        break;
+                    case 'popular':
+                        filtered.sort((a, b) => (b.views || 0) - (a.views || 0));
+                        break;
+                    case 'title':
+                        filtered.sort((a, b) => a.title.localeCompare(b.title));
+                        break;
+                }
+
+                this.filteredVideos = filtered;
+                this.renderVideos();
+                this.updateResultsCount();
+            }
+
+            renderVideos() {
+                const container = document.getElementById('all-videos-container');
+                const noResults = document.getElementById('noResults');
+                
+                if (this.filteredVideos.length === 0) {
+                    container.innerHTML = '';
+                    noResults.style.display = 'block';
+                    return;
+                }
+
+                noResults.style.display = 'none';
+                container.innerHTML = this.filteredVideos.map(video => {
+                    return window.articleSystem.createVideoCard(video);
+                }).join('');
+
+                // Add click handlers
+                container.querySelectorAll('.video-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        const videoId = card.dataset.id;
+                        window.location.href = `video-detail.html?id=${videoId}`;
+                    });
+                });
+            }
+
+            updateResultsCount() {
+                const resultsElement = document.getElementById('resultsCount');
+                const total = this.videos.length;
+                const filtered = this.filteredVideos.length;
+                
+                let text = `${filtered} of ${total} videos`;
+                if (this.filters.search) {
+                    text += ` for "${this.filters.search}"`;
+                }
+                if (this.filters.category !== 'all') {
+                    text += ` in ${this.filters.category}`;
+                }
+                
+                resultsElement.textContent = text;
+            }
+
+            clearFilters() {
+                this.filters = {
+                    search: '',
+                    category: 'all',
+                    sort: 'newest'
+                };
+
+                document.getElementById('searchInput').value = '';
+                document.getElementById('categoryFilter').value = 'all';
+                document.getElementById('sortFilter').value = 'newest';
+
+                this.applyFilters();
+            }
+        }
+
+        // Initialize when DOM and articles system are ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait for articleSystem to be initialized
+            const initVideosPage = () => {
+                if (window.articleSystem) {
+                    window.videosPage = new VideosPage();
+                } else {
+                    setTimeout(initVideosPage, 100);
+                }
+            };
+            initVideosPage();
+        });
+    </script>
+</body>
+</html>

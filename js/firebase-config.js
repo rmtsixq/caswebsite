@@ -1,4 +1,5 @@
 // js/firebase-config.js
+// CAS Website Firebase Configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBuONRqmCCwc13NgHSn4LpByjrWnRVax6E",
   authDomain: "windgriff-6cbd7.firebaseapp.com",
@@ -8,6 +9,20 @@ const firebaseConfig = {
   appId: "1:155157182521:web:abe406bc36389cf8b1f5e8",
   measurementId: "G-XX32MM6ETK"
 };
+
+// Alternative Xtodaymedia Firebase config (comment out CAS config above and uncomment this if you want to use Xtodaymedia data)
+/*
+const firebaseConfig = {
+  apiKey: "AIzaSyBujRcE0V1PtE65fFaZ6FO4O_PRdIz7_N0",
+  authDomain: "bensende-e7507.firebaseapp.com",
+  databaseURL: "https://bensende-e7507-default-rtdb.firebaseio.com",
+  projectId: "bensende-e7507",
+  storageBucket: "bensende-e7507.firebasestorage.app",
+  messagingSenderId: "935368276799",
+  appId: "1:935368276799:web:dbd0280301acdd2ddcb18a",
+  measurementId: "G-5FE73R5JZC"
+};
+*/
 
 // Initialize Firebase
 const app = firebase.initializeApp(firebaseConfig);
