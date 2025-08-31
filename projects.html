@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projeler - Private Ruzgar Anatolian Lisesi CAS</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Projects Page Styles */
+        .projects-hero {
+            background: linear-gradient(135deg, rgba(18, 18, 18, 0.95), rgba(26, 26, 26, 0.95)),
+                        url('https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 8rem 5% 4rem;
+            text-align: center;
+            margin-top: 70px;
+        }
+
+        .projects-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+
+        .filter-section {
+            padding: 3rem 5% 2rem;
+            text-align: center;
+            background: var(--dark-bg);
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            font-weight: 500;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--secondary-color);
+            border-color: var(--secondary-color);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .projects-container {
+            padding: 2rem 5% 4rem;
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
+
+        .projects-timeline {
+            position: relative;
+        }
+
+        .projects-timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--secondary-color), var(--accent-color));
+            transform: translateX(-50%);
+        }
+
+        .project-item {
+            display: flex;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .project-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .project-content {
+            flex: 1;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 0 2rem;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .project-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            border-color: var(--secondary-color);
+        }
+
+        .project-category {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            color: var(--white);
+            padding: 0.4rem 1rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .project-title {
+            color: var(--white);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .project-description {
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-participants {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .participant-tag {
+            background: var(--dark-bg);
+            color: var(--secondary-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(230, 57, 70, 0.3);
+        }
+
+        .project-date {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 2rem;
+            width: 20px;
+            height: 20px;
+            background: var(--secondary-color);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 0 4px var(--dark-bg), 0 0 0 6px var(--secondary-color);
+        }
+
+        .project-hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .projects-timeline::before {
+                left: 2rem;
+            }
+
+            .project-item,
+            .project-item:nth-child(even) {
+                flex-direction: column;
+            }
+
+            .project-content {
+                margin: 0 0 0 4rem;
+            }
+
+            .timeline-dot {
+                left: 2rem;
+            }
+
+            .projects-hero h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="logo">
+                <img src="mühür.png" alt="Private Ruzgar Anatolian Lisesi">
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li><a href="students.html">Öğrenciler</a></li>
+                <li><a href="projects.html" class="active">Projeler</a></li>
+                <li><a href="about-cas.html">CAS Hakkında</a></li>
+                <li><a href="index.html#contact">İletişim</a></li>
+                <li><a href="#" id="langToggle" class="lang-toggle">EN</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <button class="auth-btn login-btn" id="showLoginBtn">Giriş</button>
+                <button class="auth-btn signup-btn" id="showSignupBtn">Kayıt Ol</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="projects-hero">
+            <h1>CAS Projelerimiz</h1>
+            <p>Öğrencilerimizin yaratıcılık, aktivite ve hizmet alanlarında gerçekleştirdiği ilham verici projeleri keşfedin.</p>
+        </section>
+
+        <section class="filter-section">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">
+                    <i class="fas fa-th"></i> Tümü
+                </button>
+                <button class="filter-btn" data-filter="creativity">
+                    <i class="fas fa-paint-brush"></i> Creativity
+                </button>
+                <button class="filter-btn" data-filter="activity">
+                    <i class="fas fa-running"></i> Activity
+                </button>
+                <button class="filter-btn" data-filter="service">
+                    <i class="fas fa-hands-helping"></i> Service
+                </button>
+            </div>
+        </section>
+
+        <section class="projects-container">
+            <div class="projects-timeline">
+                <!-- Creativity Project -->
+                <div class="project-item" data-category="creativity">
+                    <div class="timeline-dot"></div>
+                    <div class="project-content">
+                        <span class="project-category">Creativity</span>
+                        <h3 class="project-title">Dijital Sanat Sergisi</h3>
+                        <p class="project-description">
+                            Öğrencilerimiz dijital sanat tekniklerini öğrenerek modern sanat eserleri oluşturdular. 
+                            Proje kapsamında Photoshop, Illustrator ve 3D modelleme teknikleri kullanıldı.
+                        </p>
+                        <div class="project-participants">
+                            <span class="participant-tag">Ayşe Kaya</span>
+                            <span class="participant-tag">Can Yılmaz</span>
+                            <span class="participant-tag">Elif Şahin</span>
+                        </div>
+                        <div class="project-date">Kasım 2024</div>
+                    </div>
+                </div>
+
+                <!-- Service Project -->
+                <div class="project-item" data-category="service">
+                    <div class="timeline-dot"></div>
+                    <div class="project-content">
+                        <span class="project-category">Service</span>
+                        <h3 class="project-title">Çevre Farkındalığı Kampanyası</h3>
+                        <p class="project-description">
+                            Okul genelinde geri dönüşüm bilincini artırmak için kapsamlı bir kampanya düzenlendi. 
+                            Öğrenciler poster tasarımları yaptı, sunumlar hazırladı ve geri dönüşüm sistemini iyileştirdi.
+                        </p>
+                        <div class="project-participants">
+                            <span class="participant-tag">Ayşe Kaya</span>
+                            <span class="participant-tag">Zeynep Demir</span>
+                            <span class="participant-tag">Baran Arslan</span>
+                        </div>
+                        <div class="project-date">Ekim 2024</div>
+                    </div>
+                </div>
+
+                <!-- Activity Project -->
+                <div class="project-item" data-category="activity">
+                    <div class="timeline-dot"></div>
+                    <div class="project-content">
+                        <span class="project-category">Activity</span>
+                        <h3 class="project-title">Okul Koşu Kulübü</h3>
+                        <p class="project-description">
+                            Fiziksel aktiviteyi teşvik etmek ve takım ruhu geliştirmek amacıyla kurulan koşu kulübü. 
+                            Haftalık antrenmanlar ve yarışmalara katılım ile öğrencilerin sağlıklı yaşam alışkanlıkları geliştirildi.
+                        </p>
+                        <div class="project-participants">
+                            <span class="participant-tag">Mehmet Özkan</span>
+                            <span class="participant-tag">Ayşe Kaya</span>
+                            <span class="participant-tag">Can Yılmaz</span>
+                        </div>
+                        <div class="project-date">Eylül 2024</div>
+                    </div>
+                </div>
+
+                <!-- Creativity Project -->
+                <div class="project-item" data-category="creativity">
+                    <div class="timeline-dot"></div>
+                    <div class="project-content">
+                        <span class="project-category">Creativity</span>
+                        <h3 class="project-title">Müzik Prodüksiyon Atölyesi</h3>
+                        <p class="project-description">
+                            Elektronik müzik prodüksiyonu ve ses teknolojileri üzerine atölye çalışması. 
+                            Öğrenciler kendi müzik parçalarını oluşturdu ve dijital platformlarda paylaştı.
+                        </p>
+                        <div class="project-participants">
+                            <span class="participant-tag">Can Yılmaz</span>
+                            <span class="participant-tag">Baran Arslan</span>
+                        </div>
+                        <div class="project-date">Eylül 2024</div>
+                    </div>
+                </div>
+
+                <!-- Service Project -->
+                <div class="project-item" data-category="service">
+                    <div class="timeline-dot"></div>
+                    <div class="project-content">
+                        <span class="project-category">Service</span>
+                        <h3 class="project-title">Yaşlı Bakım Evi Ziyaretleri</h3>
+                        <p class="project-description">
+                            Yerel yaşlı bakım evlerini düzenli olarak ziyaret ederek yaşlılarla vakit geçirme, 
+                            aktiviteler düzenleme ve sosyal destek sağlama projesi.
+                        </p>
+                        <div class="project-participants">
+                            <span class="participant-tag">Zeynep Demir</span>
+                            <span class="participant-tag">Elif Şahin</span>
+                            <span class="participant-tag">Mehmet Özkan</span>
+                        </div>
+                        <div class="project-date">Ağustos 2024</div>
+                    </div>
+                </div>
+
+                <!-- Activity Project -->
+                <div class="project-item" data-category="activity">
+                    <div class="timeline-dot"></div>
+                    <div class="project-content">
+                        <span class="project-category">Activity</span>
+                        <h3 class="project-title">Dağcılık ve Doğa Sporları</h3>
+                        <p class="project-description">
+                            Doğa ile bağ kurma, dayanıklılık geliştirme ve çevre bilinci artırma amaçlı 
+                            düzenli dağ yürüyüşleri ve doğa sporları aktiviteleri.
+                        </p>
+                        <div class="project-participants">
+                            <span class="participant-tag">Baran Arslan</span>
+                            <span class="participant-tag">Mehmet Özkan</span>
+                        </div>
+                        <div class="project-date">Ağustos 2024</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="contact-info">
+                <h3>İletişim</h3>
+                <p><i class="fas fa-envelope"></i> info@ruzgaranatolian.edu.tr</p>
+                <p><i class="fas fa-phone"></i> (0412) 123 45 67</p>
+                <p><i class="fas fa-map-marker-alt"></i> Diyarbakır, Türkiye</p>
+            </div>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Filter functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const projectItems = document.querySelectorAll('.project-item');
+
+            // Check URL parameter for initial filter
+            const urlParams = new URLSearchParams(window.location.search);
+            const initialFilter = urlParams.get('filter');
+            
+            if (initialFilter) {
+                filterProjects(initialFilter);
+                // Update active button
+                filterButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.filter === initialFilter) {
+                        btn.classList.add('active');
+                    }
+                });
+            }
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const filter = this.dataset.filter;
+                    
+                    // Update active button
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Filter projects
+                    filterProjects(filter);
+                });
+            });
+
+            function filterProjects(filter) {
+                projectItems.forEach(item => {
+                    if (filter === 'all' || item.dataset.category === filter) {
+                        item.style.display = 'flex';
+                        item.style.animation = 'fadeIn 0.5s ease';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
