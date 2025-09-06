@@ -310,7 +310,49 @@ footer {
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
+    gap: 3rem;
+}
+
+.coordinator-contact {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.coordinator-contact h4 {
+    color: var(--secondary-color);
+    margin-bottom: 0.8rem;
+    font-size: 1.1rem;
+}
+
+.coordinator-contact p {
+    color: var(--text-light);
+    margin-bottom: 0.3rem;
+    font-size: 0.95rem;
+}
+
+.school-info {
+    text-align: center;
+    flex: 1;
+}
+
+.footer-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    border: 2px solid var(--secondary-color);
+}
+
+.school-info h4 {
+    color: var(--white);
+    margin-bottom: 0.5rem;
+}
+
+.school-info p {
+    color: var(--secondary-color);
+    font-weight: 500;
 }
 
 .contact-info h3 {
@@ -374,6 +416,113 @@ footer {
         max-width: 300px;
         text-align: center;
     }
+}
+
+/* Language Toggle */
+.lang-toggle {
+    background: var(--card-bg) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(10px);
+    padding: 0.5rem 1rem !important;
+    border-radius: 20px !important;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.lang-toggle:hover {
+    background: var(--secondary-color) !important;
+    border-color: var(--secondary-color) !important;
+    transform: scale(1.05);
+}
+
+/* Hero Logo Styling */
+.hero-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.school-logo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-bottom: 1.5rem;
+    border: 3px solid var(--secondary-color);
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    padding: 10px;
+    transition: var(--transition);
+}
+
+.school-logo:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 32px rgba(230, 57, 70, 0.3);
+}
+
+.cas-badge {
+    background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+    color: var(--white);
+    padding: 0.5rem 1.5rem;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-top: 0.5rem;
+    box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+}
+
+.hero-description {
+    max-width: 700px;
+    margin: 0 auto 2rem;
+    font-size: 1.3rem;
+    line-height: 1.7;
+    color: var(--text-light);
+}
+
+/* Active Navigation Link */
+.nav-links a.active {
+    color: var(--secondary-color);
+    background: var(--card-bg);
+}
+
+/* Enhanced Glassmorphism */
+.pillar,
+.feature,
+.stat {
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.pillar:hover,
+.feature:hover,
+.stat:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(230, 57, 70, 0.5);
+    box-shadow: 0 15px 50px rgba(230, 57, 70, 0.1);
+}
+
+/* Additional Glassmorphism Elements */
+header {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.auth-form {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+}
+
+/* Enhanced card backgrounds */
+.card-bg-enhanced {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* Animations */
