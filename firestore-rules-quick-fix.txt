@@ -1,0 +1,80 @@
+# Firebase Firestore Güvenlik Kuralları - Hızlı Düzeltme
+
+## Firebase Console'a Git:
+1. https://console.firebase.google.com/
+2. windgriff-6cbd7 projesini seç
+3. Sol menüden "Firestore Database" > "Rules" sekmesine git
+
+## Bu kuralları yapıştır:
+
+```javascript
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users collection - herkes okuyabilir, sadece kendi dokümanını yazabilir
+    match /users/{userId} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Articles collection - herkes okuyabilir, sadece admin yazabilir
+    match /articles/{articleId} {
+      allow read: if true;
+      allow write: if request.auth != null && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Videos collection - herkes okuyabilir, sadece admin yazabilir
+    match /videos/{videoId} {
+      allow read: if true;
+      allow write: if request.auth != null && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Podcasts collection - herkes okuyabilir, sadece admin yazabilir
+    match /podcasts/{podcastId} {
+      allow read: if true;
+      allow write: if request.auth != null && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Newsletter collection - herkes okuyabilir, sadece admin yazabilir
+    match /newsletter/{newsletterId} {
+      allow read: if true;
+      allow write: if request.auth != null && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Contact messages - herkes yazabilir, sadece admin okuyabilir
+    match /contact/{messageId} {
+      allow read: if request.auth != null && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+      allow write: if true;
+    }
+    
+    // Admin collection - sadece admin erişebilir
+    match /admin/{adminId} {
+      allow read, write: if request.auth != null && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+  }
+}
+```
+
+## Adımlar:
+1. Yukarıdaki kuralları kopyala
+2. Firebase Console'da Rules sekmesine git
+3. Mevcut kuralları sil
+4. Yeni kuralları yapıştır
+5. "Publish" butonuna tıkla
+
+## Test Et:
+1. Sayfayı yenile
+2. Console'da hata olmamalı
+3. Admin sayfalarında makale/video ekleyebilmelisin

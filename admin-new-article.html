@@ -269,6 +269,11 @@
             }
         }
 
+        /* Hide auth modal on admin pages */
+        .auth-modal {
+            display: none !important;
+        }
+
         @media (max-width: 768px) {
             .admin-form-header {
                 flex-direction: column;
@@ -286,7 +291,7 @@
     <header>
         <nav class="main-nav">
             <div class="logo">
-                <img src="mühür.png" alt="Private Ruzgar Anatolian Lisesi">
+                <img src="new-logo.jpg" alt="Private Ruzgar Anatolian Lisesi">
             </div>
             <ul class="nav-links">
                 <li><a href="index.html" data-translate="Ana Sayfa">Ana Sayfa</a></li>
@@ -455,15 +460,12 @@
                             <div class="help-text">Etiketleri virgülle ayırın</div>
                         </div>
 
-                        <!-- Featured Image -->
-                        <div class="form-group">
-                            <label for="featuredImage">Öne Çıkan Görsel</label>
-                            <input type="url" id="featuredImage" class="form-input" placeholder="https://example.com/image.jpg">
-                            <div class="help-text">Görsel URL'si girin veya boş bırakın (varsayılan görsel kullanılır)</div>
-                            <div id="imagePreviewContainer" style="display: none;">
-                                <img id="imagePreview" class="image-preview" alt="Preview">
-                            </div>
-                        </div>
+            <!-- Featured Image -->
+            <div class="form-group">
+                <label for="featuredImage">Öne Çıkan Görsel</label>
+                <input type="url" id="featuredImage" class="form-input" placeholder="https://example.com/image.jpg">
+                <div class="help-text">Resim URL'si girin. Boş bırakırsanız varsayılan görsel kullanılır.</div>
+            </div>
 
                         <!-- Form Actions -->
                         <div class="form-actions">
@@ -536,7 +538,7 @@
                 <p><i class="fas fa-map-marker-alt"></i> Diyarbakır, Türkiye</p>
             </div>
             <div class="school-info">
-                <img src="mühür.png" alt="Private Ruzgar Anatolian Lisesi" class="footer-logo">
+                <img src="new-logo.jpg" alt="Private Ruzgar Anatolian Lisesi" class="footer-logo">
                 <h4>Private Ruzgar Anatolian Lisesi</h4>
                 <p>IB World School</p>
             </div>
@@ -591,7 +593,7 @@
             async checkAdminStatus() {
                 try {
                     const userDoc = await firebase.firestore().collection('users').doc(this.user.uid).get();
-                    if (userDoc.exists()) {
+                    if (userDoc.exists) {
                         this.userProfile = userDoc.data();
                     } else {
                         const isAdmin = this.user.email === 'admin@ruzgaranatolian.edu.tr';

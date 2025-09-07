@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Düzenle - Private Ruzgar Anatolian Lisesi CAS</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Profile Edit Styles */
+        .profile-edit-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 5% 4rem;
+            margin-top: 90px;
+        }
+
+        .profile-edit-header {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .profile-edit-header h1 {
+            color: var(--white);
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-edit-header p {
+            color: var(--text-light);
+        }
+
+        .profile-form {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--white);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.2);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-light);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .profile-photo-section {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .current-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid var(--white);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .current-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .current-photo i {
+            font-size: 3rem;
+            color: var(--white);
+        }
+
+        .photo-upload-area {
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+
+        .photo-upload-area:hover {
+            border-color: var(--secondary-color);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .photo-upload-area i {
+            font-size: 2.5rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .photo-upload-area p {
+            color: var(--white);
+            margin-bottom: 0.5rem;
+        }
+
+        .photo-upload-area small {
+            color: var(--text-light);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .submit-btn {
+            background: var(--secondary-color);
+            color: var(--white);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .submit-btn:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .cancel-btn {
+            background: transparent;
+            color: var(--text-light);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .cancel-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .success-message {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid #22c55e;
+            color: #22c55e;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .help-text {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 0.5rem;
+        }
+
+        /* Hide auth modal on profile pages */
+        .auth-modal {
+            display: none !important;
+        }
+
+        @media (max-width: 768px) {
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="logo">
+                <img src="new-logo.jpg" alt="Private Ruzgar Anatolian Lisesi">
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" data-translate="Ana Sayfa">Ana Sayfa</a></li>
+                <li><a href="students.html" data-translate="Öğrenciler">Öğrenciler</a></li>
+                <li><a href="projects.html" data-translate="Projeler">Projeler</a></li>
+                <li><a href="articles.html" data-translate="Makaleler">Makaleler</a></li>
+                <li><a href="videos.html" data-translate="Videolar">Videolar</a></li>
+                <li><a href="about-cas.html" data-translate="CAS Hakkında">CAS Hakkında</a></li>
+                <li><a href="#contact" data-translate="İletişim">İletişim</a></li>
+                <li><a href="#" id="langToggle" class="lang-toggle">EN</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <button class="auth-btn login-btn" id="showLoginBtn">Login</button>
+                <button class="auth-btn signup-btn" id="showSignupBtn">Sign Up</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Auth Modal -->
+    <div class="auth-modal" id="authModal">
+        <span class="close-modal" id="closeModal">&times;</span>
+        
+        <!-- Login Form -->
+        <div class="auth-form" id="loginForm">
+            <h2>Login</h2>
+            <form id="loginFormElement">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <div class="error-message" id="loginError"></div>
+                <button type="submit" class="auth-submit">Login</button>
+            </form>
+            <div class="auth-toggle">
+                Don't have an account? <a id="showSignup">Sign up</a>
+            </div>
+        </div>
+
+        <!-- Signup Form -->
+        <div class="auth-form" id="signupForm" style="display: none;">
+            <h2>Sign Up</h2>
+            <form id="signupFormElement">
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupConfirmPassword">Confirm Password</label>
+                    <input type="password" id="signupConfirmPassword" required>
+                </div>
+                <div class="error-message" id="signupError"></div>
+                <button type="submit" class="auth-submit">Sign Up</button>
+            </form>
+            <div class="auth-toggle">
+                Already have an account? <a id="showLogin">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <div class="profile-edit-container">
+            
+            <!-- Loading State -->
+            <div id="loadingState" class="loading-article">
+                <i class="fas fa-spinner fa-spin"></i>
+                <h3>Profil yükleniyor...</h3>
+            </div>
+
+            <!-- Access Denied -->
+            <div id="accessDenied" class="access-denied" style="display: none;">
+                <i class="fas fa-lock"></i>
+                <h2>Erişim Engellendi</h2>
+                <p>Bu sayfaya erişim için giriş yapmanız gerekiyor.</p>
+                <a href="index.html" class="action-btn primary">
+                    <i class="fas fa-home"></i>
+                    Ana Sayfaya Dön
+                </a>
+            </div>
+
+            <!-- Form Content -->
+            <div id="formContent" style="display: none;">
+                <!-- Header -->
+                <div class="profile-edit-header">
+                    <h1>Profil Düzenle</h1>
+                    <p>Profil bilgilerinizi güncelleyin</p>
+                </div>
+
+                <form id="profileForm" class="profile-form">
+                    <div id="errorMessage" class="error-message" style="display: none;"></div>
+                    <div id="successMessage" class="success-message" style="display: none;"></div>
+
+                    <!-- Profile Photo Section -->
+                    <div class="form-group">
+                        <label for="profileImageUrl">Profil Fotoğrafı</label>
+                        <input type="url" id="profileImageUrl" class="form-input" placeholder="https://example.com/profile.jpg">
+                        <div class="help-text">Profil fotoğrafı URL'si girin.</div>
+                    </div>
+
+                    <!-- Display Name -->
+                    <div class="form-group">
+                        <label for="displayName">Ad Soyad *</label>
+                        <input type="text" id="displayName" class="form-input" placeholder="Adınızı ve soyadınızı girin" required>
+                    </div>
+
+                    <!-- Email (Read-only) -->
+                    <div class="form-group">
+                        <label for="email">E-posta</label>
+                        <input type="email" id="email" class="form-input" readonly style="background: rgba(255, 255, 255, 0.05);">
+                        <div class="help-text">E-posta adresi değiştirilemez</div>
+                    </div>
+
+                    <!-- Bio -->
+                    <div class="form-group">
+                        <label for="bio">Hakkımda</label>
+                        <textarea id="bio" class="form-input form-textarea" placeholder="Kendiniz hakkında kısa bir açıklama yazın..."></textarea>
+                        <div class="help-text">Kendinizi tanıtan kısa bir açıklama (isteğe bağlı)</div>
+                    </div>
+
+                    <!-- Interests -->
+                    <div class="form-group">
+                        <label for="interests">İlgi Alanları</label>
+                        <input type="text" id="interests" class="form-input" placeholder="STEM, Sanat, Spor, Müzik (virgülle ayırın)">
+                        <div class="help-text">İlgi alanlarınızı virgülle ayırarak yazın</div>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="form-actions">
+                        <button type="button" class="cancel-btn" onclick="window.history.back()">
+                            İptal
+                        </button>
+                        <button type="submit" id="submitBtn" class="submit-btn">
+                            <i class="fas fa-save"></i>
+                            <span>Profili Kaydet</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="contact-info">
+                <h3 data-translate="İletişim">İletişim</h3>
+                <p><i class="fas fa-envelope"></i> cas@ruzgaranatolian.edu.tr</p>
+                <p><i class="fas fa-phone"></i> (0412) 123 45 67</p>
+                <p><i class="fas fa-map-marker-alt"></i> Diyarbakır, Türkiye</p>
+            </div>
+            <div class="school-info">
+                <img src="new-logo.jpg" alt="Private Ruzgar Anatolian Lisesi" class="footer-logo">
+                <h4>Private Ruzgar Anatolian Lisesi</h4>
+                <p>IB World School</p>
+            </div>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/auth-ui.js"></script>
+    <script src="js/language.js"></script>
+    
+    <script>
+        // Profile Edit Functionality
+        class ProfileEdit {
+            constructor() {
+                this.user = null;
+                this.userProfile = null;
+                this.init();
+            }
+
+            async init() {
+                // Check authentication
+                firebase.auth().onAuthStateChanged(async (user) => {
+                    this.user = user;
+                    
+                    if (user) {
+                        await this.loadUserProfile();
+                        this.setupForm();
+                        this.showForm();
+                    } else {
+                        this.showAccessDenied();
+                    }
+                });
+            }
+
+            async loadUserProfile() {
+                try {
+                    const userDoc = await firebase.firestore().collection('users').doc(this.user.uid).get();
+                    if (userDoc.exists) {
+                        this.userProfile = userDoc.data();
+                    } else {
+                        // Create new profile
+                        this.userProfile = {
+                            uid: this.user.uid,
+                            email: this.user.email,
+                            displayName: this.user.displayName || '',
+                            bio: '',
+                            interests: [],
+                            profileImage: '',
+                            createdAt: new Date().toISOString(),
+                            updatedAt: new Date().toISOString()
+                        };
+                        await firebase.firestore().collection('users').doc(this.user.uid).set(this.userProfile);
+                    }
+                } catch (error) {
+                    console.error('Error loading user profile:', error);
+                    this.userProfile = null;
+                }
+            }
+
+            setupForm() {
+                // Populate form with current data
+                document.getElementById('displayName').value = this.userProfile.displayName || '';
+                document.getElementById('email').value = this.user.email;
+                document.getElementById('bio').value = this.userProfile.bio || '';
+                document.getElementById('interests').value = this.userProfile.interests ? this.userProfile.interests.join(', ') : '';
+                document.getElementById('profileImageUrl').value = this.userProfile.profileImage || '';
+
+                // Update current photo display
+                this.updateCurrentPhoto();
+
+                // Form submission
+                document.getElementById('profileForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.submitProfile();
+                });
+            }
+
+            updateCurrentPhoto() {
+                const currentPhoto = document.getElementById('currentPhoto');
+                const profileImageUrl = document.getElementById('profileImageUrl').value;
+
+                if (profileImageUrl) {
+                    currentPhoto.innerHTML = `<img src="${profileImageUrl}" alt="Profile Photo">`;
+                } else {
+                    currentPhoto.innerHTML = '<i class="fas fa-user"></i>';
+                }
+            }
+
+            async submitProfile() {
+                const submitBtn = document.getElementById('submitBtn');
+                const errorMessage = document.getElementById('errorMessage');
+                const successMessage = document.getElementById('successMessage');
+                
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <span>Kaydediliyor...</span>
+                `;
+
+                try {
+                    const formData = {
+                        displayName: document.getElementById('displayName').value,
+                        bio: document.getElementById('bio').value,
+                        interests: document.getElementById('interests').value.split(',').map(interest => interest.trim()).filter(interest => interest),
+                        profileImage: document.getElementById('profileImageUrl').value,
+                        updatedAt: new Date().toISOString()
+                    };
+
+                    // Update user profile in Firestore
+                    await firebase.firestore().collection('users').doc(this.user.uid).update(formData);
+                    
+                    // Update user display name in Firebase Auth
+                    if (formData.displayName !== this.user.displayName) {
+                        await this.user.updateProfile({
+                            displayName: formData.displayName
+                        });
+                    }
+
+                    successMessage.textContent = 'Profil başarıyla güncellendi!';
+                    successMessage.style.display = 'block';
+                    errorMessage.style.display = 'none';
+
+                    // Update local profile data
+                    this.userProfile = { ...this.userProfile, ...formData };
+                    
+                } catch (error) {
+                    console.error('Error updating profile:', error);
+                    errorMessage.textContent = 'Profil güncellenirken bir hata oluştu: ' + error.message;
+                    errorMessage.style.display = 'block';
+                    successMessage.style.display = 'none';
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = `
+                        <i class="fas fa-save"></i>
+                        <span>Profili Kaydet</span>
+                    `;
+                }
+            }
+
+            showForm() {
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('formContent').style.display = 'block';
+            }
+
+            showAccessDenied() {
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('accessDenied').style.display = 'block';
+            }
+        }
+
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            window.profileEdit = new ProfileEdit();
+        });
+
+        // Listen for Imgur upload success
+        document.addEventListener('imgurUploadSuccess', (e) => {
+            const { imageUrl } = e.detail;
+            document.getElementById('profileImageUrl').value = imageUrl;
+            window.profileEdit.updateCurrentPhoto();
+        });
+    </script>
+</body>
+</html>

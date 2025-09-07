@@ -26,15 +26,14 @@ class ArticleSystem {
         try {
             // Firestore'dan published articles çek
             const q = firebase.firestore().collection('articles')
-                .where('status', '==', 'published')
-                .orderBy('publishedAt', 'desc');
+                .where('status', '==', 'published');
                 
             const snapshot = await q.get();
             
             this.articles = snapshot.docs.map(doc => ({
                 id: doc.id,
                 ...doc.data()
-            }));
+            })).sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
             
             console.log('Articles loaded:', this.articles);
         } catch (error) {
@@ -47,15 +46,14 @@ class ArticleSystem {
         try {
             // Firestore'dan published videos çek
             const q = firebase.firestore().collection('videos')
-                .where('status', '==', 'published')
-                .orderBy('publishedAt', 'desc');
+                .where('status', '==', 'published');
                 
             const snapshot = await q.get();
             
             this.videos = snapshot.docs.map(doc => ({
                 id: doc.id,
                 ...doc.data()
-            }));
+            })).sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
             
             console.log('Videos loaded:', this.videos);
         } catch (error) {
@@ -279,7 +277,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('latest-articles-container') || 
         document.getElementById('latest-videos-container') ||
         document.getElementById('all-articles-container') ||
-        document.getElementById('all-videos-container')) {
+        document.getElementById('all-videos-container') ||
+        document.getElementById('articleForm') ||
+        document.getElementById('videoForm')) {
         
         window.articleSystem = new ArticleSystem();
     }

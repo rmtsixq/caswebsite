@@ -1,0 +1,42 @@
+# Firebase Firestore Güvenlik Kuralları - Geçici Açık
+
+## Firebase Console'a Git:
+1. https://console.firebase.google.com/
+2. windgriff-6cbd7 projesini seç
+3. Sol menüden "Firestore Database" > "Rules" sekmesine git
+
+## Bu kuralları yapıştır (GEÇİCİ - TÜM ERİŞİM AÇIK):
+
+```javascript
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // GEÇİCİ: Tüm erişim açık - sadece test için
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
+```
+
+## Yeni Koleksiyonlar:
+- ✅ **students** - Öğrenci bilgileri
+- ✅ **projects** - Proje bilgileri
+- ✅ **articles** - Makale bilgileri
+- ✅ **videos** - Video bilgileri
+- ✅ **users** - Kullanıcı bilgileri
+
+## Adımlar:
+1. Yukarıdaki kuralları kopyala
+2. Firebase Console'da Rules sekmesine git
+3. Mevcut kuralları sil
+4. Yeni kuralları yapıştır
+5. "Publish" butonuna tıkla
+
+## Test Et:
+1. Sayfayı yenile
+2. Console'da hata olmamalı
+3. Admin sayfalarında makale/video ekleyebilmelisin
+
+## ⚠️ UYARI:
+Bu kurallar GEÇİCİ! Test tamamlandıktan sonra güvenli kuralları geri yükle.

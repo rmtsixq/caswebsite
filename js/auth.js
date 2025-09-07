@@ -1,5 +1,4 @@
 const auth = firebase.auth();
-const db = firebase.firestore();
 
 // Admin email - bu email'e sahip kullanıcı otomatik admin olur
 const ADMIN_EMAIL = 'admin@ruzgaranatolian.edu.tr';
@@ -39,7 +38,7 @@ async function login(email, password) {
     const userDoc = await db.collection('users').doc(user.uid).get();
     let profile;
     
-    if (userDoc.exists()) {
+    if (userDoc.exists) {
       profile = userDoc.data();
     } else {
       // Create profile if it doesn't exist (for existing users)
@@ -75,7 +74,7 @@ function getCurrentUser() {
 async function getUserProfile(uid) {
   try {
     const userDoc = await db.collection('users').doc(uid).get();
-    if (userDoc.exists()) {
+    if (userDoc.exists) {
       return userDoc.data();
     }
     return null;

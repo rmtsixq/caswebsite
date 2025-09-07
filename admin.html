@@ -167,6 +167,8 @@
         .action-icon.red { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
         .action-icon.green { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
         .action-icon.purple { background: rgba(168, 85, 247, 0.2); color: #a855f7; }
+        .action-icon.orange { background: rgba(249, 115, 22, 0.2); color: #f97316; }
+        .action-icon.teal { background: rgba(20, 184, 166, 0.2); color: #14b8a6; }
 
         .action-bg-icon {
             font-size: 2rem;
@@ -197,6 +199,8 @@
         .action-link.red { color: #ef4444; }
         .action-link.green { color: #22c55e; }
         .action-link.purple { color: #a855f7; }
+        .action-link.orange { color: #f97316; }
+        .action-link.teal { color: #14b8a6; }
 
         .recent-activity {
             background: var(--card-bg);
@@ -249,6 +253,11 @@
             font-size: 2rem;
         }
 
+        /* Hide auth modal on admin pages */
+        .auth-modal {
+            display: none !important;
+        }
+
         @media (max-width: 768px) {
             .admin-header {
                 text-align: center;
@@ -268,7 +277,7 @@
     <header>
         <nav class="main-nav">
             <div class="logo">
-                <img src="mühür.png" alt="Private Ruzgar Anatolian Lisesi">
+                <img src="new-logo.jpg" alt="Private Ruzgar Anatolian Lisesi">
             </div>
             <ul class="nav-links">
                 <li><a href="index.html" data-translate="Ana Sayfa">Ana Sayfa</a></li>
@@ -496,6 +505,40 @@
                             <i class="fas fa-cog"></i>
                         </div>
                     </a>
+
+                    <a href="admin-students.html" class="action-card">
+                        <div class="action-header">
+                            <div class="action-icon orange">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="action-bg-icon">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                        </div>
+                        <h3 class="action-title">Öğrenci Yönetimi</h3>
+                        <p class="action-description">Öğrencileri düzenle, sil veya profil detaylarını görüntüle.</p>
+                        <div class="action-link orange">
+                            <span>Öğrencileri Yönet</span>
+                            <i class="fas fa-cog"></i>
+                        </div>
+                    </a>
+
+                    <a href="admin-projects.html" class="action-card">
+                        <div class="action-header">
+                            <div class="action-icon teal">
+                                <i class="fas fa-project-diagram"></i>
+                            </div>
+                            <div class="action-bg-icon">
+                                <i class="fas fa-tasks"></i>
+                            </div>
+                        </div>
+                        <h3 class="action-title">Proje Yönetimi</h3>
+                        <p class="action-description">Projeleri düzenle, sil veya durumunu değiştir.</p>
+                        <div class="action-link teal">
+                            <span>Projeleri Yönet</span>
+                            <i class="fas fa-cog"></i>
+                        </div>
+                    </a>
                 </div>
 
                 <!-- Recent Activity -->
@@ -525,7 +568,7 @@
                 </div>
             </div>
             <div class="school-info">
-                <img src="mühür.png" alt="Private Ruzgar Anatolian Lisesi" class="footer-logo">
+                <img src="new-logo.jpg" alt="Private Ruzgar Anatolian Lisesi" class="footer-logo">
                 <h4>Private Ruzgar Anatolian Lisesi</h4>
                 <p>IB World School</p>
             </div>
@@ -586,7 +629,7 @@
             async checkAdminStatus() {
                 try {
                     const userDoc = await firebase.firestore().collection('users').doc(this.user.uid).get();
-                    if (userDoc.exists()) {
+                    if (userDoc.exists) {
                         this.userProfile = userDoc.data();
                     } else {
                         // Create user profile if doesn't exist

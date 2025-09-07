@@ -59,13 +59,18 @@
             line-height: 1.5;
             margin: 0;
         }
+
+        /* Hide auth modal on admin pages */
+        .auth-modal {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
     <header>
         <nav class="main-nav">
             <div class="logo">
-                <img src="mühür.png" alt="Private Ruzgar Anatolian Lisesi">
+                <img src="new-logo.jpg" alt="Private Ruzgar Anatolian Lisesi">
             </div>
             <ul class="nav-links">
                 <li><a href="index.html" data-translate="Ana Sayfa">Ana Sayfa</a></li>
@@ -221,6 +226,13 @@
                             <input type="text" id="customCategory" class="form-input" placeholder="Özel kategori adı (isteğe bağlı)">
                         </div>
 
+            <!-- Custom Thumbnail -->
+            <div class="form-group">
+                <label for="customThumbnail">Özel Thumbnail (İsteğe Bağlı)</label>
+                <input type="url" id="customThumbnail" class="form-input" placeholder="https://example.com/thumbnail.jpg">
+                <div class="help-text">Özel thumbnail URL'si girin. Boş bırakırsanız YouTube'un varsayılan thumbnail'i kullanılır.</div>
+            </div>
+
                         <!-- YouTube Info -->
                         <div class="youtube-info">
                             <h4>
@@ -228,7 +240,7 @@
                                 YouTube Thumbnail
                             </h4>
                             <p>
-                                Video thumbnail'i YouTube'dan otomatik olarak alınacaktır. 
+                                Özel thumbnail yüklemezseniz, video thumbnail'i YouTube'dan otomatik olarak alınacaktır. 
                                 En yüksek kaliteli görüntü için YouTube'un resmi thumbnail API'si kullanılır.
                             </p>
                         </div>
@@ -305,7 +317,7 @@
                 <p><i class="fas fa-map-marker-alt"></i> Diyarbakır, Türkiye</p>
             </div>
             <div class="school-info">
-                <img src="mühür.png" alt="Private Ruzgar Anatolian Lisesi" class="footer-logo">
+                <img src="new-logo.jpg" alt="Private Ruzgar Anatolian Lisesi" class="footer-logo">
                 <h4>Private Ruzgar Anatolian Lisesi</h4>
                 <p>IB World School</p>
             </div>
@@ -361,7 +373,7 @@
             async checkAdminStatus() {
                 try {
                     const userDoc = await firebase.firestore().collection('users').doc(this.user.uid).get();
-                    if (userDoc.exists()) {
+                    if (userDoc.exists) {
                         this.userProfile = userDoc.data();
                     } else {
                         const isAdmin = this.user.email === 'admin@ruzgaranatolian.edu.tr';
@@ -476,6 +488,8 @@
                         title: document.getElementById('title').value,
                         description: document.getElementById('description').value,
                         youtubeUrl: document.getElementById('youtubeUrl').value,
+                        youtubeId: this.currentVideoId,
+                        thumbnail: document.getElementById('customThumbnail').value || `https://img.youtube.com/vi/${this.currentVideoId}/maxresdefault.jpg`,
                         category: document.getElementById('customCategory').value || document.getElementById('category').value,
                         status: document.getElementById('status').value,
                         publishedAt: new Date().toISOString(),
