@@ -1,219 +1,256 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Öğrenci Profili - Private Ruzgar Anatolian Lisesi CAS</title>
+    <title>Student Profile - Private Ruzgar Anatolian Lisesi CAS</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Student Profile Styles */
-        .profile-header {
-            background: linear-gradient(135deg, rgba(18, 18, 18, 0.95), rgba(26, 26, 26, 0.95));
-            padding: 8rem 5% 4rem;
+        /* Hide auth modal on public pages */
+        .auth-modal {
+            display: none !important;
+        }
+
+        .profile-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
             margin-top: 70px;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+
+        .back-button:hover {
+            color: var(--primary-hover);
+        }
+
+        .profile-header {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             text-align: center;
         }
 
         .profile-avatar {
-            width: 180px;
-            height: 180px;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
-            margin: 0 auto 2rem;
-            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            margin: 0 auto 1rem;
+            background: var(--primary-color);
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 4px solid var(--white);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            font-size: 4rem;
+            color: white;
+            overflow: hidden;
         }
 
-        .profile-avatar i {
-            font-size: 4rem;
-            color: var(--white);
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .profile-name {
             font-size: 2.5rem;
+            font-weight: 700;
             color: var(--white);
             margin-bottom: 0.5rem;
         }
 
         .profile-class {
-            color: var(--secondary-color);
             font-size: 1.2rem;
-            font-weight: 500;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .profile-status {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+
+        .status-inactive {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
         }
 
         .profile-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 4rem 5%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
         }
 
         .profile-section {
             background: var(--card-bg);
-            border-radius: 20px;
-            padding: 2.5rem;
-            margin-bottom: 2rem;
-            backdrop-filter: blur(15px);
+            border-radius: 16px;
+            padding: 2rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .profile-section h2 {
-            color: var(--secondary-color);
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
-        .profile-section p {
-            color: var(--text-light);
-            line-height: 1.7;
-            font-size: 1.1rem;
+        .section-title i {
+            color: var(--primary-color);
         }
 
-        .cas-tabs {
-            display: flex;
-            background: var(--dark-bg);
-            border-radius: 15px;
-            padding: 0.5rem;
-            margin-bottom: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .section-content {
+            color: var(--text-color);
+            line-height: 1.6;
         }
 
-        .cas-tab {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: var(--text-light);
-            padding: 1rem;
-            border-radius: 10px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .cas-tab.active {
-            background: var(--secondary-color);
-            color: var(--white);
-        }
-
-        .cas-tab:hover:not(.active) {
-            background: var(--card-bg);
-            color: var(--white);
-        }
-
-        .cas-content {
-            display: none;
-        }
-
-        .cas-content.active {
-            display: block;
-        }
-
-        .project-card {
-            background: var(--dark-bg);
-            border-radius: 15px;
-            padding: 2rem;
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: var(--transition);
-        }
-
-        .project-card:hover {
-            border-color: var(--secondary-color);
-            transform: translateY(-2px);
-        }
-
-        .project-title {
-            color: var(--white);
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
-        .project-phases {
+        .info-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: 1fr 1fr;
             gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .info-item i {
+            color: var(--primary-color);
+            width: 20px;
+        }
+
+        .info-item strong {
+            color: var(--white);
+            margin-right: 0.5rem;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
             margin-top: 1rem;
         }
 
-        .project-phase {
-            background: var(--card-bg);
-            padding: 1rem;
-            border-radius: 10px;
-            border-left: 3px solid var(--secondary-color);
-        }
-
-        .phase-title {
-            color: var(--secondary-color);
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .phase-content {
-            color: var(--text-light);
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-
-        .reflection-item {
-            background: var(--dark-bg);
+        .tag {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            padding: 0.4rem 0.8rem;
             border-radius: 15px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            border-left: 4px solid var(--secondary-color);
-        }
-
-        .reflection-date {
-            color: var(--secondary-color);
             font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
         }
 
-        .reflection-text {
+        .loading-state {
+            text-align: center;
+            padding: 3rem;
             color: var(--text-light);
-            line-height: 1.6;
-            font-style: italic;
         }
 
-        .back-btn {
-            position: fixed;
-            top: 90px;
-            left: 2rem;
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .loading-state i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .error-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-light);
+        }
+
+        .error-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #ef4444;
+            display: block;
+        }
+
+        .error-state h3 {
             color: var(--white);
-            padding: 0.8rem 1.2rem;
-            border-radius: 25px;
-            text-decoration: none;
-            backdrop-filter: blur(10px);
-            transition: var(--transition);
-            z-index: 100;
+            margin-bottom: 0.5rem;
         }
 
-        .back-btn:hover {
-            background: var(--secondary-color);
-            transform: translateX(-5px);
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .profile-container {
+                padding: 1rem;
+            }
+
+            .profile-content {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-name {
+                font-size: 2rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-avatar {
+                width: 120px;
+                height: 120px;
+                font-size: 3rem;
+            }
         }
     </style>
 </head>
 <body>
-    <a href="students.html" class="back-btn">
-        <i class="fas fa-arrow-left"></i> Geri Dön
-    </a>
-
     <header>
         <nav class="main-nav">
             <div class="logo">
@@ -223,160 +260,180 @@
                 <li><a href="index.html">Ana Sayfa</a></li>
                 <li><a href="students.html">Öğrenciler</a></li>
                 <li><a href="projects.html">Projeler</a></li>
+                <li><a href="articles.html">Makaleler</a></li>
+                <li><a href="videos.html">Videolar</a></li>
                 <li><a href="about-cas.html">CAS Hakkında</a></li>
                 <li><a href="index.html#contact">İletişim</a></li>
                 <li><a href="#" id="langToggle" class="lang-toggle">EN</a></li>
             </ul>
+            <div class="auth-buttons">
+                <button class="auth-btn login-btn" id="showLoginBtn">Giriş</button>
+                <button class="auth-btn signup-btn" id="showSignupBtn">Kayıt Ol</button>
+            </div>
         </nav>
     </header>
 
-    <main>
-        <section class="profile-header">
-            <div class="profile-avatar" id="profileAvatar">
-                <i class="fas fa-user"></i>
-            </div>
-            <h1 class="profile-name" id="profileName">Ayşe Kaya</h1>
-            <p class="profile-class" id="profileClass">IB2 - 12. Sınıf</p>
-        </section>
+    <main class="profile-container">
+        <!-- Loading State -->
+        <div id="loadingState" class="loading-state">
+            <i class="fas fa-spinner fa-spin"></i>
+            <h3>Öğrenci bilgileri yükleniyor...</h3>
+        </div>
 
-        <div class="profile-content">
-            <!-- Biography Section -->
-            <div class="profile-section">
-                <h2><i class="fas fa-user-circle"></i> Biyografi</h2>
-                <p id="studentBio">
-                    Merhaba! Ben Ayşe, IB Diploma Programının ikinci yılındayım. Sanat, müzik ve sosyal sorumluluk projelerine büyük ilgi duyuyorum. 
-                    Özellikle çevre konularında farkındalık yaratmak ve topluma faydalı projeler geliştirmek en büyük tutkum. 
-                    Güçlü yönlerim arasında liderlik, empati ve yaratıcı problem çözme yer alıyor.
-                </p>
-            </div>
+        <!-- Error State -->
+        <div id="errorState" class="error-state" style="display: none;">
+            <i class="fas fa-exclamation-triangle"></i>
+            <h3>Öğrenci bulunamadı</h3>
+            <p>Bu öğrenci mevcut değil veya silinmiş olabilir.</p>
+            <a href="students.html" class="btn btn-primary">Öğrenci Listesine Dön</a>
+        </div>
 
-            <!-- CAS Approach Section -->
-            <div class="profile-section">
-                <h2><i class="fas fa-lightbulb"></i> CAS Yaklaşımım</h2>
-                <p id="casApproach">
-                    "Benim için Creativity, sadece sanat yapmak değil; hayatın her alanında yaratıcı çözümler bulabilmektir. 
-                    Activity, sadece spor yapmak değil; kendimi fiziksel ve zihinsel olarak sürekli geliştirmektir. 
-                    Service ise, topluma katkıda bulunmanın bir sorumluluk değil, bir ayrıcalık olduğunu anlamamdır."
-                </p>
-            </div>
+        <!-- Profile Content -->
+        <div id="profileContent" style="display: none;">
+            <a href="students.html" class="back-button">
+                <i class="fas fa-arrow-left"></i>
+                Öğrenci Listesine Dön
+            </a>
 
-            <!-- CAS Projects Section -->
-            <div class="profile-section">
-                <h2><i class="fas fa-project-diagram"></i> CAS Projelerim</h2>
-                
-                <div class="cas-tabs">
-                    <button class="cas-tab active" onclick="showCasContent('creativity')">
-                        <i class="fas fa-paint-brush"></i> Creativity
-                    </button>
-                    <button class="cas-tab" onclick="showCasContent('activity')">
-                        <i class="fas fa-running"></i> Activity
-                    </button>
-                    <button class="cas-tab" onclick="showCasContent('service')">
-                        <i class="fas fa-hands-helping"></i> Service
-                    </button>
+            <div class="profile-header">
+                <div class="profile-avatar" id="profileAvatar">
+                    <i class="fas fa-user"></i>
                 </div>
+                <h1 class="profile-name" id="profileName"></h1>
+                <p class="profile-class" id="profileClass"></p>
+                <span id="profileStatus" class="profile-status"></span>
+            </div>
 
-                <!-- Creativity Projects -->
-                <div class="cas-content active" id="creativity">
-                    <div class="project-card">
-                        <h3 class="project-title">Dijital Sanat Atölyesi</h3>
-                        <div class="project-phases">
-                            <div class="project-phase">
-                                <div class="phase-title">Amaç</div>
-                                <div class="phase-content">Yaşıtlarıma dijital sanat tekniklerini öğretmek ve teknoloji ile sanatı birleştirmek.</div>
-                            </div>
-                            <div class="project-phase">
-                                <div class="phase-title">Süreç</div>
-                                <div class="phase-content">6 hafta boyunca haftada 2 saat atölye düzenledim. Photoshop ve Illustrator eğitimleri verdim.</div>
-                            </div>
-                            <div class="project-phase">
-                                <div class="phase-title">Sonuç</div>
-                                <div class="phase-content">15 öğrenci katıldı ve her biri kendi dijital sanat eserini oluşturdu.</div>
-                            </div>
-                            <div class="project-phase">
-                                <div class="phase-title">Yansıma</div>
-                                <div class="phase-content">Öğretmenlik becerilerim gelişti ve sanatın gücünü bir kez daha fark ettim.</div>
-                            </div>
+            <div class="profile-content">
+                <!-- Personal Information -->
+                <div class="profile-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-user"></i>
+                        Kişisel Bilgiler
+                    </h2>
+                    <div class="section-content">
+                        <div class="info-item">
+                            <i class="fas fa-envelope"></i>
+                            <strong>E-posta:</strong>
+                            <span id="studentEmail"></span>
+                        </div>
+                        <div class="info-item" id="phoneInfo" style="display: none;">
+                            <i class="fas fa-phone"></i>
+                            <strong>Telefon:</strong>
+                            <span id="studentPhone"></span>
+                        </div>
+                        <div class="info-item" id="birthDateInfo" style="display: none;">
+                            <i class="fas fa-calendar"></i>
+                            <strong>Doğum Tarihi:</strong>
+                            <span id="studentBirthDate"></span>
+                        </div>
+                        <div class="info-item full-width" id="addressInfo" style="display: none;">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <strong>Adres:</strong>
+                            <span id="studentAddress"></span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Activity Projects -->
-                <div class="cas-content" id="activity">
-                    <div class="project-card">
-                        <h3 class="project-title">Okul Koşu Kulübü</h3>
-                        <div class="project-phases">
-                            <div class="project-phase">
-                                <div class="phase-title">Amaç</div>
-                                <div class="phase-content">Fiziksel aktiviteyi artırmak ve takım ruhu geliştirmek.</div>
-                            </div>
-                            <div class="project-phase">
-                                <div class="phase-title">Süreç</div>
-                                <div class="phase-content">Haftalık antrenmanlar organize ettim ve yarışmalara katıldım.</div>
-                            </div>
-                            <div class="project-phase">
-                                <div class="phase-title">Sonuç</div>
-                                <div class="phase-content">Bölgesel yarışmada takım halinde 3. olduk.</div>
-                            </div>
-                            <div class="project-phase">
-                                <div class="phase-title">Yansıma</div>
-                                <div class="phase-content">Dayanıklılık ve disiplin öğrendim, takım çalışmasının önemini kavradım.</div>
-                            </div>
+                <!-- Parent Information -->
+                <div class="profile-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-users"></i>
+                        Veli Bilgileri
+                    </h2>
+                    <div class="section-content">
+                        <div class="info-item" id="parentNameInfo" style="display: none;">
+                            <i class="fas fa-user-tie"></i>
+                            <strong>Veli Adı:</strong>
+                            <span id="parentName"></span>
+                        </div>
+                        <div class="info-item" id="parentPhoneInfo" style="display: none;">
+                            <i class="fas fa-phone"></i>
+                            <strong>Veli Telefonu:</strong>
+                            <span id="parentPhone"></span>
+                        </div>
+                        <div class="info-item" id="parentEmailInfo" style="display: none;">
+                            <i class="fas fa-envelope"></i>
+                            <strong>Veli E-posta:</strong>
+                            <span id="parentEmail"></span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Service Projects -->
-                <div class="cas-content" id="service">
-                    <div class="project-card">
-                        <h3 class="project-title">Çevre Farkındalığı Kampanyası</h3>
-                        <div class="project-phases">
-                            <div class="project-phase">
-                                <div class="phase-title">Amaç</div>
-                                <div class="phase-content">Okulda geri dönüşüm bilincini artırmak ve çevre dostu alışkanlıklar geliştirmek.</div>
-                            </div>
-                            <div class="project-phase">
-                                <div class="phase-title">Süreç</div>
-                                <div class="phase-content">Posterler tasarladım, sunum hazırladım ve geri dönüşüm kutuları yerleştirdim.</div>
-                            </div>
-                            <div class="project-phase">
-                                <div class="phase-title">Sonuç</div>
-                                <div class="phase-content">Okulda geri dönüşüm oranı %60 arttı ve 200+ öğrenci etkinliğe katıldı.</div>
-                            </div>
-                            <div class="project-phase">
-                                <div class="phase-title">Yansıma</div>
-                                <div class="phase-content">Küçük değişikliklerin büyük etkiler yaratabileceğini öğrendim. Liderlik becerilerim gelişti.</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Reflections Section -->
-            <div class="profile-section">
-                <h2><i class="fas fa-journal-whills"></i> Yansımalarım</h2>
-                
-                <div class="reflection-item">
-                    <div class="reflection-date">15 Kasım 2024</div>
-                    <div class="reflection-text">
-                        "Bugün çevre projemde aldığım geri bildirimler üzerine düşündüm. Öğrencilerin davranış değişikliği göstermesi beni çok mutlu etti. 
-                        Sanırım gerçek değişim, insanları zorlamakla değil, ilham vermekle mümkün oluyor."
+                <!-- Biography -->
+                <div class="profile-section full-width">
+                    <h2 class="section-title">
+                        <i class="fas fa-quote-left"></i>
+                        Biyografi
+                    </h2>
+                    <div id="studentBio" class="section-content">
+                        Henüz biyografi eklenmemiş.
                     </div>
                 </div>
 
-                <div class="reflection-item">
-                    <div class="reflection-date">28 Ekim 2024</div>
-                    <div class="reflection-text">
-                        "Dijital sanat atölyesinde öğrencilerin yaratıcılığını görmek bana kendi potansiyelimi hatırlattı. 
-                        Öğretmek aslında öğrenmekten daha zor ama çok daha ödüllendirici."
+                <!-- Academic Interests -->
+                <div class="profile-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-graduation-cap"></i>
+                        Akademik İlgi Alanları
+                    </h2>
+                    <div id="academicInterests" class="section-content">
+                        Henüz akademik ilgi alanları belirtilmemiş.
                     </div>
                 </div>
 
-                <div class="reflection-item">
-                    <div class="reflection-date">10 Ekim 2024</div>
-                    <div class="reflection-text">
-                        "Koşu antrenmanlarında takım arkadaşlarımla kurduğumuz bağ, sadece spor yapmaktan çok daha fazlası. 
-                        Birlikte hedeflere ulaşmanın gücünü hissediyorum."
+                <!-- Extracurricular Activities -->
+                <div class="profile-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-running"></i>
+                        Ders Dışı Aktiviteler
+                    </h2>
+                    <div id="extracurricularActivities" class="section-content">
+                        Henüz ders dışı aktiviteler belirtilmemiş.
+                    </div>
+                </div>
+
+                <!-- Interests -->
+                <div class="profile-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-heart"></i>
+                        İlgi Alanları
+                    </h2>
+                    <div id="interests" class="section-content">
+                        <div id="interestsTags" class="tags-container"></div>
+                    </div>
+                </div>
+
+                <!-- Achievements -->
+                <div class="profile-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-trophy"></i>
+                        Başarılar ve Ödüller
+                    </h2>
+                    <div id="achievements" class="section-content">
+                        Henüz başarılar belirtilmemiş.
+                    </div>
+                </div>
+
+                <!-- Goals -->
+                <div class="profile-section full-width">
+                    <h2 class="section-title">
+                        <i class="fas fa-target"></i>
+                        Hedefler
+                    </h2>
+                    <div id="goals" class="section-content">
+                        Henüz hedefler belirtilmemiş.
+                    </div>
+                </div>
+
+                <!-- Notes -->
+                <div class="profile-section full-width" id="notesSection" style="display: none;">
+                    <h2 class="section-title">
+                        <i class="fas fa-sticky-note"></i>
+                        Notlar
+                    </h2>
+                    <div id="notes" class="section-content">
+                        Henüz notlar eklenmemiş.
                     </div>
                 </div>
             </div>
@@ -387,8 +444,8 @@
         <div class="footer-content">
             <div class="contact-info">
                 <h3>İletişim</h3>
-                <p><i class="fas fa-envelope"></i> info@ruzgaranatolian.edu.tr</p>
-                <p><i class="fas fa-phone"></i> (0412) 123 45 67</p>
+                <p><i class="fas fa-envelope"></i> rumet@example.com</p>
+                <p><i class="fas fa-phone"></i> 555555555</p>
                 <p><i class="fas fa-map-marker-alt"></i> Diyarbakır, Türkiye</p>
             </div>
             <div class="social-links">
@@ -400,48 +457,180 @@
         </div>
     </footer>
 
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/auth-ui.js"></script>
+    <script src="js/language.js"></script>
+
     <script>
-        // CAS Tab functionality
-        function showCasContent(tab) {
-            // Hide all content
-            document.querySelectorAll('.cas-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            
-            // Remove active from all tabs
-            document.querySelectorAll('.cas-tab').forEach(tabBtn => {
-                tabBtn.classList.remove('active');
-            });
-            
-            // Show selected content
-            document.getElementById(tab).classList.add('active');
-            
-            // Add active to clicked tab
-            event.target.classList.add('active');
+        // Student Profile Management
+        class StudentProfilePage {
+            constructor() {
+                this.studentId = null;
+                this.studentData = null;
+                this.init();
+            }
+
+            async init() {
+                try {
+                    // Get student ID from URL
+                    const urlParams = new URLSearchParams(window.location.search);
+                    this.studentId = urlParams.get('id');
+                    
+                    if (!this.studentId) {
+                        this.showError();
+                        return;
+                    }
+
+                    // Load student data
+                    await this.loadStudentData();
+                } catch (error) {
+                    console.error('Error initializing student profile:', error);
+                    this.showError();
+                }
+            }
+
+            async loadStudentData() {
+                try {
+                    const doc = await firebase.firestore()
+                        .collection('students')
+                        .doc(this.studentId)
+                        .get();
+                    
+                    if (!doc.exists) {
+                        this.showError();
+                        return;
+                    }
+
+                    this.studentData = doc.data();
+                    this.renderProfile();
+                } catch (error) {
+                    console.error('Error loading student data:', error);
+                    this.showError();
+                }
+            }
+
+            renderProfile() {
+                // Update page title
+                document.title = `${this.studentData.displayName} - Private Ruzgar Anatolian Lisesi CAS`;
+
+                // Profile image
+                if (this.studentData.profileImage) {
+                    document.getElementById('profileAvatar').innerHTML = 
+                        `<img src="${this.studentData.profileImage}" alt="${this.studentData.displayName}">`;
+                }
+
+                // Basic info
+                document.getElementById('profileName').textContent = this.studentData.displayName;
+                document.getElementById('profileClass').textContent = this.studentData.grade || 'Sınıf belirtilmemiş';
+                document.getElementById('studentEmail').textContent = this.studentData.email || 'E-posta belirtilmemiş';
+
+                // Status
+                const statusElement = document.getElementById('profileStatus');
+                if (this.studentData.status === 'active') {
+                    statusElement.textContent = 'Aktif';
+                    statusElement.className = 'profile-status status-active';
+                } else {
+                    statusElement.textContent = 'Pasif';
+                    statusElement.className = 'profile-status status-inactive';
+                }
+
+                // Phone
+                if (this.studentData.phone) {
+                    document.getElementById('studentPhone').textContent = this.studentData.phone;
+                    document.getElementById('phoneInfo').style.display = 'flex';
+                }
+
+                // Birth date
+                if (this.studentData.birthDate) {
+                    const date = this.studentData.birthDate.toDate ? this.studentData.birthDate.toDate() : new Date(this.studentData.birthDate);
+                    document.getElementById('studentBirthDate').textContent = date.toLocaleDateString('tr-TR', { 
+                        year: 'numeric', 
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                    document.getElementById('birthDateInfo').style.display = 'flex';
+                }
+
+                // Address
+                if (this.studentData.address) {
+                    document.getElementById('studentAddress').textContent = this.studentData.address;
+                    document.getElementById('addressInfo').style.display = 'flex';
+                }
+
+                // Parent info
+                if (this.studentData.parentName) {
+                    document.getElementById('parentName').textContent = this.studentData.parentName;
+                    document.getElementById('parentNameInfo').style.display = 'flex';
+                }
+                if (this.studentData.parentPhone) {
+                    document.getElementById('parentPhone').textContent = this.studentData.parentPhone;
+                    document.getElementById('parentPhoneInfo').style.display = 'flex';
+                }
+                if (this.studentData.parentEmail) {
+                    document.getElementById('parentEmail').textContent = this.studentData.parentEmail;
+                    document.getElementById('parentEmailInfo').style.display = 'flex';
+                }
+
+                // Bio
+                if (this.studentData.bio) {
+                    document.getElementById('studentBio').textContent = this.studentData.bio;
+                }
+
+                // Academic interests
+                if (this.studentData.academicInterests) {
+                    document.getElementById('academicInterests').textContent = this.studentData.academicInterests;
+                }
+
+                // Extracurricular activities
+                if (this.studentData.extracurricularActivities) {
+                    document.getElementById('extracurricularActivities').textContent = this.studentData.extracurricularActivities;
+                }
+
+                // Interests
+                if (this.studentData.interests) {
+                    const interestsArray = this.studentData.interests.split(',').map(interest => interest.trim());
+                    const tagsContainer = document.getElementById('interestsTags');
+                    tagsContainer.innerHTML = interestsArray.map(interest => 
+                        `<span class="tag">${interest}</span>`
+                    ).join('');
+                }
+
+                // Achievements
+                if (this.studentData.achievements) {
+                    document.getElementById('achievements').textContent = this.studentData.achievements;
+                }
+
+                // Goals
+                if (this.studentData.goals) {
+                    document.getElementById('goals').textContent = this.studentData.goals;
+                }
+
+                // Notes
+                if (this.studentData.notes) {
+                    document.getElementById('notes').textContent = this.studentData.notes;
+                    document.getElementById('notesSection').style.display = 'block';
+                }
+
+                // Show content
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('profileContent').style.display = 'block';
+            }
+
+            showError() {
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('errorState').style.display = 'block';
+            }
         }
 
-        // Load student data based on URL parameter
-        window.addEventListener('load', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const studentId = urlParams.get('id');
-            
-            // This would typically load data from a database or JSON file
-            // For now, it's using static data
-            const studentData = {
-                'ayse-kaya': {
-                    name: 'Ayşe Kaya',
-                    class: 'IB2 - 12. Sınıf',
-                    bio: 'Merhaba! Ben Ayşe, IB Diploma Programının ikinci yılındayım. Sanat, müzik ve sosyal sorumluluk projelerine büyük ilgi duyuyorum...'
-                }
-                // Add more students as needed
-            };
-
-            if (studentId && studentData[studentId]) {
-                const student = studentData[studentId];
-                document.getElementById('profileName').textContent = student.name;
-                document.getElementById('profileClass').textContent = student.class;
-                // Update other elements as needed
-            }
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            window.studentProfilePage = new StudentProfilePage();
         });
     </script>
 </body>

@@ -343,6 +343,63 @@
                         <input type="text" id="interests" name="interests" placeholder="Matematik, Bilim, Sanat, Spor...">
                     </div>
 
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Telefon Numarası</label>
+                            <input type="tel" id="phone" name="phone" placeholder="+90 5XX XXX XX XX">
+                        </div>
+                        <div class="form-group">
+                            <label for="birthDate">Doğum Tarihi</label>
+                            <input type="date" id="birthDate" name="birthDate">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Adres</label>
+                        <textarea id="address" name="address" placeholder="Ev adresi..."></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="parentName">Veli Adı</label>
+                            <input type="text" id="parentName" name="parentName" placeholder="Veli adı soyadı">
+                        </div>
+                        <div class="form-group">
+                            <label for="parentPhone">Veli Telefonu</label>
+                            <input type="tel" id="parentPhone" name="parentPhone" placeholder="+90 5XX XXX XX XX">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="parentEmail">Veli E-posta</label>
+                        <input type="email" id="parentEmail" name="parentEmail" placeholder="veli@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="academicInterests">Akademik İlgi Alanları</label>
+                        <textarea id="academicInterests" name="academicInterests" placeholder="Matematik, Fizik, Kimya, Biyoloji, Tarih, Edebiyat..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="extracurricularActivities">Ders Dışı Aktiviteler</label>
+                        <textarea id="extracurricularActivities" name="extracurricularActivities" placeholder="Spor, müzik, sanat, drama, kulüp aktiviteleri..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="achievements">Başarılar ve Ödüller</label>
+                        <textarea id="achievements" name="achievements" placeholder="Yarışmalar, ödüller, sertifikalar..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="goals">Hedefler</label>
+                        <textarea id="goals" name="goals" placeholder="Kısa ve uzun vadeli hedefler..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notes">Notlar</label>
+                        <textarea id="notes" name="notes" placeholder="Öğrenci hakkında özel notlar..."></textarea>
+                    </div>
+
                     <div class="form-actions">
                         <button type="button" class="btn btn-secondary" onclick="window.location.href='admin-students.html'">
                             <i class="fas fa-times"></i>
@@ -432,6 +489,17 @@
                         profileImage: formData.get('profileImage') || '',
                         bio: formData.get('bio') || '',
                         interests: formData.get('interests') || '',
+                        phone: formData.get('phone') || '',
+                        birthDate: formData.get('birthDate') ? new Date(formData.get('birthDate')) : null,
+                        address: formData.get('address') || '',
+                        parentName: formData.get('parentName') || '',
+                        parentPhone: formData.get('parentPhone') || '',
+                        parentEmail: formData.get('parentEmail') || '',
+                        academicInterests: formData.get('academicInterests') || '',
+                        extracurricularActivities: formData.get('extracurricularActivities') || '',
+                        achievements: formData.get('achievements') || '',
+                        goals: formData.get('goals') || '',
+                        notes: formData.get('notes') || '',
                         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                         updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                     };

@@ -3,13 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Makale Detayı - Private Ruzgar Anatolian Lisesi CAS</title>
+    <title>Article Details - Private Ruzgar Anatolian Lisesi CAS</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Hide auth modal on public pages */
+        .auth-modal {
+            display: none !important;
+        }
+
         /* Article Detail Specific Styles */
         .article-detail-container {
             max-width: 800px;
@@ -364,7 +369,7 @@
                 <li><a href="#contact" data-translate="İletişim">İletişim</a></li>
                 <li><a href="#" id="langToggle" class="lang-toggle">EN</a></li>
             </ul>
-            <div class="auth-buttons">
+            <div class="auth-buttons" style="display: none;">
                 <button class="auth-btn login-btn" id="showLoginBtn">Login</button>
                 <button class="auth-btn signup-btn" id="showSignupBtn">Sign Up</button>
             </div>
@@ -523,13 +528,13 @@
         <div class="footer-content">
             <div class="contact-info">
                 <h3 data-translate="İletişim">İletişim</h3>
-                <p><i class="fas fa-envelope"></i> cas@ruzgaranatolian.edu.tr</p>
-                <p><i class="fas fa-phone"></i> (0412) 123 45 67</p>
+                <p><i class="fas fa-envelope"></i> rumet@example.com</p>
+                <p><i class="fas fa-phone"></i> 555555555</p>
                 <p><i class="fas fa-map-marker-alt"></i> Diyarbakır, Türkiye</p>
                 <div class="coordinator-contact">
                     <h4>CAS Koordinatörü</h4>
-                    <p><i class="fas fa-user-tie"></i> Dr. Ahmet Kılıç</p>
-                    <p><i class="fas fa-envelope"></i> ahmet.kilic@ruzgaranatolian.edu.tr</p>
+                    <p><i class="fas fa-user-tie"></i> Ronahi Esma Eren</p>
+                    <p><i class="fas fa-envelope"></i> rumet@example.com</p>
                 </div>
             </div>
             <div class="school-info">

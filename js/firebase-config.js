@@ -1,5 +1,29 @@
 // js/firebase-config.js
 // CAS Website Firebase Configuration
+
+// ASCII Art for Console
+console.log('%c' + `
+   ▄████████ ███    █▄    ▄▄▄▄███▄▄▄▄      ▄████████     ███     
+  ███    ███ ███    ███ ▄██▀▀▀███▀▀▀██▄   ███    ███ ▀█████████▄ 
+  ███    ███ ███    ███ ███   ███   ███   ███    █▀     ▀███▀▀██ 
+ ▄███▄▄▄▄██▀ ███    ███ ███   ███   ███  ▄███▄▄▄         ███   ▀ 
+▀▀███▀▀▀▀▀   ███    ███ ███   ███   ███ ▀▀███▀▀▀         ███     
+▀███████████ ███    ███ ███   ███   ███   ███    █▄      ███     
+  ███    ███ ███    ███ ███   ███   ███   ███    ███     ███     
+  ███    ███ ████████▀   ▀█   ███   █▀    ██████████    ▄████▀   
+  ███    ███                                                     
+   ▄████████    ▄████████    ▄████████ ███▄▄▄▄                   
+  ███    ███   ███    ███   ███    ███ ███▀▀▀██▄                 
+  ███    ███   ███    █▀    ███    ███ ███   ███                 
+  ███    ███   ███          ███    ███ ███   ███                 
+▀███████████ ▀███████████ ▀███████████ ███   ███                 
+  ███    ███          ███   ███    ███ ███   ███                 
+  ███    ███    ▄█    ███   ███    ███ ███   ███                 
+  ███    █▀   ▄████████▀    ███    █▀   ▀█   █▀                  
+                                                                 
+                                                                        
+                                                                 
+`, 'color: #00ff00; font-weight: bold; font-size: 12px;');
 const firebaseConfig = {
   apiKey: "AIzaSyBuONRqmCCwc13NgHSn4LpByjrWnRVax6E",
   authDomain: "windgriff-6cbd7.firebaseapp.com",
@@ -24,24 +48,35 @@ const firebaseConfig = {
 };
 */
 
-// Initialize Firebase
-const app = firebase.initializeApp(firebaseConfig);
+// Initialize Firebase (check if already initialized)
+let app;
+try {
+  app = firebase.initializeApp(firebaseConfig);
+} catch (error) {
+  if (error.code === 'app/duplicate-app') {
+    app = firebase.app();
+    console.log('Firebase app already initialized');
+  } else {
+    throw error;
+  }
+}
 
 // Initialize Firestore with settings
 const db = firebase.firestore();
 db.settings({
   cacheSizeBytes: firebase.firestore.CACHE_SIZE_UNLIMITED,
-  merge: true,
-  experimentalForceLongPolling: true
+  merge: true
 });
 
 // Enable offline persistence with better error handling
-db.enablePersistence({synchronizeTabs: true})
+db.enablePersistence({synchronizeTabs: false})
   .catch((err) => {
     if (err.code === 'failed-precondition') {
       console.warn('Multiple tabs open, persistence can only be enabled in one tab at a time.');
     } else if (err.code === 'unimplemented') {
       console.warn('The current browser does not support persistence.');
+    } else {
+      console.warn('Persistence disabled due to error:', err);
     }
   });
 
@@ -55,7 +90,6 @@ window.db = db;
 
 // Handle offline/online status with better UI feedback
 window.addEventListener('online', () => {
-  console.log('Application is online');
   const offlineMessage = document.querySelector('.offline-message');
   if (offlineMessage) {
     offlineMessage.remove();
@@ -69,7 +103,6 @@ window.addEventListener('online', () => {
 });
 
 window.addEventListener('offline', () => {
-  console.log('Application is offline');
   const offlineMessage = document.createElement('div');
   offlineMessage.className = 'offline-message';
   offlineMessage.innerHTML = '<i class="fas fa-wifi"></i> You are offline. Changes will be saved when you reconnect.';
@@ -81,16 +114,19 @@ db.enableNetwork().catch((err) => {
   console.error("Error enabling network:", err);
 });
 
-// Monitor connection state
-db.collection('_').onSnapshot(
-  () => {
-    console.log('Connected to Firestore');
-  },
-  (err) => {
-    console.error('Firestore connection error:', err);
-    // Try to reconnect
-    db.enableNetwork().catch((err) => {
-      console.error("Error reconnecting:", err);
+// Monitor connection state (simplified)
+let connectionCheckInterval;
+function checkConnection() {
+  db.collection('_').limit(1).get()
+    .then(() => {
+      console.log('Connected to Firestore');
+      clearInterval(connectionCheckInterval);
+    })
+    .catch((err) => {
+      console.error('Firestore connection error:', err);
     });
-  }
-); 
+}
+
+// Check connection every 30 seconds
+connectionCheckInterval = setInterval(checkConnection, 30000);
+checkConnection(); // Initial check 

@@ -1,15 +1,20 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CAS Hakkında - Private Ruzgar Anatolian Lisesi</title>
+    <title>About CAS - Private Ruzgar Anatolian Lisesi</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Hide auth modal on public pages */
+        .auth-modal {
+            display: none !important;
+        }
+
         /* About CAS Page Styles */
         .about-hero {
             background: linear-gradient(135deg, rgba(18, 18, 18, 0.95), rgba(26, 26, 26, 0.95)),
@@ -188,95 +193,97 @@
                 <img src="new-logo.jpg" alt="Private Ruzgar Anatolian Lisesi">
             </div>
             <ul class="nav-links">
-                <li><a href="index.html">Ana Sayfa</a></li>
-                <li><a href="students.html">Öğrenciler</a></li>
-                <li><a href="projects.html">Projeler</a></li>
-                <li><a href="about-cas.html" class="active">CAS Hakkında</a></li>
-                <li><a href="index.html#contact">İletişim</a></li>
-                <li><a href="#" id="langToggle" class="lang-toggle">EN</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="students.html">Students</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="articles.html">Articles</a></li>
+                <li><a href="videos.html">Videos</a></li>
+                <li><a href="about-cas.html" class="active">About CAS</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+                <li><a href="#" id="langToggle" class="lang-toggle">TR</a></li>
             </ul>
             <div class="auth-buttons">
-                <button class="auth-btn login-btn" id="showLoginBtn">Giriş</button>
-                <button class="auth-btn signup-btn" id="showSignupBtn">Kayıt Ol</button>
+                <button class="auth-btn login-btn" id="showLoginBtn">Login</button>
+                <button class="auth-btn signup-btn" id="showSignupBtn">Sign Up</button>
             </div>
         </nav>
     </header>
 
     <main>
         <section class="about-hero">
-            <h1>CAS Hakkında</h1>
-            <p>Creativity, Activity, Service - IB Diploma Programının kalbi</p>
+            <h1>About CAS</h1>
+            <p>Creativity, Activity, Service - The heart of the IB Diploma Programme</p>
         </section>
 
         <section class="cas-definition">
-            <h2>CAS Nedir?</h2>
+            <h2>What is CAS?</h2>
             <p>
-                CAS (Creativity, Activity, Service), IB Diploma Programının temel bileşenlerinden biridir. 
-                Öğrencilerin akademik çalışmalarının yanı sıra kişisel gelişim, yaratıcılık ve topluma hizmet 
-                alanlarında deneyim kazanmalarını sağlar.
+                CAS (Creativity, Activity, Service) is one of the fundamental components of the IB Diploma Programme. 
+                It enables students to gain experience in personal development, creativity, and community service 
+                areas alongside their academic studies.
             </p>
             <p>
-                Bu program, öğrencilerin sadece akademik başarı değil, aynı zamanda karakter gelişimi, 
-                sosyal sorumluluk ve yaşam boyu öğrenme becerilerini kazanmalarını hedefler.
+                This program aims for students to acquire not only academic success but also character development, 
+                social responsibility, and lifelong learning skills.
             </p>
         </section>
 
         <section class="learning-outcomes">
-            <h2>CAS Öğrenim Çıktıları</h2>
+            <h2>CAS Learning Outcomes</h2>
             <div class="outcomes-grid">
                 <div class="outcome-card">
                     <div class="outcome-number">1</div>
-                    <h3 class="outcome-title">Güçlü ve Zayıf Yönleri Belirleme</h3>
+                    <h3 class="outcome-title">Identify Strengths and Areas for Growth</h3>
                     <p class="outcome-description">
-                        Öğrenciler kendi güçlü ve zayıf yönlerini tanır, bunları geliştirmek için plan yapar.
+                        Students identify their own strengths and areas for growth, and plan how to develop them.
                     </p>
                 </div>
 
                 <div class="outcome-card">
                     <div class="outcome-number">2</div>
-                    <h3 class="outcome-title">Zorlukları Üstlenmek</h3>
+                    <h3 class="outcome-title">Undertake Challenges</h3>
                     <p class="outcome-description">
-                        Yeni beceriler geliştirmek ve zorlukların üstesinden gelmek için risk alır.
+                        Students take risks to develop new skills and overcome challenges.
                     </p>
                 </div>
 
                 <div class="outcome-card">
                     <div class="outcome-number">3</div>
-                    <h3 class="outcome-title">Planlamak ve Başlatmak</h3>
+                    <h3 class="outcome-title">Plan and Initiate</h3>
                     <p class="outcome-description">
-                        Aktiviteleri planlama, organize etme ve başlatma becerilerini gösterir.
+                        Students demonstrate skills in planning, organizing, and initiating activities.
                     </p>
                 </div>
 
                 <div class="outcome-card">
                     <div class="outcome-number">4</div>
-                    <h3 class="outcome-title">Kararlılık ve İstikrar</h3>
+                    <h3 class="outcome-title">Show Commitment and Perseverance</h3>
                     <p class="outcome-description">
-                        Zorluklarla karşılaştığında kararlılık gösterir ve engellerin üstesinden gelir.
+                        Students show commitment and perseverance when facing challenges and overcoming obstacles.
                     </p>
                 </div>
 
                 <div class="outcome-card">
                     <div class="outcome-number">5</div>
-                    <h3 class="outcome-title">İşbirliği Becerileri</h3>
+                    <h3 class="outcome-title">Collaboration Skills</h3>
                     <p class="outcome-description">
-                        Başkalarıyla etkili şekilde çalışma becerilerini geliştirir.
+                        Students develop skills to work effectively with others.
                     </p>
                 </div>
 
                 <div class="outcome-card">
                     <div class="outcome-number">6</div>
-                    <h3 class="outcome-title">Küresel Önem</h3>
+                    <h3 class="outcome-title">Global Significance</h3>
                     <p class="outcome-description">
-                        Küresel öneme sahip konularda farkındalık geliştirir ve harekete geçer.
+                        Students develop awareness of and take action on issues of global significance.
                     </p>
                 </div>
 
                 <div class="outcome-card">
                     <div class="outcome-number">7</div>
-                    <h3 class="outcome-title">Etik Düşünme</h3>
+                    <h3 class="outcome-title">Ethical Thinking</h3>
                     <p class="outcome-description">
-                        Eylemlerin etik boyutlarını göz önünde bulundurur ve sorumlu davranır.
+                        Students consider the ethical dimensions of their actions and behave responsibly.
                     </p>
                 </div>
             </div>
@@ -287,15 +294,15 @@
                 <div class="coordinator-photo">
                     <i class="fas fa-user-tie"></i>
                 </div>
-                <h3 class="coordinator-name">Dr. Ahmet Kılıç</h3>
-                <p class="coordinator-title">CAS Koordinatörü</p>
+                <h3 class="coordinator-name">Ronahi Esma Eren</h3>
+                <p class="coordinator-title">CAS Coordinator</p>
                 <div class="coordinator-message">
-                    "Private Ruzgar Anatolian Lisesi olarak, CAS programını sadece bir gereklilik değil, 
-                    öğrencilerimizin hayatlarını zenginleştiren bir fırsat olarak görüyoruz. 
-                    Her öğrencimizin kendine özgü yetenek ve ilgi alanlarını keşfetmesi, 
-                    bunları topluma fayda sağlayacak şekilde kullanması bizim en büyük amacımızdır. 
-                    CAS yolculuğunda öğrencilerimize rehberlik etmek ve onların kişisel gelişimlerine 
-                    tanık olmak bizim için büyük bir onur."
+                    "At Private Ruzgar Anatolian Lisesi, we see the CAS program not just as a requirement, 
+                    but as an opportunity to enrich our students' lives. 
+                    Our greatest goal is for each of our students to discover their unique talents and interests, 
+                    and to use them in ways that benefit society. 
+                    It is a great honor for us to guide our students on their CAS journey and 
+                    witness their personal development."
                 </div>
             </div>
         </section>
@@ -304,10 +311,10 @@
     <footer id="contact">
         <div class="footer-content">
             <div class="contact-info">
-                <h3>İletişim</h3>
-                <p><i class="fas fa-envelope"></i> info@ruzgaranatolian.edu.tr</p>
-                <p><i class="fas fa-phone"></i> (0412) 123 45 67</p>
-                <p><i class="fas fa-map-marker-alt"></i> Diyarbakır, Türkiye</p>
+                <h3>Contact</h3>
+                <p><i class="fas fa-envelope"></i> rumet@example.com</p>
+                <p><i class="fas fa-phone"></i> 555555555</p>
+                <p><i class="fas fa-map-marker-alt"></i> Diyarbakır, Turkey</p>
             </div>
             <div class="social-links">
                 <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>

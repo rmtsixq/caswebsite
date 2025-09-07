@@ -3,13 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Makaleler - Private Ruzgar Anatolian Lisesi CAS</title>
+    <title>Articles - Private Ruzgar Anatolian Lisesi CAS</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Hide auth modal on public pages */
+        .auth-modal {
+            display: none !important;
+        }
+
         /* Articles Page Specific Styles */
         .articles-hero {
             background: linear-gradient(rgba(18, 18, 18, 0.9), rgba(18, 18, 18, 0.9)),
@@ -241,13 +246,13 @@
                 <img src="new-logo.jpg" alt="Private Ruzgar Anatolian Lisesi">
             </div>
             <ul class="nav-links">
-                <li><a href="index.html" data-translate="Ana Sayfa">Ana Sayfa</a></li>
-                <li><a href="students.html" data-translate="Öğrenciler">Öğrenciler</a></li>
-                <li><a href="projects.html" data-translate="Projeler">Projeler</a></li>
-                <li><a href="articles.html" data-translate="Makaleler" class="active">Makaleler</a></li>
-                <li><a href="videos.html" data-translate="Videolar">Videolar</a></li>
-                <li><a href="about-cas.html" data-translate="CAS Hakkında">CAS Hakkında</a></li>
-                <li><a href="#contact" data-translate="İletişim">İletişim</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="students.html">Students</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="articles.html" class="active">Articles</a></li>
+                <li><a href="videos.html">Videos</a></li>
+                <li><a href="about-cas.html">About CAS</a></li>
+                <li><a href="#contact">Contact</a></li>
                 <li><a href="#" id="langToggle" class="lang-toggle">EN</a></li>
             </ul>
             <div class="auth-buttons">
@@ -313,8 +318,8 @@
     <main>
         <!-- Hero Section -->
         <section class="articles-hero">
-            <h1 data-translate="Tüm Makaleler">Tüm Makaleler</h1>
-            <p data-translate="Öğrencilerimizin akademik çalışmaları, araştırma projeleri ve makalelerini keşfedin.">Öğrencilerimizin akademik çalışmaları, araştırma projeleri ve makalelerini keşfedin.</p>
+            <h1>All Articles</h1>
+            <p>Discover our students' academic work, research projects, and articles.</p>
         </section>
 
         <!-- Filters Section -->
@@ -322,12 +327,12 @@
             <div class="filters-container">
                 <div class="search-box">
                     <i class="fas fa-search"></i>
-                    <input type="text" id="searchInput" class="search-input" placeholder="Makalelerde ara..." data-translate-placeholder="Makalelerde ara...">
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search articles...">
                 </div>
                 
                 <div class="filters-group">
                     <select id="categoryFilter" class="filter-select">
-                        <option value="all" data-translate="Tüm Kategoriler">Tüm Kategoriler</option>
+                        <option value="all">All Categories</option>
                         <option value="STEM">STEM</option>
                         <option value="Social Studies">Social Studies</option>
                         <option value="Politics">Politics</option>
@@ -338,15 +343,15 @@
                     </select>
                     
                     <select id="statusFilter" class="filter-select">
-                        <option value="all" data-translate="Tüm Makaleler">Tüm Makaleler</option>
-                        <option value="editors-pick" data-translate="Editor Seçimi">Editor Seçimi</option>
+                        <option value="all">All Articles</option>
+                        <option value="editors-pick">Editor's Pick</option>
                     </select>
                     
                     <select id="sortFilter" class="filter-select">
-                        <option value="newest" data-translate="En Yeni">En Yeni</option>
-                        <option value="oldest" data-translate="En Eski">En Eski</option>
-                        <option value="popular" data-translate="En Popüler">En Popüler</option>
-                        <option value="title" data-translate="Alfabetik">Alfabetik</option>
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
+                        <option value="popular">Most Popular</option>
+                        <option value="title">Alphabetical</option>
                     </select>
                     
                     <div class="view-mode-toggle">
@@ -363,7 +368,7 @@
 
         <!-- Results Info -->
         <div class="results-info">
-            <p id="resultsCount">Makaleler yükleniyor...</p>
+            <p id="resultsCount">Loading articles...</p>
         </div>
 
         <!-- Articles Content -->
@@ -372,17 +377,17 @@
                 <!-- Articles will be loaded here -->
                 <div class="loading-state">
                     <i class="fas fa-spinner fa-spin"></i>
-                    <p>Makaleler yükleniyor...</p>
+                    <p>Loading articles...</p>
                 </div>
             </div>
             
             <!-- No Results -->
             <div id="noResults" class="no-results" style="display: none;">
                 <i class="fas fa-search"></i>
-                <h3>Sonuç bulunamadı</h3>
-                <p>Arama kriterlerinizi değiştirmeyi deneyin.</p>
+                <h3>No results found</h3>
+                <p>Try changing your search criteria.</p>
                 <button id="clearFiltersBtn" class="clear-filters-btn">
-                    Filtreleri Temizle
+                    Clear Filters
                 </button>
             </div>
         </section>
@@ -391,14 +396,14 @@
     <footer id="contact">
         <div class="footer-content">
             <div class="contact-info">
-                <h3 data-translate="İletişim">İletişim</h3>
-                <p><i class="fas fa-envelope"></i> cas@ruzgaranatolian.edu.tr</p>
-                <p><i class="fas fa-phone"></i> (0412) 123 45 67</p>
-                <p><i class="fas fa-map-marker-alt"></i> Diyarbakır, Türkiye</p>
+                <h3>Contact</h3>
+                <p><i class="fas fa-envelope"></i> rumet@example.com</p>
+                <p><i class="fas fa-phone"></i> 555555555</p>
+                <p><i class="fas fa-map-marker-alt"></i> Diyarbakır, Turkey</p>
                 <div class="coordinator-contact">
-                    <h4>CAS Koordinatörü</h4>
-                    <p><i class="fas fa-user-tie"></i> Dr. Ahmet Kılıç</p>
-                    <p><i class="fas fa-envelope"></i> ahmet.kilic@ruzgaranatolian.edu.tr</p>
+                    <h4>CAS Coordinator</h4>
+                    <p><i class="fas fa-user-tie"></i> Ronahi Esma Eren</p>
+                    <p><i class="fas fa-envelope"></i> rumet@example.com</p>
                 </div>
             </div>
             <div class="school-info">

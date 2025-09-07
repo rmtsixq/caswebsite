@@ -1,15 +1,20 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projeler - Private Ruzgar Anatolian Lisesi CAS</title>
+    <title>Projects - Private Ruzgar Anatolian Lisesi CAS</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Hide auth modal on public pages */
+        .auth-modal {
+            display: none !important;
+        }
+
         /* Projects Page Styles */
         .projects-hero {
             background: linear-gradient(135deg, rgba(18, 18, 18, 0.95), rgba(26, 26, 26, 0.95)),
@@ -120,6 +125,25 @@
         .project-content:hover {
             transform: translateY(-5px);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 1rem;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .project-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .project-content:hover .project-img {
+            transform: scale(1.05);
         }
 
         .project-category {
@@ -307,66 +331,66 @@
                 <img src="new-logo.jpg" alt="Private Ruzgar Anatolian Lisesi">
             </div>
             <ul class="nav-links">
-                <li><a href="index.html">Ana Sayfa</a></li>
-                <li><a href="students.html">Öğrenciler</a></li>
-                <li><a href="projects.html" class="active">Projeler</a></li>
-                <li><a href="articles.html">Makaleler</a></li>
-                <li><a href="videos.html">Videolar</a></li>
-                <li><a href="about-cas.html">CAS Hakkında</a></li>
-                <li><a href="index.html#contact">İletişim</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="students.html">Students</a></li>
+                <li><a href="projects.html" class="active">Projects</a></li>
+                <li><a href="articles.html">Articles</a></li>
+                <li><a href="videos.html">Videos</a></li>
+                <li><a href="about-cas.html">About CAS</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
                 <li><a href="#" id="langToggle" class="lang-toggle">EN</a></li>
             </ul>
             <div class="auth-buttons">
-                <button class="auth-btn login-btn" id="showLoginBtn">Giriş</button>
-                <button class="auth-btn signup-btn" id="showSignupBtn">Kayıt Ol</button>
+                <button class="auth-btn login-btn" id="showLoginBtn">Login</button>
+                <button class="auth-btn signup-btn" id="showSignupBtn">Sign Up</button>
             </div>
         </nav>
     </header>
 
     <main>
         <section class="projects-hero">
-            <h1>CAS Projelerimiz</h1>
-            <p>Öğrencilerimizin yaratıcılık, aktivite ve hizmet alanlarında gerçekleştirdiği ilham verici projeleri keşfedin.</p>
+            <h1>Our CAS Projects</h1>
+            <p>Discover the inspiring projects our students have undertaken in creativity, activity, and service areas.</p>
         </section>
 
         <section class="filter-section">
             <div class="filter-buttons">
                 <button class="filter-btn active" data-filter="all">
-                    <i class="fas fa-th"></i> Tümü
+                    <i class="fas fa-th"></i> All
                 </button>
                 <button class="filter-btn" data-filter="STEM">
                     <i class="fas fa-microscope"></i> STEM
                 </button>
-                <button class="filter-btn" data-filter="Sanat">
-                    <i class="fas fa-paint-brush"></i> Sanat
+                <button class="filter-btn" data-filter="Art">
+                    <i class="fas fa-paint-brush"></i> Art
                 </button>
-                <button class="filter-btn" data-filter="Spor">
-                    <i class="fas fa-running"></i> Spor
+                <button class="filter-btn" data-filter="Sports">
+                    <i class="fas fa-running"></i> Sports
                 </button>
-                <button class="filter-btn" data-filter="Müzik">
-                    <i class="fas fa-music"></i> Müzik
+                <button class="filter-btn" data-filter="Music">
+                    <i class="fas fa-music"></i> Music
                 </button>
-                <button class="filter-btn" data-filter="Tiyatro">
-                    <i class="fas fa-theater-masks"></i> Tiyatro
+                <button class="filter-btn" data-filter="Theater">
+                    <i class="fas fa-theater-masks"></i> Theater
                 </button>
-                <button class="filter-btn" data-filter="Çevre">
-                    <i class="fas fa-leaf"></i> Çevre
+                <button class="filter-btn" data-filter="Environment">
+                    <i class="fas fa-leaf"></i> Environment
                 </button>
-                <button class="filter-btn" data-filter="Toplum Hizmeti">
-                    <i class="fas fa-hands-helping"></i> Toplum Hizmeti
+                <button class="filter-btn" data-filter="Community Service">
+                    <i class="fas fa-hands-helping"></i> Community Service
                 </button>
-                <button class="filter-btn" data-filter="Diğer">
-                    <i class="fas fa-ellipsis-h"></i> Diğer
+                <button class="filter-btn" data-filter="Other">
+                    <i class="fas fa-ellipsis-h"></i> Other
                 </button>
             </div>
         </section>
 
         <section class="projects-container">
             <div class="projects-timeline" id="projectsTimeline">
-                <!-- Proje kartları Firebase'den dinamik olarak yüklenecek -->
+                <!-- Project cards will be loaded dynamically from Firebase -->
                 <div class="loading-state">
                     <i class="fas fa-spinner fa-spin"></i>
-                    <p>Projeler yükleniyor...</p>
+                    <p>Loading projects...</p>
                 </div>
             </div>
         </section>
@@ -375,10 +399,10 @@
     <footer id="contact">
         <div class="footer-content">
             <div class="contact-info">
-                <h3>İletişim</h3>
-                <p><i class="fas fa-envelope"></i> info@ruzgaranatolian.edu.tr</p>
-                <p><i class="fas fa-phone"></i> (0412) 123 45 67</p>
-                <p><i class="fas fa-map-marker-alt"></i> Diyarbakır, Türkiye</p>
+                <h3>Contact</h3>
+                <p><i class="fas fa-envelope"></i> rumet@example.com</p>
+                <p><i class="fas fa-phone"></i> 555555555</p>
+                <p><i class="fas fa-map-marker-alt"></i> Diyarbakır, Turkey</p>
             </div>
             <div class="social-links">
                 <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
@@ -441,8 +465,8 @@
                     container.innerHTML = `
                         <div class="empty-state">
                             <i class="fas fa-project-diagram"></i>
-                            <h3>Henüz proje yok</h3>
-                            <p>Projeler eklendiğinde burada görünecek.</p>
+                            <h3>No projects yet</h3>
+                            <p>Projects will appear here when they are added.</p>
                         </div>
                     `;
                     return;
@@ -451,12 +475,12 @@
                 const projectsHTML = this.filteredProjects.map(project => `
                     <div class="project-item" data-category="${project.category}">
                         <div class="timeline-dot"></div>
-                        <div class="project-content">
-                            <div class="project-actions">
-                                <button class="edit-project-btn" onclick="editProject('${project.id}')" title="Düzenle">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                            </div>
+                        <div class="project-content" onclick="viewProject('${project.id}')" style="cursor: pointer;">
+                            ${project.image ? `
+                                <div class="project-image">
+                                    <img src="${project.image}" alt="${project.title}" class="project-img">
+                                </div>
+                            ` : ''}
                             <span class="project-category">${project.category}</span>
                             <h3 class="project-title">${project.title}</h3>
                             <p class="project-description">${project.description}</p>
@@ -499,9 +523,9 @@
             }
 
             formatDate(date) {
-                if (!date) return 'Tarih belirtilmemiş';
+                if (!date) return 'Date not specified';
                 const d = date.toDate ? date.toDate() : new Date(date);
-                return d.toLocaleDateString('tr-TR', { 
+                return d.toLocaleDateString('en-US', { 
                     year: 'numeric', 
                     month: 'long' 
                 });
@@ -512,18 +536,18 @@
                 container.innerHTML = `
                     <div class="error-state">
                         <i class="fas fa-exclamation-triangle"></i>
-                        <h3>Hata oluştu</h3>
-                        <p>Projeler yüklenirken bir hata oluştu.</p>
-                        <button onclick="location.reload()" class="btn btn-primary">Tekrar Dene</button>
+                        <h3>Error occurred</h3>
+                        <p>An error occurred while loading projects.</p>
+                        <button onclick="location.reload()" class="btn btn-primary">Try Again</button>
                     </div>
                 `;
             }
         }
 
-        // Global function for edit button
-        function editProject(projectId) {
-            // Redirect to project edit page
-            window.location.href = `project-edit.html?id=${projectId}`;
+        // Global function for viewing project details
+        function viewProject(projectId) {
+            // Redirect to project detail page
+            window.location.href = `project-detail.html?id=${projectId}`;
         }
 
         // Initialize when DOM is ready

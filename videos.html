@@ -3,28 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Videolar - Private Ruzgar Anatolian Lisesi CAS</title>
+    <title>Videos - Private Ruzgar Anatolian Lisesi CAS</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Videos Page Specific Styles */
+        /* Hide auth modal on public pages */
+        .auth-modal {
+            display: none !important;
+        }
+
+        /* Videos Page Styles */
         .videos-hero {
-            background: linear-gradient(rgba(18, 18, 18, 0.9), rgba(18, 18, 18, 0.9)),
-                        url('https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background: linear-gradient(135deg, rgba(18, 18, 18, 0.95), rgba(26, 26, 26, 0.95)),
+                        url('https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
             background-size: cover;
             background-position: center;
             padding: 8rem 5% 4rem;
-            margin-top: 70px;
             text-align: center;
-            color: var(--white);
+            margin-top: 70px;
         }
 
         .videos-hero h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
+            font-size: 3rem;
             margin-bottom: 1rem;
             color: var(--white);
         }
@@ -34,6 +37,251 @@
             max-width: 600px;
             margin: 0 auto;
             color: var(--text-light);
+        }
+
+        .filter-section {
+            padding: 3rem 5% 2rem;
+            text-align: center;
+            background: var(--dark-bg);
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-color);
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.2);
+        }
+
+        .search-input::placeholder {
+            color: var(--text-light);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .videos-container {
+            padding: 4rem 5%;
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
+
+        .results-info {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--text-light);
+        }
+
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .video-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: var(--transition);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .video-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            border-color: var(--secondary-color);
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .video-thumbnail .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            color: white;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .video-card:hover .play-icon {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .video-content {
+            padding: 1.5rem;
+        }
+
+        .video-category {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .video-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 0.8rem;
+            line-height: 1.4;
+        }
+
+        .video-description {
+            color: var(--text-color);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .video-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .video-date {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .video-duration {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .loading-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-light);
+        }
+
+        .loading-state i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-light);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+            display: block;
+        }
+
+        .empty-state h3 {
+            color: var(--white);
+            margin-bottom: 0.5rem;
+        }
+
+        .error-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-light);
+        }
+
+        .error-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #ef4444;
+            display: block;
+        }
+
+        .error-state h3 {
+            color: var(--white);
+            margin-bottom: 0.5rem;
         }
 
         .youtube-cta {
@@ -50,20 +298,20 @@
         }
 
         .youtube-cta p {
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--white);
             font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto 2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
         }
 
         .youtube-btn {
             display: inline-flex;
             align-items: center;
-            gap: 0.8rem;
+            gap: 0.5rem;
             background: var(--white);
             color: #dc2626;
             padding: 1rem 2rem;
-            border-radius: 8px;
+            border-radius: 25px;
             text-decoration: none;
             font-weight: 600;
             font-size: 1.1rem;
@@ -71,13 +319,35 @@
         }
 
         .youtube-btn:hover {
-            background: #f3f4f6;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
 
         .youtube-btn i {
-            font-size: 1.2rem;
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .videos-hero h1 {
+                font-size: 2rem;
+            }
+
+            .filter-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .videos-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .video-content {
+                padding: 1rem;
+            }
+
+            .video-title {
+                font-size: 1.1rem;
+            }
         }
     </style>
 </head>
@@ -88,13 +358,13 @@
                 <img src="new-logo.jpg" alt="Private Ruzgar Anatolian Lisesi">
             </div>
             <ul class="nav-links">
-                <li><a href="index.html" data-translate="Ana Sayfa">Ana Sayfa</a></li>
-                <li><a href="students.html" data-translate="Öğrenciler">Öğrenciler</a></li>
-                <li><a href="projects.html" data-translate="Projeler">Projeler</a></li>
-                <li><a href="articles.html" data-translate="Makaleler">Makaleler</a></li>
-                <li><a href="videos.html" data-translate="Videolar" class="active">Videolar</a></li>
-                <li><a href="about-cas.html" data-translate="CAS Hakkında">CAS Hakkında</a></li>
-                <li><a href="#contact" data-translate="İletişim">İletişim</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="students.html">Students</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="articles.html">Articles</a></li>
+                <li><a href="videos.html" class="active">Videos</a></li>
+                <li><a href="about-cas.html">About CAS</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
                 <li><a href="#" id="langToggle" class="lang-toggle">EN</a></li>
             </ul>
             <div class="auth-buttons">
@@ -104,138 +374,61 @@
         </nav>
     </header>
 
-    <!-- Auth Modal -->
-    <div class="auth-modal" id="authModal">
-        <span class="close-modal" id="closeModal">&times;</span>
-        
-        <!-- Login Form -->
-        <div class="auth-form" id="loginForm">
-            <h2>Login</h2>
-            <form id="loginFormElement">
-                <div class="form-group">
-                    <label for="loginEmail">Email</label>
-                    <input type="email" id="loginEmail" required>
-                </div>
-                <div class="form-group">
-                    <label for="loginPassword">Password</label>
-                    <input type="password" id="loginPassword" required>
-                </div>
-                <div class="error-message" id="loginError"></div>
-                <button type="submit" class="auth-submit">Login</button>
-            </form>
-            <div class="auth-toggle">
-                Don't have an account? <a id="showSignup">Sign up</a>
-            </div>
-        </div>
-
-        <!-- Signup Form -->
-        <div class="auth-form" id="signupForm" style="display: none;">
-            <h2>Sign Up</h2>
-            <form id="signupFormElement">
-                <div class="form-group">
-                    <label for="signupName">Full Name</label>
-                    <input type="text" id="signupName" required>
-                </div>
-                <div class="form-group">
-                    <label for="signupEmail">Email</label>
-                    <input type="email" id="signupEmail" required>
-                </div>
-                <div class="form-group">
-                    <label for="signupPassword">Password</label>
-                    <input type="password" id="signupPassword" required>
-                </div>
-                <div class="form-group">
-                    <label for="signupConfirmPassword">Confirm Password</label>
-                    <input type="password" id="signupConfirmPassword" required>
-                </div>
-                <div class="error-message" id="signupError"></div>
-                <button type="submit" class="auth-submit">Sign Up</button>
-            </form>
-            <div class="auth-toggle">
-                Already have an account? <a id="showLogin">Login</a>
-            </div>
-        </div>
-    </div>
-
     <main>
-        <!-- Hero Section -->
         <section class="videos-hero">
-            <h1 data-translate="Tüm Videolar">Tüm Videolar</h1>
-            <p data-translate="Öğrencilerimizin video projeleri, sunumları ve eğitim içeriklerini izleyin.">Öğrencilerimizin video projeleri, sunumları ve eğitim içeriklerini izleyin.</p>
+            <h1>All Videos</h1>
+            <p>Watch our students' video projects, presentations, and educational content.</p>
         </section>
 
-        <!-- Filters Section -->
-        <section class="filters-section">
-            <div class="filters-container">
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" id="searchInput" class="search-input" placeholder="Videolarda ara..." data-translate-placeholder="Videolarda ara...">
-                </div>
-                
-                <div class="filters-group">
-                    <select id="categoryFilter" class="filter-select">
-                        <option value="all" data-translate="Tüm Kategoriler">Tüm Kategoriler</option>
-                        <option value="STEM">STEM</option>
-                        <option value="Social Studies">Social Studies</option>
-                        <option value="Politics">Politics</option>
-                        <option value="Philosophy">Philosophy</option>
-                        <option value="Art & Literature">Art & Literature</option>
-                        <option value="Women Rights">Women Rights</option>
-                        <option value="Science & Technology">Science & Technology</option>
-                    </select>
-                    
-                    <select id="sortFilter" class="filter-select">
-                        <option value="newest" data-translate="En Yeni">En Yeni</option>
-                        <option value="oldest" data-translate="En Eski">En Eski</option>
-                        <option value="popular" data-translate="En Popüler">En Popüler</option>
-                        <option value="title" data-translate="Alfabetik">Alfabetik</option>
-                    </select>
-                    
-                    <div class="view-mode-toggle">
-                        <button id="gridViewBtn" class="view-mode-btn active" title="Grid View">
-                            <i class="fas fa-th"></i>
-                        </button>
-                        <button id="listViewBtn" class="view-mode-btn" title="List View">
-                            <i class="fas fa-list"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Results Info -->
-        <div class="results-info">
-            <p id="resultsCount">Videolar yükleniyor...</p>
-        </div>
-
-        <!-- Videos Content -->
-        <section class="articles-content">
-            <div id="all-videos-container" class="videos-grid">
-                <!-- Videos will be loaded here -->
-                <div class="loading-state">
-                    <i class="fas fa-spinner fa-spin"></i>
-                    <p>Videolar yükleniyor...</p>
-                </div>
+        <section class="filter-section">
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="videoSearch" class="search-input" placeholder="Search videos...">
             </div>
             
-            <!-- No Results -->
-            <div id="noResults" class="no-results" style="display: none;">
-                <i class="fas fa-search"></i>
-                <h3>Sonuç bulunamadı</h3>
-                <p>Arama kriterlerinizi değiştirmeyi deneyin.</p>
-                <button id="clearFiltersBtn" class="clear-filters-btn">
-                    Filtreleri Temizle
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">
+                    <i class="fas fa-th"></i> All
                 </button>
+                <button class="filter-btn" data-filter="Education">
+                    <i class="fas fa-graduation-cap"></i> Education
+                </button>
+                <button class="filter-btn" data-filter="Project">
+                    <i class="fas fa-project-diagram"></i> Project
+                </button>
+                <button class="filter-btn" data-filter="Presentation">
+                    <i class="fas fa-presentation"></i> Presentation
+                </button>
+                <button class="filter-btn" data-filter="Event">
+                    <i class="fas fa-calendar"></i> Event
+                </button>
+                <button class="filter-btn" data-filter="Other">
+                    <i class="fas fa-ellipsis-h"></i> Other
+                </button>
+            </div>
+        </section>
+
+        <section class="videos-container">
+            <div class="results-info">
+                <p id="resultsCount">Loading videos...</p>
+            </div>
+
+            <div class="videos-grid" id="videosGrid">
+                <!-- Video cards will be loaded dynamically from Firebase -->
+                <div class="loading-state">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading videos...</p>
+                </div>
             </div>
         </section>
 
         <!-- YouTube Channel CTA -->
         <section class="youtube-cta">
-            <h2 data-translate="YouTube Kanalımıza Abone Olun">YouTube Kanalımıza Abone Olun</h2>
-            <p data-translate="En son video içeriklerimizi kaçırmamak için YouTube kanalımıza abone olun.">En son video içeriklerimizi kaçırmamak için YouTube kanalımıza abone olun.</p>
+            <h2>Subscribe to Our YouTube Channel</h2>
+            <p>Subscribe to our YouTube channel to not miss our latest video content.</p>
             <a href="https://youtube.com/@ruzgaranatolian" target="_blank" rel="noopener noreferrer" class="youtube-btn">
                 <i class="fab fa-youtube"></i>
-                <span data-translate="YouTube'da Abone Ol">YouTube'da Abone Ol</span>
+                <span>Subscribe on YouTube</span>
             </a>
         </section>
     </main>
@@ -243,20 +436,10 @@
     <footer id="contact">
         <div class="footer-content">
             <div class="contact-info">
-                <h3 data-translate="İletişim">İletişim</h3>
-                <p><i class="fas fa-envelope"></i> cas@ruzgaranatolian.edu.tr</p>
-                <p><i class="fas fa-phone"></i> (0412) 123 45 67</p>
-                <p><i class="fas fa-map-marker-alt"></i> Diyarbakır, Türkiye</p>
-                <div class="coordinator-contact">
-                    <h4>CAS Koordinatörü</h4>
-                    <p><i class="fas fa-user-tie"></i> Dr. Ahmet Kılıç</p>
-                    <p><i class="fas fa-envelope"></i> ahmet.kilic@ruzgaranatolian.edu.tr</p>
-                </div>
-            </div>
-            <div class="school-info">
-                <img src="new-logo.jpg" alt="Private Ruzgar Anatolian Lisesi" class="footer-logo">
-                <h4>Private Ruzgar Anatolian Lisesi</h4>
-                <p>IB World School</p>
+                <h3>Contact</h3>
+                <p><i class="fas fa-envelope"></i> rumet@example.com</p>
+                <p><i class="fas fa-phone"></i> 555555555</p>
+                <p><i class="fas fa-map-marker-alt"></i> Diyarbakır, Turkey</p>
             </div>
             <div class="social-links">
                 <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
@@ -275,205 +458,159 @@
     <script src="js/firebase-config.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/auth-ui.js"></script>
-    <script src="js/articles.js"></script>
     <script src="js/language.js"></script>
-    
+
     <script>
-        // Videos Page Functionality
+        // Videos Management
         class VideosPage {
             constructor() {
                 this.videos = [];
                 this.filteredVideos = [];
-                this.currentViewMode = 'grid';
-                this.filters = {
-                    search: '',
-                    category: 'all',
-                    sort: 'newest'
-                };
+                this.currentFilter = 'all';
                 this.init();
             }
 
             async init() {
                 await this.loadVideos();
                 this.setupEventListeners();
-                this.applyFilters();
             }
 
             async loadVideos() {
                 try {
-                    const q = firebase.firestore().collection('videos')
-                        .where('status', '==', 'published');
-                        
-                    const snapshot = await q.get();
+                    const snapshot = await firebase.firestore()
+                        .collection('videos')
+                        .orderBy('createdAt', 'desc')
+                        .get();
                     
                     this.videos = snapshot.docs.map(doc => ({
                         id: doc.id,
                         ...doc.data()
                     }));
                     
-                    console.log('All videos loaded:', this.videos);
+                    this.filteredVideos = [...this.videos];
+                    this.renderVideos();
                 } catch (error) {
                     console.error('Error loading videos:', error);
-                    this.videos = [];
+                    this.showError();
                 }
-            }
-
-            setupEventListeners() {
-                // Search
-                document.getElementById('searchInput').addEventListener('input', (e) => {
-                    this.filters.search = e.target.value;
-                    this.applyFilters();
-                });
-
-                // Category filter
-                document.getElementById('categoryFilter').addEventListener('change', (e) => {
-                    this.filters.category = e.target.value;
-                    this.applyFilters();
-                });
-
-                // Sort filter
-                document.getElementById('sortFilter').addEventListener('change', (e) => {
-                    this.filters.sort = e.target.value;
-                    this.applyFilters();
-                });
-
-                // View mode toggle
-                document.getElementById('gridViewBtn').addEventListener('click', () => {
-                    this.setViewMode('grid');
-                });
-
-                document.getElementById('listViewBtn').addEventListener('click', () => {
-                    this.setViewMode('list');
-                });
-
-                // Clear filters
-                document.getElementById('clearFiltersBtn').addEventListener('click', () => {
-                    this.clearFilters();
-                });
-            }
-
-            setViewMode(mode) {
-                this.currentViewMode = mode;
-                
-                const container = document.getElementById('all-videos-container');
-                const gridBtn = document.getElementById('gridViewBtn');
-                const listBtn = document.getElementById('listViewBtn');
-                
-                if (mode === 'grid') {
-                    container.classList.remove('list-view');
-                    gridBtn.classList.add('active');
-                    listBtn.classList.remove('active');
-                } else {
-                    container.classList.add('list-view');
-                    listBtn.classList.add('active');
-                    gridBtn.classList.remove('active');
-                }
-            }
-
-            applyFilters() {
-                let filtered = [...this.videos];
-
-                // Search filter
-                if (this.filters.search) {
-                    const searchTerm = this.filters.search.toLowerCase();
-                    filtered = filtered.filter(video => 
-                        video.title.toLowerCase().includes(searchTerm) ||
-                        video.description.toLowerCase().includes(searchTerm)
-                    );
-                }
-
-                // Category filter
-                if (this.filters.category !== 'all') {
-                    filtered = filtered.filter(video => video.category === this.filters.category);
-                }
-
-                // Sort
-                switch (this.filters.sort) {
-                    case 'newest':
-                        filtered.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
-                        break;
-                    case 'oldest':
-                        filtered.sort((a, b) => new Date(a.publishedAt).getTime() - new Date(b.publishedAt).getTime());
-                        break;
-                    case 'popular':
-                        filtered.sort((a, b) => (b.views || 0) - (a.views || 0));
-                        break;
-                    case 'title':
-                        filtered.sort((a, b) => a.title.localeCompare(b.title));
-                        break;
-                }
-
-                this.filteredVideos = filtered;
-                this.renderVideos();
-                this.updateResultsCount();
             }
 
             renderVideos() {
-                const container = document.getElementById('all-videos-container');
-                const noResults = document.getElementById('noResults');
+                const container = document.getElementById('videosGrid');
+                const resultsCount = document.getElementById('resultsCount');
+                
+                resultsCount.textContent = `${this.filteredVideos.length} videos found`;
                 
                 if (this.filteredVideos.length === 0) {
-                    container.innerHTML = '';
-                    noResults.style.display = 'block';
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-video"></i>
+                            <h3>No videos yet</h3>
+                            <p>Videos will appear here when they are added.</p>
+                        </div>
+                    `;
                     return;
                 }
 
-                noResults.style.display = 'none';
-                container.innerHTML = this.filteredVideos.map(video => {
-                    return window.articleSystem.createVideoCard(video);
-                }).join('');
+                const videosHTML = this.filteredVideos.map(video => `
+                    <div class="video-card" data-category="${video.category}" data-video-id="${video.id}">
+                        <div class="video-thumbnail">
+                            ${video.thumbnail ? 
+                                `<img src="${video.thumbnail}" alt="${video.title}">` :
+                                `<i class="fas fa-video"></i>`
+                            }
+                            <div class="play-icon">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <div class="video-content">
+                            <span class="video-category">${video.category}</span>
+                            <h3 class="video-title">${video.title}</h3>
+                            <p class="video-description">${video.description}</p>
+                            <div class="video-meta">
+                                <div class="video-date">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>${this.formatDate(video.createdAt)}</span>
+                                </div>
+                                ${video.duration ? `<div class="video-duration">${video.duration}</div>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
 
-                // Add click handlers
+                container.innerHTML = videosHTML;
+                
+                // Add click handlers to video cards
                 container.querySelectorAll('.video-card').forEach(card => {
                     card.addEventListener('click', () => {
-                        const videoId = card.dataset.id;
+                        const videoId = card.dataset.videoId || this.filteredVideos[Array.from(container.children).indexOf(card)].id;
                         window.location.href = `video-detail.html?id=${videoId}`;
                     });
                 });
             }
 
-            updateResultsCount() {
-                const resultsElement = document.getElementById('resultsCount');
-                const total = this.videos.length;
-                const filtered = this.filteredVideos.length;
-                
-                let text = `${filtered} of ${total} videos`;
-                if (this.filters.search) {
-                    text += ` for "${this.filters.search}"`;
-                }
-                if (this.filters.category !== 'all') {
-                    text += ` in ${this.filters.category}`;
-                }
-                
-                resultsElement.textContent = text;
+            setupEventListeners() {
+                // Search input
+                document.getElementById('videoSearch').addEventListener('input', (e) => {
+                    const searchTerm = e.target.value.toLowerCase();
+                    this.filteredVideos = this.videos.filter(video =>
+                        video.title.toLowerCase().includes(searchTerm) ||
+                        video.description.toLowerCase().includes(searchTerm) ||
+                        video.category.toLowerCase().includes(searchTerm)
+                    );
+                    this.renderVideos();
+                });
+
+                // Filter buttons
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        // Update active button
+                        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                        e.target.classList.add('active');
+                        
+                        this.currentFilter = e.target.dataset.filter;
+                        this.applyFilter();
+                    });
+                });
             }
 
-            clearFilters() {
-                this.filters = {
-                    search: '',
-                    category: 'all',
-                    sort: 'newest'
-                };
+            applyFilter() {
+                if (this.currentFilter === 'all') {
+                    this.filteredVideos = [...this.videos];
+                } else {
+                    this.filteredVideos = this.videos.filter(video => 
+                        video.category === this.currentFilter
+                    );
+                }
+                this.renderVideos();
+            }
 
-                document.getElementById('searchInput').value = '';
-                document.getElementById('categoryFilter').value = 'all';
-                document.getElementById('sortFilter').value = 'newest';
+            formatDate(date) {
+                if (!date) return 'Date not specified';
+                const d = date.toDate ? date.toDate() : new Date(date);
+                return d.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long',
+                    day: 'numeric'
+                });
+            }
 
-                this.applyFilters();
+            showError() {
+                const container = document.getElementById('videosGrid');
+                container.innerHTML = `
+                    <div class="error-state">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>Error occurred</h3>
+                        <p>An error occurred while loading videos.</p>
+                        <button onclick="location.reload()" class="btn btn-primary">Try Again</button>
+                    </div>
+                `;
             }
         }
 
-        // Initialize when DOM and articles system are ready
+        // Initialize when DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
-            // Wait for articleSystem to be initialized
-            const initVideosPage = () => {
-                if (window.articleSystem) {
-                    window.videosPage = new VideosPage();
-                } else {
-                    setTimeout(initVideosPage, 100);
-                }
-            };
-            initVideosPage();
+            window.videosPage = new VideosPage();
         });
     </script>
 </body>
