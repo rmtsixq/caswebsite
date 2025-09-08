@@ -228,3 +228,4 @@ const ADMIN_EMAIL = 'admin@ruzgaranatolian.edu.tr';
 4. Makale/video oluşturma test et
 5. Public erişim test et
 
+

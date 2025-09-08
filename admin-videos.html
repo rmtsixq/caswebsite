@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Yönetimi - Admin Panel</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="./styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,11 +16,18 @@
         }
 
         /* Admin Videos Page Styles */
-        .admin-container {
+        .admin-form-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
-            margin-top: 70px;
+            background: var(--dark-bg);
+            min-height: 100vh;
+        }
+        
+        /* Test CSS to ensure styles are loading */
+        body {
+            background: var(--dark-bg) !important;
+            color: var(--text-color) !important;
         }
 
         .admin-header {
@@ -183,19 +190,354 @@
             margin-bottom: 0.5rem;
         }
 
+        /* Admin Form Styles */
+        .admin-form-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .back-btn {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            padding: 0.75rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+        }
+
+        .filters-section {
+            margin-bottom: 2rem;
+        }
+
+        .filters-container {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 3rem;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+        }
+
+        .search-input::placeholder {
+            color: var(--text-light);
+        }
+
+        .filters-group {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .filter-select {
+            padding: 0.75rem 1rem;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--text-color);
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+        }
+
+        .bulk-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .bulk-delete-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .bulk-delete-btn:hover {
+            background: #dc2626;
+        }
+
+        .admin-table-container {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .admin-table th,
+        .admin-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .admin-table th {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--white);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .admin-table td {
+            color: var(--text-color);
+        }
+
+        .admin-table tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .select-all {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .video-checkbox {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .article-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .article-thumbnail {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .article-details h4 {
+            color: var(--white);
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+            font-weight: 600;
+        }
+
+        .article-details p {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        .status-select {
+            padding: 0.5rem;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            color: var(--text-color);
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .status-select:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+        }
+
+        .category-badge {
+            background: #dc2626;
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            padding: 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+        }
+
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+        }
+
+        .action-btn.edit:hover {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: #3b82f6;
+            color: #3b82f6;
+        }
+
+        .action-btn.delete:hover {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+
+        .loading-article {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-light);
+        }
+
+        .loading-article i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .access-denied {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-light);
+        }
+
+        .access-denied i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #ef4444;
+            display: block;
+        }
+
+        .access-denied h2 {
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+
+        .action-btn.primary {
+            background: var(--secondary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .action-btn.primary:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
         @media (max-width: 768px) {
-            .admin-container {
+            .admin-form-container {
                 padding: 1rem;
             }
 
-            .admin-header {
+            .admin-form-header {
                 flex-direction: column;
                 gap: 1rem;
                 align-items: stretch;
             }
 
-            .videos-grid {
-                grid-template-columns: 1fr;
+            .filters-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                min-width: unset;
+            }
+
+            .filters-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .admin-table-container {
+                overflow-x: auto;
+            }
+
+            .article-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .article-thumbnail {
+                width: 60px;
+                height: 45px;
             }
         }
     </style>
@@ -220,8 +562,31 @@
                 <button class="auth-btn login-btn" id="showLoginBtn">Login</button>
                 <button class="auth-btn signup-btn" id="showSignupBtn">Sign Up</button>
             </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </nav>
     </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="students.html">Students</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="articles.html">Articles</a></li>
+            <li><a href="videos.html">Videos</a></li>
+            <li><a href="about-cas.html">About CAS</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="auth-buttons">
+            <button class="auth-btn login-btn" id="mobileShowLoginBtn">Login</button>
+            <button class="auth-btn signup-btn" id="mobileShowSignupBtn">Sign Up</button>
+        </div>
+        <a href="#" id="mobileLangToggle" class="lang-toggle">EN</a>
+    </div>
 
     <!-- Auth Modal -->
     <div class="auth-modal" id="authModal">
@@ -408,6 +773,7 @@
     <script src="js/auth-ui.js"></script>
     <script src="js/articles.js"></script>
     <script src="js/language.js"></script>
+    <script src="js/main.js"></script>
     
     <script>
         // Admin Videos Management Functionality
@@ -711,8 +1077,8 @@
 
         // Global functions for inline onclick handlers
         async function editVideo(videoId) {
-            // For now, just show an alert. In the future, implement edit page
-            alert('Düzenleme özelliği yakında eklenecek');
+            // Redirect to video edit page
+            window.location.href = `video-edit.html?id=${videoId}`;
         }
 
         async function deleteVideo(videoId) {

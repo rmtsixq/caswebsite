@@ -679,8 +679,8 @@
 
         // Global functions for inline onclick handlers
         async function editArticle(articleId) {
-            // For now, just show an alert. In the future, implement edit page
-            alert('Düzenleme özelliği yakında eklenecek');
+            // Redirect to article edit page
+            window.location.href = `article-edit.html?id=${articleId}`;
         }
 
         async function deleteArticle(articleId) {

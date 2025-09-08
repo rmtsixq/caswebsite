@@ -135,3 +135,97 @@ const studentsData = [
         photo: null
     }
 ];
+
+// Hamburger Menu Functionality
+class HamburgerMenu {
+    constructor() {
+        this.hamburger = document.querySelector('.hamburger');
+        this.mobileMenu = document.querySelector('.mobile-menu');
+        this.navLinks = document.querySelectorAll('.mobile-menu .nav-links a');
+        this.authButtons = document.querySelector('.mobile-menu .auth-buttons');
+        this.langToggle = document.querySelector('.mobile-menu .lang-toggle');
+        
+        this.init();
+    }
+
+    init() {
+        if (this.hamburger && this.mobileMenu) {
+            this.hamburger.addEventListener('click', () => this.toggleMenu());
+            
+            // Close menu when clicking on links
+            this.navLinks.forEach(link => {
+                link.addEventListener('click', () => this.closeMenu());
+            });
+            
+            // Close menu when clicking outside
+            this.mobileMenu.addEventListener('click', (e) => {
+                if (e.target === this.mobileMenu) {
+                    this.closeMenu();
+                }
+            });
+            
+            // Close menu on escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && this.mobileMenu.classList.contains('active')) {
+                    this.closeMenu();
+                }
+            });
+            
+            // Mobile auth buttons
+            const mobileLoginBtn = document.getElementById('mobileShowLoginBtn');
+            const mobileSignupBtn = document.getElementById('mobileShowSignupBtn');
+            const mobileLangToggle = document.getElementById('mobileLangToggle');
+            
+            if (mobileLoginBtn) {
+                mobileLoginBtn.addEventListener('click', () => {
+                    this.closeMenu();
+                    // Trigger desktop login button
+                    const desktopLoginBtn = document.getElementById('showLoginBtn');
+                    if (desktopLoginBtn) desktopLoginBtn.click();
+                });
+            }
+            
+            if (mobileSignupBtn) {
+                mobileSignupBtn.addEventListener('click', () => {
+                    this.closeMenu();
+                    // Trigger desktop signup button
+                    const desktopSignupBtn = document.getElementById('showSignupBtn');
+                    if (desktopSignupBtn) desktopSignupBtn.click();
+                });
+            }
+            
+            if (mobileLangToggle) {
+                mobileLangToggle.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.closeMenu();
+                    // Trigger desktop lang toggle
+                    const desktopLangToggle = document.getElementById('langToggle');
+                    if (desktopLangToggle) desktopLangToggle.click();
+                });
+            }
+        }
+    }
+
+    toggleMenu() {
+        this.hamburger.classList.toggle('active');
+        this.mobileMenu.classList.toggle('active');
+        
+        // Prevent body scroll when menu is open
+        if (this.mobileMenu.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    }
+
+    closeMenu() {
+        this.hamburger.classList.remove('active');
+        this.mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+}
+
+// Initialize hamburger menu when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    new HamburgerMenu();
+});

@@ -171,24 +171,63 @@
             line-height: 1.8;
         }
 
+        .article-content-section h1 {
+            color: var(--white);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 2rem 0 1.5rem;
+            line-height: 1.2;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+        }
+
         .article-content-section h2 {
             color: var(--secondary-color);
-            font-size: 1.8rem;
-            margin: 2rem 0 1rem;
+            font-size: 2rem;
             font-weight: 600;
+            margin: 2rem 0 1rem;
+            line-height: 1.3;
         }
 
         .article-content-section h3 {
             color: var(--white);
-            font-size: 1.4rem;
-            margin: 1.5rem 0 1rem;
+            font-size: 1.5rem;
             font-weight: 600;
+            margin: 1.5rem 0 1rem;
+            line-height: 1.4;
         }
 
         .article-content-section p {
             color: var(--text-color);
             margin-bottom: 1.5rem;
             text-align: justify;
+            line-height: 1.8;
+        }
+
+        .article-content-section strong {
+            color: var(--white);
+            font-weight: 700;
+        }
+
+        .article-content-section em {
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        .article-content-section u {
+            text-decoration: underline;
+            color: var(--secondary-color);
+        }
+
+        .article-content-section ul, .article-content-section ol {
+            margin: 1.5rem 0;
+            padding-left: 2rem;
+            color: var(--text-color);
+        }
+
+        .article-content-section li {
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
         }
 
         .article-content-section blockquote {
@@ -199,6 +238,56 @@
             font-style: italic;
             color: var(--text-light);
             border-radius: 0 8px 8px 0;
+        }
+
+        .article-content-section code {
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--secondary-color);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .article-content-section pre {
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--text-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .article-content-section pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        .article-content-section a {
+            color: var(--secondary-color);
+            text-decoration: underline;
+            transition: var(--transition);
+        }
+
+        .article-content-section a:hover {
+            color: var(--accent-color);
+        }
+
+        .article-content-section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            box-shadow: var(--shadow);
+        }
+
+        .article-content-section hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--secondary-color), transparent);
+            margin: 2rem 0;
         }
 
         .article-content-section ul,
@@ -678,19 +767,23 @@
             processContent(content) {
                 if (!content) return '<p>İçerik mevcut değil.</p>';
 
-                // Basic HTML processing
+                // Enhanced HTML processing with Docsify-like styling
                 return content
-                    .replace(/<h1>/g, '<h1 style="color: var(--white); font-size: 2rem; margin: 2rem 0 1rem; font-weight: 700;">')
-                    .replace(/<h2>/g, '<h2 style="color: var(--secondary-color); font-size: 1.8rem; margin: 2rem 0 1rem; font-weight: 600;">')
-                    .replace(/<h3>/g, '<h3 style="color: var(--white); font-size: 1.4rem; margin: 1.5rem 0 1rem; font-weight: 600;">')
-                    .replace(/<p>/g, '<p style="color: var(--text-color); margin-bottom: 1.5rem; line-height: 1.8; text-align: justify;">')
-                    .replace(/<strong>/g, '<strong style="color: var(--white); font-weight: 600;">')
-                    .replace(/<em>/g, '<em style="color: var(--text-light);">')
-                    .replace(/<a /g, '<a style="color: var(--secondary-color); text-decoration: underline;" ')
-                    .replace(/<blockquote>/g, '<blockquote style="border-left: 4px solid var(--secondary-color); padding: 1.5rem; margin: 2rem 0; background: rgba(255, 255, 255, 0.05); font-style: italic; color: var(--text-light); border-radius: 0 8px 8px 0;">')
-                    .replace(/<ul>/g, '<ul style="margin: 1.5rem 0; padding-left: 2rem; color: var(--text-color);">')
-                    .replace(/<ol>/g, '<ol style="margin: 1.5rem 0; padding-left: 2rem; color: var(--text-color);">')
-                    .replace(/<li>/g, '<li style="margin-bottom: 0.5rem; color: var(--text-color);">');
+                    .replace(/<h1>/g, '<h1>')
+                    .replace(/<h2>/g, '<h2>')
+                    .replace(/<h3>/g, '<h3>')
+                    .replace(/<p>/g, '<p>')
+                    .replace(/<strong>/g, '<strong>')
+                    .replace(/<em>/g, '<em>')
+                    .replace(/<u>/g, '<u>')
+                    .replace(/<a /g, '<a ')
+                    .replace(/<blockquote>/g, '<blockquote>')
+                    .replace(/<ul>/g, '<ul>')
+                    .replace(/<ol>/g, '<ol>')
+                    .replace(/<li>/g, '<li>')
+                    .replace(/<code>/g, '<code>')
+                    .replace(/<pre>/g, '<pre>')
+                    .replace(/<hr>/g, '<hr>');
             }
 
             setupActionButtons() {

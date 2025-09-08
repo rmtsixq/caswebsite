@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yeni Makale - Admin Panel</title>
+    <title>Makale Düzenle - Admin Panel</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -577,8 +577,8 @@
                             <i class="fas fa-arrow-left"></i>
                         </button>
                         <div>
-                            <h1 style="color: var(--white); margin-bottom: 0.5rem;">Yeni Makale</h1>
-                            <p style="color: var(--text-light);">Yeni bir makale oluştur ve yayınla</p>
+                            <h1 style="color: var(--white); margin-bottom: 0.5rem;">Makale Düzenle</h1>
+                            <p style="color: var(--text-light);">Mevcut makaleyi düzenle ve güncelle</p>
                         </div>
                     </div>
                 </div>
@@ -727,7 +727,7 @@
                             </button>
                             <button type="submit" id="submitBtn" class="submit-btn">
                                 <i class="fas fa-save"></i>
-                                <span>Makaleyi Kaydet</span>
+                                <span>Değişiklikleri Kaydet</span>
                             </button>
                         </div>
                     </div>
@@ -816,15 +816,26 @@
     <script src="js/language.js"></script>
     
     <script>
-        // Admin New Article Functionality
-        class AdminNewArticle {
+        // Admin Edit Article Functionality
+        class AdminEditArticle {
             constructor() {
                 this.user = null;
                 this.userProfile = null;
+                this.articleId = null;
+                this.article = null;
                 this.init();
             }
 
             async init() {
+                // Get article ID from URL
+                const urlParams = new URLSearchParams(window.location.search);
+                this.articleId = urlParams.get('id');
+                
+                if (!this.articleId) {
+                    this.showError('Makale ID bulunamadı');
+                    return;
+                }
+
                 // Check authentication
                 firebase.auth().onAuthStateChanged(async (user) => {
                     this.user = user;
@@ -832,6 +843,7 @@
                     if (user) {
                         await this.checkAdminStatus();
                         if (this.userProfile?.isAdmin) {
+                            await this.loadArticle();
                             this.setupForm();
                             this.showForm();
                         } else {
@@ -863,6 +875,49 @@
                     console.error('Error checking admin status:', error);
                     this.userProfile = null;
                 }
+            }
+
+            async loadArticle() {
+                try {
+                    const doc = await firebase.firestore().collection('articles').doc(this.articleId).get();
+                    
+                    if (!doc.exists) {
+                        this.showError('Makale bulunamadı');
+                        return;
+                    }
+
+                    this.article = {
+                        id: doc.id,
+                        ...doc.data()
+                    };
+
+                    this.populateForm();
+
+                } catch (error) {
+                    console.error('Error loading article:', error);
+                    this.showError('Makale yüklenirken hata oluştu');
+                }
+            }
+
+            populateForm() {
+                if (!this.article) return;
+
+                document.getElementById('title').value = this.article.title || '';
+                document.getElementById('author').value = this.article.author || '';
+                document.getElementById('excerpt').value = this.article.excerpt || '';
+                document.getElementById('content').value = this.article.content || '';
+                document.getElementById('category').value = this.article.category || '';
+                document.getElementById('customCategory').value = this.article.customCategory || '';
+                document.getElementById('tags').value = this.article.tags ? this.article.tags.join(', ') : '';
+                document.getElementById('featuredImage').value = this.article.featuredImage || '';
+                document.getElementById('status').value = this.article.status || 'draft';
+                document.getElementById('isEditorsPick').checked = this.article.isEditorsPick || false;
+
+                // Update page title
+                document.title = `${this.article.title} - Makale Düzenle - Admin Panel`;
+
+                // Update preview
+                this.updatePreview();
             }
 
             setupForm() {
@@ -934,7 +989,7 @@
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = `
                     <i class="fas fa-spinner fa-spin"></i>
-                    <span>Kaydediliyor...</span>
+                    <span>Güncelleniyor...</span>
                 `;
 
                 try {
@@ -948,27 +1003,26 @@
                         featuredImage: document.getElementById('featuredImage').value || '/images/default-article.jpg',
                         status: document.getElementById('status').value,
                         isEditorsPick: document.getElementById('isEditorsPick').checked,
-                        publishedAt: new Date().toISOString(),
+                        updatedAt: new Date().toISOString(),
                         readTime: Math.ceil(document.getElementById('content').value.split(' ').length / 200),
-                        createdBy: this.user.uid,
                         slug: this.createSlug(document.getElementById('title').value)
                     };
 
-                    console.log('Creating article with data:', formData);
-                    const articleId = await window.articleSystem.createArticle(formData);
+                    console.log('Updating article with data:', formData);
+                    await firebase.firestore().collection('articles').doc(this.articleId).update(formData);
                     
-                    alert('Makale başarıyla oluşturuldu!');
-                    window.location.href = 'admin.html';
+                    alert('Makale başarıyla güncellendi!');
+                    window.location.href = 'admin-articles.html';
                     
                 } catch (error) {
-                    console.error('Error creating article:', error);
-                    errorMessage.textContent = 'Makale oluşturulurken bir hata oluştu: ' + error.message;
+                    console.error('Error updating article:', error);
+                    errorMessage.textContent = 'Makale güncellenirken bir hata oluştu: ' + error.message;
                     errorMessage.style.display = 'block';
                 } finally {
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = `
                         <i class="fas fa-save"></i>
-                        <span>Makaleyi Kaydet</span>
+                        <span>Değişiklikleri Kaydet</span>
                     `;
                 }
             }
@@ -989,6 +1043,13 @@
             showAccessDenied() {
                 document.getElementById('loadingState').style.display = 'none';
                 document.getElementById('accessDenied').style.display = 'block';
+            }
+
+            showError(message) {
+                document.getElementById('loadingState').style.display = 'none';
+                const errorMessage = document.getElementById('errorMessage');
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
             }
         }
 
@@ -1183,7 +1244,7 @@
 
         // Initialize when DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
-            window.adminNewArticle = new AdminNewArticle();
+            window.adminEditArticle = new AdminEditArticle();
             
             // Add content change listener for preview
             document.getElementById('content').addEventListener('input', updatePreview);
