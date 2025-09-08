@@ -171,28 +171,8 @@ class HamburgerMenu {
                 }
             });
             
-            // Mobile auth buttons
-            const mobileLoginBtn = document.getElementById('mobileShowLoginBtn');
-            const mobileSignupBtn = document.getElementById('mobileShowSignupBtn');
+            // Mobile lang toggle
             const mobileLangToggle = document.getElementById('mobileLangToggle');
-            
-            if (mobileLoginBtn) {
-                mobileLoginBtn.addEventListener('click', () => {
-                    this.closeMenu();
-                    // Trigger desktop login button
-                    const desktopLoginBtn = document.getElementById('showLoginBtn');
-                    if (desktopLoginBtn) desktopLoginBtn.click();
-                });
-            }
-            
-            if (mobileSignupBtn) {
-                mobileSignupBtn.addEventListener('click', () => {
-                    this.closeMenu();
-                    // Trigger desktop signup button
-                    const desktopSignupBtn = document.getElementById('showSignupBtn');
-                    if (desktopSignupBtn) desktopSignupBtn.click();
-                });
-            }
             
             if (mobileLangToggle) {
                 mobileLangToggle.addEventListener('click', (e) => {
@@ -223,6 +203,7 @@ class HamburgerMenu {
         this.mobileMenu.classList.remove('active');
         document.body.style.overflow = '';
     }
+
 }
 
 // Initialize hamburger menu when DOM is loaded

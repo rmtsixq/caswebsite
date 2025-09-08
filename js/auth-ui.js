@@ -34,43 +34,66 @@ async function initializeAuth() {
   const loginError = document.getElementById('loginError');
   const signupError = document.getElementById('signupError');
   const authButtons = document.querySelector('.auth-buttons');
+  const mobileAuthButtons = document.querySelector('.mobile-menu .auth-buttons');
 
   // Show/Hide modal
   if (showLoginBtn) {
     showLoginBtn.onclick = () => {
-      authModal.classList.add('active');
-      loginForm.style.display = '';
-      signupForm.style.display = 'none';
+      // Get fresh references to modal elements
+      const authModalEl = document.getElementById('authModal');
+      const loginFormEl = document.getElementById('loginForm');
+      const signupFormEl = document.getElementById('signupForm');
+      if (authModalEl) {
+        authModalEl.classList.add('active');
+        if (loginFormEl) loginFormEl.style.display = '';
+        if (signupFormEl) signupFormEl.style.display = 'none';
+      }
     };
   }
   
   if (showSignupBtn) {
     showSignupBtn.onclick = () => {
-      authModal.classList.add('active');
-      loginForm.style.display = 'none';
-      signupForm.style.display = '';
+      // Get fresh references to modal elements
+      const authModalEl = document.getElementById('authModal');
+      const loginFormEl = document.getElementById('loginForm');
+      const signupFormEl = document.getElementById('signupForm');
+      if (authModalEl) {
+        authModalEl.classList.add('active');
+        if (loginFormEl) loginFormEl.style.display = 'none';
+        if (signupFormEl) signupFormEl.style.display = '';
+      }
     };
   }
   
   if (closeModal) {
     closeModal.onclick = () => {
-      authModal.classList.remove('active');
-      if (loginError) loginError.textContent = '';
-      if (signupError) signupError.textContent = '';
+      // Get fresh reference to modal element
+      const authModalEl = document.getElementById('authModal');
+      if (authModalEl) {
+        authModalEl.classList.remove('active');
+        if (loginError) loginError.textContent = '';
+        if (signupError) signupError.textContent = '';
+      }
     };
   }
   
   if (showSignup) {
     showSignup.onclick = () => {
-      loginForm.style.display = 'none';
-      signupForm.style.display = '';
+      // Get fresh references to form elements
+      const loginFormEl = document.getElementById('loginForm');
+      const signupFormEl = document.getElementById('signupForm');
+      if (loginFormEl) loginFormEl.style.display = 'none';
+      if (signupFormEl) signupFormEl.style.display = '';
     };
   }
   
   if (showLogin) {
     showLogin.onclick = () => {
-      loginForm.style.display = '';
-      signupForm.style.display = 'none';
+      // Get fresh references to form elements
+      const loginFormEl = document.getElementById('loginForm');
+      const signupFormEl = document.getElementById('signupForm');
+      if (loginFormEl) loginFormEl.style.display = '';
+      if (signupFormEl) signupFormEl.style.display = 'none';
     };
   }
 
@@ -83,7 +106,9 @@ async function initializeAuth() {
       const password = document.getElementById('loginPassword').value;
       try {
         await authApi.login(email, password);
-        authModal.classList.remove('active');
+        // Get fresh reference to modal element
+        const authModalEl = document.getElementById('authModal');
+        if (authModalEl) authModalEl.classList.remove('active');
         if (loginError) loginError.textContent = '';
         window.location.reload();
       } catch (err) {
@@ -107,7 +132,9 @@ async function initializeAuth() {
       }
       try {
         await authApi.register(email, password, name);
-        authModal.classList.remove('active');
+        // Get fresh reference to modal element
+        const authModalEl = document.getElementById('authModal');
+        if (authModalEl) authModalEl.classList.remove('active');
         if (signupError) signupError.textContent = '';
         window.location.reload();
       } catch (err) {
@@ -162,6 +189,10 @@ async function initializeAuth() {
         authButtons.innerHTML = '';
         authButtons.appendChild(createProfileButton());
       }
+      if (mobileAuthButtons) {
+        mobileAuthButtons.innerHTML = '';
+        mobileAuthButtons.appendChild(createProfileButton());
+      }
       document.body.classList.add('admin-logged-in');
     } else {
       // Çıkış yapan kullanıcıya login/signup butonlarını göster
@@ -170,23 +201,89 @@ async function initializeAuth() {
           <button class="auth-btn login-btn" id="showLoginBtn">Login</button>
           <button class="auth-btn signup-btn" id="showSignupBtn">Sign Up</button>
         `;
-        // Butonlara event listener'ları tekrar ekle
+        // Desktop butonlara event listener'ları tekrar ekle
         const newShowLoginBtn = document.getElementById('showLoginBtn');
         const newShowSignupBtn = document.getElementById('showSignupBtn');
         
         if (newShowLoginBtn) {
           newShowLoginBtn.onclick = () => {
-            authModal.classList.add('active');
-            loginForm.style.display = '';
-            signupForm.style.display = 'none';
+            // Get fresh references to modal elements
+            const authModalEl = document.getElementById('authModal');
+            const loginFormEl = document.getElementById('loginForm');
+            const signupFormEl = document.getElementById('signupForm');
+            if (authModalEl) {
+              authModalEl.classList.add('active');
+              if (loginFormEl) loginFormEl.style.display = '';
+              if (signupFormEl) signupFormEl.style.display = 'none';
+            }
           };
         }
         
         if (newShowSignupBtn) {
           newShowSignupBtn.onclick = () => {
-            authModal.classList.add('active');
-            loginForm.style.display = 'none';
-            signupForm.style.display = '';
+            // Get fresh references to modal elements
+            const authModalEl = document.getElementById('authModal');
+            const loginFormEl = document.getElementById('loginForm');
+            const signupFormEl = document.getElementById('signupForm');
+            if (authModalEl) {
+              authModalEl.classList.add('active');
+              if (loginFormEl) loginFormEl.style.display = 'none';
+              if (signupFormEl) signupFormEl.style.display = '';
+            }
+          };
+        }
+      }
+      
+      if (mobileAuthButtons) {
+        mobileAuthButtons.innerHTML = `
+          <button class="auth-btn login-btn" id="mobileShowLoginBtn">Login</button>
+          <button class="auth-btn signup-btn" id="mobileShowSignupBtn">Sign Up</button>
+        `;
+        // Mobile butonlara event listener'ları tekrar ekle
+        const mobileLoginBtn = document.getElementById('mobileShowLoginBtn');
+        const mobileSignupBtn = document.getElementById('mobileShowSignupBtn');
+        
+        if (mobileLoginBtn) {
+          mobileLoginBtn.onclick = () => {
+            // Close mobile menu
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const hamburger = document.querySelector('.hamburger');
+            if (mobileMenu && hamburger) {
+              mobileMenu.classList.remove('active');
+              hamburger.classList.remove('active');
+              document.body.style.overflow = '';
+            }
+            // Get fresh references to modal elements
+            const authModalEl = document.getElementById('authModal');
+            const loginFormEl = document.getElementById('loginForm');
+            const signupFormEl = document.getElementById('signupForm');
+            if (authModalEl) {
+              authModalEl.classList.add('active');
+              if (loginFormEl) loginFormEl.style.display = '';
+              if (signupFormEl) signupFormEl.style.display = 'none';
+            }
+          };
+        }
+        
+        if (mobileSignupBtn) {
+          mobileSignupBtn.onclick = () => {
+            // Close mobile menu
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const hamburger = document.querySelector('.hamburger');
+            if (mobileMenu && hamburger) {
+              mobileMenu.classList.remove('active');
+              hamburger.classList.remove('active');
+              document.body.style.overflow = '';
+            }
+            // Get fresh references to modal elements
+            const authModalEl = document.getElementById('authModal');
+            const loginFormEl = document.getElementById('loginForm');
+            const signupFormEl = document.getElementById('signupForm');
+            if (authModalEl) {
+              authModalEl.classList.add('active');
+              if (loginFormEl) loginFormEl.style.display = 'none';
+              if (signupFormEl) signupFormEl.style.display = '';
+            }
           };
         }
       }
