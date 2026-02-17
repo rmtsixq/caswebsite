@@ -18,13 +18,13 @@ console.log(`
                                                                  
 `);
 const firebaseConfig = {
-  apiKey: "AIzaSyBuONRqmCCwc13NgHSn4LpByjrWnRVax6E",
-  authDomain: "windgriff-6cbd7.firebaseapp.com",
-  projectId: "windgriff-6cbd7",
-  storageBucket: "windgriff-6cbd7.firebasestorage.app",
-  messagingSenderId: "155157182521",
-  appId: "1:155157182521:web:abe406bc36389cf8b1f5e8",
-  measurementId: "G-XX32MM6ETK"
+  apiKey: "AIzaSyDrV_neCyPgvvALyGFhIt27qdvgfA98Ovs",
+  authDomain: "runrproject-b58fb.firebaseapp.com",
+  projectId: "runrproject-b58fb",
+  storageBucket: "runrproject-b58fb.firebasestorage.app",
+  messagingSenderId: "650505146547",
+  appId: "1:650505146547:web:c2f96e0479bcef1a9220c6",
+  measurementId: "G-564RMPS0VQ"
 };
 
 // Alternative Xtodaymedia Firebase config (comment out CAS config above and uncomment this if you want to use Xtodaymedia data)
@@ -62,7 +62,7 @@ db.settings({
 });
 
 // Enable offline persistence with better error handling
-db.enablePersistence({synchronizeTabs: false})
+db.enablePersistence({ synchronizeTabs: false })
   .catch((err) => {
     if (err.code === 'failed-precondition') {
       console.warn('Multiple tabs open, persistence can only be enabled in one tab at a time.');

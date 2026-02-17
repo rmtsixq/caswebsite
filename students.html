@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,7 +25,7 @@
             justify-content: center;
             align-items: center;
         }
-        
+
         .auth-modal.active {
             display: flex;
         }
@@ -32,7 +33,7 @@
         /* Students Page Specific Styles */
         .students-hero {
             background: linear-gradient(135deg, rgba(18, 18, 18, 0.95), rgba(26, 26, 26, 0.95)),
-                        url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+                url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
             background-size: cover;
             background-position: center;
             padding: 8rem 5% 4rem;
@@ -191,6 +192,7 @@
         }
     </style>
 </head>
+
 <body>
     <header>
         <nav class="main-nav">
@@ -240,7 +242,8 @@
     <main>
         <section class="students-hero">
             <h1>Our IB Diploma Students</h1>
-            <p>Discover the inspiring stories of our students who are developing themselves in creativity, activity, and service areas.</p>
+            <p>Discover the inspiring stories of our students who are developing themselves in creativity, activity, and
+                service areas.</p>
         </section>
 
         <section class="students-grid-container">
@@ -306,12 +309,12 @@
                         .collection('students')
                         .orderBy('createdAt', 'desc')
                         .get();
-                    
+
                     this.students = snapshot.docs.map(doc => ({
                         id: doc.id,
                         ...doc.data()
                     }));
-                    
+
                     this.filteredStudents = [...this.students];
                     this.renderStudents();
                 } catch (error) {
@@ -322,7 +325,7 @@
 
             renderStudents() {
                 const container = document.getElementById('studentsGrid');
-                
+
                 if (this.filteredStudents.length === 0) {
                     container.innerHTML = `
                         <div class="empty-state">
@@ -336,18 +339,16 @@
 
                 const studentsHTML = this.filteredStudents.map(student => `
                     <div class="student-card" data-student-id="${student.id}">
-                        <div class="student-photo">
-                            ${student.profileImage ? 
-                                `<img src="${student.profileImage}" alt="${student.displayName}" class="student-avatar">` :
-                                `<i class="fas fa-user placeholder"></i>`
-                            }
-                        </div>
-                        <div class="student-info">
-                            <h3 class="student-name">${student.displayName}</h3>
-                            <p class="student-class">${student.grade || 'Grade not specified'}</p>
-                            <p class="student-quote">"${student.bio || 'No biography added yet.'}"</p>
-                            <div class="student-actions">
-                                <a href="student-profile.html?id=${student.id}" class="view-profile-btn">Detailed Profile</a>
+                        <div class="student-photo-container">
+                            ${student.profileImage ?
+                        `<img src="${student.profileImage}" alt="${student.displayName}" class="student-photo-img">` :
+                        `<div class="student-placeholder"><i class="fas fa-user"></i></div>`
+                    }
+                            <div class="student-overlay">
+                                <h3 class="student-name">${student.displayName}</h3>
+                                <p class="student-class">${student.grade || 'Grade not specified'}</p>
+                                <p class="student-quote">"${student.bio ? (student.bio.length > 50 ? student.bio.substring(0, 50) + '...' : student.bio) : 'No biography added.'}"</p>
+                                <a href="student-profile.html?id=${student.id}" class="view-profile-btn">View Profile</a>
                             </div>
                         </div>
                     </div>
@@ -360,7 +361,7 @@
                 // Search functionality
                 document.getElementById('studentSearch').addEventListener('input', (e) => {
                     const searchTerm = e.target.value.toLowerCase();
-                    this.filteredStudents = this.students.filter(student => 
+                    this.filteredStudents = this.students.filter(student =>
                         student.displayName.toLowerCase().includes(searchTerm) ||
                         (student.grade && student.grade.toLowerCase().includes(searchTerm)) ||
                         (student.bio && student.bio.toLowerCase().includes(searchTerm)) ||
@@ -390,18 +391,19 @@
         }
 
         // Language toggle functionality
-        document.getElementById('langToggle').addEventListener('click', function(e) {
+        document.getElementById('langToggle').addEventListener('click', function (e) {
             e.preventDefault();
             // This would be implemented to switch between Turkish and English
             console.log('Language toggle clicked');
         });
 
         // Initialize when DOM is ready
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             window.studentsPage = new StudentsPage();
         });
     </script>
     <script src="js/auth.js"></script>
     <script src="js/language.js"></script>
 </body>
+
 </html>

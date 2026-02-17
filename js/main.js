@@ -1,8 +1,8 @@
 // Main website functionality
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Smooth scrolling for internal links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
+        anchor.addEventListener('click', function (e) {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
             if (target) {
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ticking = false;
     }
 
-    window.addEventListener('scroll', function() {
+    window.addEventListener('scroll', function () {
         if (!ticking) {
             requestAnimationFrame(updateParallax);
             ticking = true;
@@ -54,23 +54,27 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Add loading animation
-    window.addEventListener('load', function() {
+    window.addEventListener('load', function () {
         document.body.classList.add('loaded');
     });
 
     // Enhanced glassmorphism on scroll
-    window.addEventListener('scroll', function() {
-        const header = document.querySelector('header');
-        const scrolled = window.pageYOffset;
-        
-        if (scrolled > 100) {
-            header.style.background = 'rgba(26, 26, 26, 0.98)';
-            header.style.backdropFilter = 'blur(20px)';
+    const header = document.querySelector('header');
+
+    function updateHeaderStyle() {
+        const scrolled = window.scrollY;
+
+        if (scrolled > 50) {
+            header.classList.add('scrolled');
         } else {
-            header.style.background = 'rgba(26, 26, 26, 0.95)';
-            header.style.backdropFilter = 'blur(10px)';
+            header.classList.remove('scrolled');
         }
-    });
+    }
+
+    window.addEventListener('scroll', updateHeaderStyle);
+
+    // Initial check
+    updateHeaderStyle();
 });
 
 // Utility function for creating dynamic cards
@@ -144,36 +148,36 @@ class HamburgerMenu {
         this.navLinks = document.querySelectorAll('.mobile-menu .nav-links a');
         this.authButtons = document.querySelector('.mobile-menu .auth-buttons');
         this.langToggle = document.querySelector('.mobile-menu .lang-toggle');
-        
+
         this.init();
     }
 
     init() {
         if (this.hamburger && this.mobileMenu) {
             this.hamburger.addEventListener('click', () => this.toggleMenu());
-            
+
             // Close menu when clicking on links
             this.navLinks.forEach(link => {
                 link.addEventListener('click', () => this.closeMenu());
             });
-            
+
             // Close menu when clicking outside
             this.mobileMenu.addEventListener('click', (e) => {
                 if (e.target === this.mobileMenu) {
                     this.closeMenu();
                 }
             });
-            
+
             // Close menu on escape key
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && this.mobileMenu.classList.contains('active')) {
                     this.closeMenu();
                 }
             });
-            
+
             // Mobile lang toggle
             const mobileLangToggle = document.getElementById('mobileLangToggle');
-            
+
             if (mobileLangToggle) {
                 mobileLangToggle.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -189,7 +193,7 @@ class HamburgerMenu {
     toggleMenu() {
         this.hamburger.classList.toggle('active');
         this.mobileMenu.classList.toggle('active');
-        
+
         // Prevent body scroll when menu is open
         if (this.mobileMenu.classList.contains('active')) {
             document.body.style.overflow = 'hidden';
@@ -207,6 +211,6 @@ class HamburgerMenu {
 }
 
 // Initialize hamburger menu when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     new HamburgerMenu();
 });

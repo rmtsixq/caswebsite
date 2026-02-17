@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -193,6 +194,7 @@
         }
     </style>
 </head>
+
 <body>
     <header>
         <nav class="main-nav">
@@ -329,8 +331,13 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="profileImage">Profil Resmi URL</label>
-                        <input type="url" id="profileImage" name="profileImage" placeholder="https://example.com/image.jpg">
+                        <label for="profileImageFile">Profil Resmi (Yükle)</label>
+                        <input type="file" id="profileImageFile" name="profileImageFile" accept="image/*">
+                        <input type="hidden" id="profileImage" name="profileImage">
+                        <div id="uploadProgressContainer" style="display: none; margin-top: 10px;">
+                            <progress id="uploadProgress" value="0" max="100" style="width: 100%;"></progress>
+                            <span id="uploadStatus">Yükleniyor... %0</span>
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -340,7 +347,8 @@
 
                     <div class="form-group">
                         <label for="interests">İlgi Alanları</label>
-                        <input type="text" id="interests" name="interests" placeholder="Matematik, Bilim, Sanat, Spor...">
+                        <input type="text" id="interests" name="interests"
+                            placeholder="Matematik, Bilim, Sanat, Spor...">
                     </div>
 
                     <div class="form-row">
@@ -377,17 +385,20 @@
 
                     <div class="form-group">
                         <label for="academicInterests">Akademik İlgi Alanları</label>
-                        <textarea id="academicInterests" name="academicInterests" placeholder="Matematik, Fizik, Kimya, Biyoloji, Tarih, Edebiyat..."></textarea>
+                        <textarea id="academicInterests" name="academicInterests"
+                            placeholder="Matematik, Fizik, Kimya, Biyoloji, Tarih, Edebiyat..."></textarea>
                     </div>
 
                     <div class="form-group">
                         <label for="extracurricularActivities">Ders Dışı Aktiviteler</label>
-                        <textarea id="extracurricularActivities" name="extracurricularActivities" placeholder="Spor, müzik, sanat, drama, kulüp aktiviteleri..."></textarea>
+                        <textarea id="extracurricularActivities" name="extracurricularActivities"
+                            placeholder="Spor, müzik, sanat, drama, kulüp aktiviteleri..."></textarea>
                     </div>
 
                     <div class="form-group">
                         <label for="achievements">Başarılar ve Ödüller</label>
-                        <textarea id="achievements" name="achievements" placeholder="Yarışmalar, ödüller, sertifikalar..."></textarea>
+                        <textarea id="achievements" name="achievements"
+                            placeholder="Yarışmalar, ödüller, sertifikalar..."></textarea>
                     </div>
 
                     <div class="form-group">
@@ -401,7 +412,8 @@
                     </div>
 
                     <div class="form-actions">
-                        <button type="button" class="btn btn-secondary" onclick="window.location.href='admin-students.html'">
+                        <button type="button" class="btn btn-secondary"
+                            onclick="window.location.href='admin-students.html'">
                             <i class="fas fa-times"></i>
                             İptal
                         </button>
@@ -419,12 +431,13 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
     <script src="js/firebase-config.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/auth-ui.js"></script>
     <script src="js/language.js"></script>
-    
+
     <script>
         // Admin New Student Management
         class AdminNewStudent {
@@ -466,8 +479,15 @@
             }
 
             async checkAdminStatus() {
-                // GEÇİCİ: Admin kontrolünü bypass et - test için
-                return true;
+                // Check if email matches admin email
+                if (this.currentUser && this.currentUser.email === 'naslan7321@gmail.com') {
+                    return true;
+                }
+                // Also check via authApi if available (checks Firestore role)
+                if (window.authApi && window.authApi.checkAdminStatus) {
+                    return await window.authApi.checkAdminStatus(this.currentUser);
+                }
+                return false;
             }
 
             setupEventListeners() {
@@ -480,13 +500,37 @@
 
             async submitStudent() {
                 try {
-                    const formData = new FormData(document.getElementById('studentForm'));
+                    const form = document.getElementById('studentForm');
+                    const formData = new FormData(form);
+                    const fileInput = document.getElementById('profileImageFile');
+                    let profileImageUrl = '';
+
+                    // Show loading on button
+                    const submitBtn = form.querySelector('button[type="submit"]');
+                    const originalBtnText = submitBtn.innerHTML;
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> İşleniyor...';
+
+                    // 1. Upload Image if selected
+                    if (fileInput.files.length > 0) {
+                        const file = fileInput.files[0];
+                        try {
+                            profileImageUrl = await this.uploadImage(file);
+                        } catch (uploadError) {
+                            console.error("Upload failed:", uploadError);
+                            this.showError('Resim yüklenirken hata oluştu: ' + uploadError.message);
+                            submitBtn.disabled = false;
+                            submitBtn.innerHTML = originalBtnText;
+                            return;
+                        }
+                    }
+
                     const studentData = {
                         displayName: formData.get('displayName'),
                         email: formData.get('email'),
                         grade: formData.get('grade') || '',
                         status: formData.get('status'),
-                        profileImage: formData.get('profileImage') || '',
+                        profileImage: profileImageUrl, // Use the uploaded URL
                         bio: formData.get('bio') || '',
                         interests: formData.get('interests') || '',
                         phone: formData.get('phone') || '',
@@ -507,6 +551,8 @@
                     // Validate required fields
                     if (!studentData.displayName || !studentData.email) {
                         this.showError('Ad Soyad ve E-posta alanları zorunludur.');
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalBtnText;
                         return;
                     }
 
@@ -516,10 +562,10 @@
                         .add(studentData);
 
                     this.showSuccess();
-                    
+
                     // Clear form
                     document.getElementById('studentForm').reset();
-                    
+
                     // Redirect after 2 seconds
                     setTimeout(() => {
                         window.location.href = 'admin-students.html';
@@ -528,7 +574,47 @@
                 } catch (error) {
                     console.error('Error creating student:', error);
                     this.showError('Öğrenci eklenirken hata oluştu: ' + error.message);
+                    const submitBtn = document.querySelector('button[type="submit"]');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fas fa-save"></i> Öğrenci Ekle';
                 }
+            }
+
+            async uploadImage(file) {
+                return new Promise((resolve, reject) => {
+                    // Create storage reference
+                    const storageRef = firebase.storage().ref();
+                    const fileName = `students/${Date.now()}_${file.name}`;
+                    const uploadTask = storageRef.child(fileName).put(file);
+
+                    // UI elements
+                    const progressContainer = document.getElementById('uploadProgressContainer');
+                    const progressBar = document.getElementById('uploadProgress');
+                    const statusText = document.getElementById('uploadStatus');
+
+                    progressContainer.style.display = 'block';
+
+                    uploadTask.on('state_changed',
+                        (snapshot) => {
+                            // Observe state change events such as progress, pause, and resume
+                            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                            progressBar.value = progress;
+                            statusText.textContent = `Yükleniyor... %${Math.round(progress)}`;
+                        },
+                        (error) => {
+                            // Handle unsuccessful uploads
+                            progressContainer.style.display = 'none';
+                            reject(error);
+                        },
+                        () => {
+                            // Handle successful uploads on complete
+                            uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                                progressContainer.style.display = 'none';
+                                resolve(downloadURL);
+                            });
+                        }
+                    );
+                });
             }
 
             showSuccess() {
@@ -554,9 +640,10 @@
         }
 
         // Initialize when DOM is ready
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             window.adminNewStudent = new AdminNewStudent();
         });
     </script>
 </body>
+
 </html>

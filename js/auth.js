@@ -1,16 +1,16 @@
 const auth = firebase.auth();
 
 // Admin email - bu email'e sahip kullanıcı otomatik admin olur
-const ADMIN_EMAIL = 'admin@ruzgaranatolian.edu.tr';
+const ADMIN_EMAIL = 'naslan7321@gmail.com';
 
 async function register(email, password, displayName) {
   try {
     const userCredential = await auth.createUserWithEmailAndPassword(email, password);
     const user = userCredential.user;
-    
+
     // Update user profile
     await user.updateProfile({ displayName });
-    
+
     // Create user profile in Firestore
     const isAdmin = email === ADMIN_EMAIL;
     const userProfile = {
@@ -20,9 +20,9 @@ async function register(email, password, displayName) {
       isAdmin,
       createdAt: new Date().toISOString()
     };
-    
+
     await db.collection('users').doc(user.uid).set(userProfile);
-    
+
     return { user, profile: userProfile };
   } catch (error) {
     throw error;
@@ -33,11 +33,11 @@ async function login(email, password) {
   try {
     const userCredential = await auth.signInWithEmailAndPassword(email, password);
     const user = userCredential.user;
-    
+
     // Get user profile from Firestore
     const userDoc = await db.collection('users').doc(user.uid).get();
     let profile;
-    
+
     if (userDoc.exists) {
       profile = userDoc.data();
     } else {
@@ -52,7 +52,7 @@ async function login(email, password) {
       };
       await db.collection('users').doc(user.uid).set(profile);
     }
-    
+
     return { user, profile };
   } catch (error) {
     throw error;
@@ -96,7 +96,7 @@ async function updateUserProfile(uid, updates) {
 
 async function checkAdminStatus(user) {
   if (!user) return false;
-  
+
   try {
     const profile = await getUserProfile(user.uid);
     return profile?.isAdmin || false;
@@ -119,7 +119,7 @@ class AuthManager {
   init() {
     auth.onAuthStateChanged(async (user) => {
       this.user = user;
-      
+
       if (user) {
         try {
           this.userProfile = await getUserProfile(user.uid);
@@ -133,10 +133,10 @@ class AuthManager {
         this.userProfile = null;
         this.isAdmin = false;
       }
-      
+
       // Update UI
       this.updateAuthUI();
-      
+
       // Call registered callbacks
       this.callbacks.forEach(callback => {
         callback({
@@ -157,12 +157,12 @@ class AuthManager {
     const signupBtn = document.getElementById('showSignupBtn');
     const authButtons = document.querySelector('.auth-buttons');
     const adminLink = document.getElementById('adminLink');
-    
+
     // Show/hide admin link in navigation
     if (adminLink) {
       adminLink.style.display = this.isAdmin ? 'block' : 'none';
     }
-    
+
     if (this.user && authButtons) {
       // Replace auth buttons with user menu
       authButtons.innerHTML = `
@@ -193,7 +193,7 @@ class AuthManager {
     const profileBtn = document.getElementById('profileBtn');
     const profileMenu = document.getElementById('profileMenu');
     const logoutBtn = document.getElementById('logoutBtn');
-    
+
     if (profileBtn && profileMenu) {
       profileBtn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -222,13 +222,13 @@ class AuthManager {
 // Initialize Auth Manager
 window.authManager = new AuthManager();
 
-window.authApi = { 
-  register, 
-  login, 
-  logout, 
-  onUserChanged, 
-  getCurrentUser, 
-  getUserProfile, 
-  updateUserProfile, 
-  checkAdminStatus 
+window.authApi = {
+  register,
+  login,
+  logout,
+  onUserChanged,
+  getCurrentUser,
+  getUserProfile,
+  updateUserProfile,
+  checkAdminStatus
 }; 
