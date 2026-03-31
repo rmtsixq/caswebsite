@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yeni Video - Admin Panel</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Hide auth modal on admin pages */
+        .auth-modal {
+            display: none !important;
+        }
+
+        /* Video Preview Styles */
+        .video-preview {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #000;
+            margin-bottom: 1rem;
+        }
+
+        .video-preview iframe {
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-id-info {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid #22c55e;
+            color: #22c55e;
+            padding: 0.8rem;
+            border-radius: 8px;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .youtube-info {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid #3b82f6;
+            color: #3b82f6;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .youtube-info h4 {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .youtube-info p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* Hide auth modal on admin pages */
+        .auth-modal {
+            display: none !important;
+        }
+
+        /* Admin New Video Page Styles */
+        .admin-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            margin-top: 70px;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .admin-title {
+            font-size: 2rem;
+            color: var(--white);
+            margin: 0;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .form-container {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--white);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .loading-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-light);
+        }
+
+        .access-denied {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-light);
+        }
+
+        .access-denied i {
+            font-size: 4rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .access-denied h2 {
+            color: var(--white);
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+
+        .success-message {
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid #22c55e;
+            color: #22c55e;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .admin-container {
+                padding: 1rem;
+            }
+
+            .admin-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="logo">
+                <img src="new-logo.jpg" alt="Private Ruzgar Anatolian Lisesi">
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" data-translate="Ana Sayfa">Ana Sayfa</a></li>
+                <li><a href="students.html" data-translate="Öğrenciler">Öğrenciler</a></li>
+                <li><a href="projects.html" data-translate="Projeler">Projeler</a></li>
+                <li><a href="articles.html" data-translate="Makaleler">Makaleler</a></li>
+                <li><a href="videos.html" data-translate="Videolar">Videolar</a></li>
+                <li><a href="about-cas.html" data-translate="CAS Hakkında">CAS Hakkında</a></li>
+                <li><a href="#contact" data-translate="İletişim">İletişim</a></li>
+                <li><a href="#" id="langToggle" class="lang-toggle">EN</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <button class="auth-btn login-btn" id="showLoginBtn">Login</button>
+                <button class="auth-btn signup-btn" id="showSignupBtn">Sign Up</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Auth Modal -->
+    <div class="auth-modal" id="authModal">
+        <span class="close-modal" id="closeModal">&times;</span>
+        
+        <!-- Login Form -->
+        <div class="auth-form" id="loginForm">
+            <h2>Login</h2>
+            <form id="loginFormElement">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <div class="error-message" id="loginError"></div>
+                <button type="submit" class="auth-submit">Login</button>
+            </form>
+            <div class="auth-toggle">
+                Don't have an account? <a id="showSignup">Sign up</a>
+            </div>
+        </div>
+
+        <!-- Signup Form -->
+        <div class="auth-form" id="signupForm" style="display: none;">
+            <h2>Sign Up</h2>
+            <form id="signupFormElement">
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupConfirmPassword">Confirm Password</label>
+                    <input type="password" id="signupConfirmPassword" required>
+                </div>
+                <div class="error-message" id="signupError"></div>
+                <button type="submit" class="auth-submit">Sign Up</button>
+            </form>
+            <div class="auth-toggle">
+                Already have an account? <a id="showLogin">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <div class="admin-form-container" style="margin-top: 90px;">
+            
+            <!-- Loading State -->
+            <div id="loadingState" class="loading-article">
+                <i class="fas fa-spinner fa-spin"></i>
+                <h3>Admin panel yükleniyor...</h3>
+            </div>
+
+            <!-- Access Denied -->
+            <div id="accessDenied" class="access-denied" style="display: none;">
+                <i class="fas fa-lock"></i>
+                <h2>Erişim Engellendi</h2>
+                <p>Bu sayfaya erişim için admin yetkileriniz olmalı.</p>
+                <a href="index.html" class="action-btn primary">
+                    <i class="fas fa-home"></i>
+                    Ana Sayfaya Dön
+                </a>
+            </div>
+
+            <!-- Form Content -->
+            <div id="formContent" style="display: none;">
+                <!-- Header -->
+                <div class="admin-form-header">
+                    <div class="header-left">
+                        <button class="back-btn" onclick="window.history.back()">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <div>
+                            <h1 style="color: var(--white); margin-bottom: 0.5rem;">Yeni Video</h1>
+                            <p style="color: var(--text-light);">YouTube video ekle</p>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="videoForm" class="form-grid">
+                    <!-- Main Form -->
+                    <div class="main-form">
+                        <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+                        <!-- Title -->
+                        <div class="form-group">
+                            <label for="title">Video Başlığı *</label>
+                            <input type="text" id="title" class="form-input" placeholder="Video başlığını girin" required>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="form-group">
+                            <label for="description">Açıklama *</label>
+                            <textarea id="description" class="form-input form-textarea" placeholder="Video açıklaması" required></textarea>
+                        </div>
+
+                        <!-- YouTube URL -->
+                        <div class="form-group">
+                            <label for="youtubeUrl">YouTube URL *</label>
+                            <input type="url" id="youtubeUrl" class="form-input" placeholder="https://www.youtube.com/watch?v=..." required>
+                            <div id="videoIdInfo" class="video-id-info" style="display: none;">
+                                <i class="fas fa-check-circle"></i>
+                                <span>YouTube ID: <strong id="detectedVideoId"></strong></span>
+                            </div>
+                            <div class="help-text">YouTube video URL'sini yapıştırın</div>
+                        </div>
+
+                        <!-- Category -->
+                        <div class="form-group">
+                            <label for="category">Kategori</label>
+                            <select id="category" class="form-select">
+                                <option value="">Kategori seçin</option>
+                                <option value="STEM">STEM</option>
+                                <option value="Social Studies">Social Studies</option>
+                                <option value="Politics">Politics</option>
+                                <option value="Philosophy">Philosophy</option>
+                                <option value="Art & Literature">Art & Literature</option>
+                                <option value="Women Rights">Women Rights</option>
+                                <option value="Science & Technology">Science & Technology</option>
+                            </select>
+                        </div>
+
+                        <!-- Custom Category -->
+                        <div class="form-group">
+                            <label for="customCategory">Özel Kategori</label>
+                            <input type="text" id="customCategory" class="form-input" placeholder="Özel kategori adı (isteğe bağlı)">
+                        </div>
+
+            <!-- Custom Thumbnail -->
+            <div class="form-group">
+                <label for="customThumbnail">Özel Thumbnail (İsteğe Bağlı)</label>
+                <input type="url" id="customThumbnail" class="form-input" placeholder="https://example.com/thumbnail.jpg">
+                <div class="help-text">Özel thumbnail URL'si girin. Boş bırakırsanız YouTube'un varsayılan thumbnail'i kullanılır.</div>
+            </div>
+
+                        <!-- YouTube Info -->
+                        <div class="youtube-info">
+                            <h4>
+                                <i class="fab fa-youtube"></i>
+                                YouTube Thumbnail
+                            </h4>
+                            <p>
+                                Özel thumbnail yüklemezseniz, video thumbnail'i YouTube'dan otomatik olarak alınacaktır. 
+                                En yüksek kaliteli görüntü için YouTube'un resmi thumbnail API'si kullanılır.
+                            </p>
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="form-actions">
+                            <button type="button" class="cancel-btn" onclick="window.history.back()">
+                                İptal
+                            </button>
+                            <button type="submit" id="submitBtn" class="submit-btn">
+                                <i class="fas fa-save"></i>
+                                <span>Videoyu Kaydet</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar -->
+                    <div class="sidebar">
+                        <!-- Settings -->
+                        <div class="sidebar-section">
+                            <h3>Ayarlar</h3>
+                            
+                            <div class="form-group">
+                                <label for="status">Durum</label>
+                                <select id="status" class="form-select">
+                                    <option value="draft">Taslak</option>
+                                    <option value="published">Yayınla</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Video Preview -->
+                        <div class="sidebar-section">
+                            <h3>Video Önizleme</h3>
+                            <div id="videoPreviewContainer" style="display: none;">
+                                <div class="video-preview">
+                                    <iframe id="videoPreview" allowfullscreen></iframe>
+                                </div>
+                                <div id="videoPreviewInfo">
+                                    <!-- Video info will be shown here -->
+                                </div>
+                            </div>
+                            <div id="noPreview" style="color: var(--text-light); text-align: center; padding: 2rem;">
+                                <i class="fab fa-youtube" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
+                                <p>YouTube URL'si girin, önizleme burada görünecek</p>
+                            </div>
+                        </div>
+
+                        <!-- Help -->
+                        <div class="sidebar-section">
+                            <h3>Yardım</h3>
+                            <div style="color: var(--text-light); font-size: 0.9rem; line-height: 1.6;">
+                                <p><strong>Adımlar:</strong></p>
+                                <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                                    <li>YouTube video URL'sini yapıştırın</li>
+                                    <li>Video otomatik olarak thumbnail alır</li>
+                                    <li>Kategori seçin veya özel kategori oluşturun</li>
+                                    <li>Taslak olarak kaydedin ve daha sonra yayınlayın</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="contact-info">
+                <h3 data-translate="İletişim">İletişim</h3>
+                <p><i class="fas fa-envelope"></i> rumet@example.com</p>
+                <p><i class="fas fa-phone"></i> 555555555</p>
+                <p><i class="fas fa-map-marker-alt"></i> Diyarbakır, Türkiye</p>
+            </div>
+            <div class="school-info">
+                <img src="new-logo.jpg" alt="Private Ruzgar Anatolian Lisesi" class="footer-logo">
+                <h4>Private Ruzgar Anatolian Lisesi</h4>
+                <p>IB World School</p>
+            </div>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/auth-ui.js"></script>
+    <script src="js/articles.js"></script>
+    <script src="js/language.js"></script>
+    
+    <script>
+        // Admin New Video Functionality
+        class AdminNewVideo {
+            constructor() {
+                this.user = null;
+                this.userProfile = null;
+                this.currentVideoId = '';
+                this.init();
+            }
+
+            async init() {
+                // Check authentication
+                firebase.auth().onAuthStateChanged(async (user) => {
+                    this.user = user;
+                    
+                    if (user) {
+                        await this.checkAdminStatus();
+                        if (this.userProfile?.isAdmin) {
+                            this.setupForm();
+                            this.showForm();
+                        } else {
+                            this.showAccessDenied();
+                        }
+                    } else {
+                        this.showAccessDenied();
+                    }
+                });
+            }
+
+            async checkAdminStatus() {
+                try {
+                    const userDoc = await firebase.firestore().collection('users').doc(this.user.uid).get();
+                    if (userDoc.exists) {
+                        this.userProfile = userDoc.data();
+                    } else {
+                        const isAdmin = this.user.email === 'admin@ruzgaranatolian.edu.tr';
+                        this.userProfile = {
+                            uid: this.user.uid,
+                            email: this.user.email,
+                            displayName: this.user.displayName || 'Admin',
+                            isAdmin: isAdmin,
+                            createdAt: new Date().toISOString()
+                        };
+                        await firebase.firestore().collection('users').doc(this.user.uid).set(this.userProfile);
+                    }
+                } catch (error) {
+                    console.error('Error checking admin status:', error);
+                    this.userProfile = null;
+                }
+            }
+
+            setupForm() {
+                const form = document.getElementById('videoForm');
+                
+                // YouTube URL change handler
+                document.getElementById('youtubeUrl').addEventListener('input', (e) => {
+                    this.handleYoutubeUrlChange(e.target.value);
+                });
+
+                // Preview updates
+                ['title', 'description', 'category', 'customCategory', 'status'].forEach(field => {
+                    document.getElementById(field).addEventListener('input', () => {
+                        this.updatePreview();
+                    });
+                });
+
+                // Form submission
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.submitVideo();
+                });
+            }
+
+            handleYoutubeUrlChange(url) {
+                const videoId = this.extractYouTubeId(url);
+                const infoElement = document.getElementById('videoIdInfo');
+                const previewContainer = document.getElementById('videoPreviewContainer');
+                const noPreview = document.getElementById('noPreview');
+                
+                if (videoId) {
+                    this.currentVideoId = videoId;
+                    
+                    // Show video ID info
+                    document.getElementById('detectedVideoId').textContent = videoId;
+                    infoElement.style.display = 'flex';
+                    
+                    // Show video preview
+                    const preview = document.getElementById('videoPreview');
+                    preview.src = `https://www.youtube.com/embed/${videoId}`;
+                    previewContainer.style.display = 'block';
+                    noPreview.style.display = 'none';
+                    
+                    this.updatePreview();
+                } else {
+                    this.currentVideoId = '';
+                    infoElement.style.display = 'none';
+                    previewContainer.style.display = 'none';
+                    noPreview.style.display = 'block';
+                }
+            }
+
+            updatePreview() {
+                if (!this.currentVideoId) return;
+                
+                const previewInfo = document.getElementById('videoPreviewInfo');
+                const title = document.getElementById('title').value || 'Başlık belirtilmedi';
+                const category = document.getElementById('customCategory').value || 
+                               document.getElementById('category').value || 'Kategori belirtilmedi';
+                const status = document.getElementById('status').value;
+
+                previewInfo.innerHTML = `
+                    <div style="font-size: 0.9rem; color: var(--text-light); margin-top: 1rem;">
+                        <p><strong>Başlık:</strong> ${title}</p>
+                        <p><strong>Kategori:</strong> ${category}</p>
+                        <p><strong>Durum:</strong> ${status === 'published' ? 'Yayınlanacak' : 'Taslak'}</p>
+                    </div>
+                `;
+            }
+
+            extractYouTubeId(url) {
+                const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+                const match = url.match(regExp);
+                return (match && match[2].length === 11) ? match[2] : null;
+            }
+
+            async submitVideo() {
+                const submitBtn = document.getElementById('submitBtn');
+                const errorMessage = document.getElementById('errorMessage');
+                
+                // Validate YouTube URL
+                if (!this.currentVideoId) {
+                    errorMessage.textContent = 'Geçerli bir YouTube URL\'si girin';
+                    errorMessage.style.display = 'block';
+                    return;
+                }
+                
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <span>Kaydediliyor...</span>
+                `;
+
+                try {
+                    const formData = {
+                        title: document.getElementById('title').value,
+                        description: document.getElementById('description').value,
+                        youtubeUrl: document.getElementById('youtubeUrl').value,
+                        youtubeId: this.currentVideoId,
+                        thumbnail: document.getElementById('customThumbnail').value || `https://img.youtube.com/vi/${this.currentVideoId}/maxresdefault.jpg`,
+                        category: document.getElementById('customCategory').value || document.getElementById('category').value,
+                        status: document.getElementById('status').value,
+                        publishedAt: new Date().toISOString(),
+                        createdBy: this.user.uid
+                    };
+
+                    console.log('Creating video with data:', formData);
+                    const videoId = await window.articleSystem.createVideo(formData);
+                    
+                    alert('Video başarıyla oluşturuldu!');
+                    window.location.href = 'admin.html';
+                    
+                } catch (error) {
+                    console.error('Error creating video:', error);
+                    errorMessage.textContent = 'Video oluşturulurken bir hata oluştu: ' + error.message;
+                    errorMessage.style.display = 'block';
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = `
+                        <i class="fas fa-save"></i>
+                        <span>Videoyu Kaydet</span>
+                    `;
+                }
+            }
+
+            showForm() {
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('formContent').style.display = 'block';
+            }
+
+            showAccessDenied() {
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('accessDenied').style.display = 'block';
+            }
+        }
+
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            window.adminNewVideo = new AdminNewVideo();
+        });
+    </script>
+</body>
+</html>

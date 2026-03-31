@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Articles - Private Ruzgar Anatolian Lisesi CAS</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Auth modal styles */
+        .auth-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .auth-modal.active {
+            display: flex;
+        }
+
+        /* Articles Page Specific Styles */
+        .articles-hero {
+            background: linear-gradient(rgba(18, 18, 18, 0.9), rgba(18, 18, 18, 0.9)),
+                        url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 8rem 5% 4rem;
+            margin-top: 70px;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .articles-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+
+        .articles-hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            color: var(--text-light);
+        }
+
+        .filters-section {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 2rem 5%;
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: var(--max-width);
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .filters-container {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.2);
+        }
+
+        .search-input::placeholder {
+            color: var(--text-light);
+        }
+
+        .filters-group {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .filter-select {
+            padding: 0.8rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            font-size: 0.9rem;
+            min-width: 150px;
+            transition: var(--transition);
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.2);
+        }
+
+        .filter-select option {
+            background: var(--dark-bg);
+            color: var(--white);
+        }
+
+        .view-mode-toggle {
+            display: flex;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .view-mode-btn {
+            padding: 0.8rem 1rem;
+            background: transparent;
+            color: var(--text-light);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .view-mode-btn.active {
+            background: var(--secondary-color);
+            color: var(--white);
+        }
+
+        .view-mode-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+        }
+
+        .results-info {
+            margin: 2rem 5% 1rem;
+            color: var(--text-light);
+            text-align: center;
+        }
+
+        .articles-content {
+            padding: 2rem 5% 4rem;
+        }
+
+        .articles-grid.list-view {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .articles-grid.list-view .article-card {
+            display: flex;
+            height: 160px;
+        }
+
+        .articles-grid.list-view .article-image {
+            width: 250px;
+            height: 160px;
+            flex-shrink: 0;
+        }
+
+        .articles-grid.list-view .article-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-light);
+        }
+
+        .no-results i {
+            font-size: 4rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .no-results h3 {
+            color: var(--white);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .clear-filters-btn {
+            background: var(--secondary-color);
+            color: var(--white);
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+
+        .clear-filters-btn:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .filters-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .filters-group {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .articles-grid.list-view .article-card {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .articles-grid.list-view .article-image {
+                width: 100%;
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="logo">
+                <img src="new-logo.jpg" alt="Private Ruzgar Anatolian Lisesi">
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="students.html">Students</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="articles.html" class="active">Articles</a></li>
+                <li><a href="videos.html">Videos</a></li>
+                <li><a href="about-cas.html">About CAS</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#" id="langToggle" class="lang-toggle">EN</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <button class="auth-btn login-btn" id="showLoginBtn">Login</button>
+                <button class="auth-btn signup-btn" id="showSignupBtn">Sign Up</button>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="students.html">Students</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="articles.html" class="active">Articles</a></li>
+            <li><a href="videos.html">Videos</a></li>
+            <li><a href="about-cas.html">About CAS</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="auth-buttons">
+            <button class="auth-btn login-btn" id="mobileShowLoginBtn">Login</button>
+            <button class="auth-btn signup-btn" id="mobileShowSignupBtn">Sign Up</button>
+        </div>
+        <a href="#" id="mobileLangToggle" class="lang-toggle">EN</a>
+    </div>
+
+    <!-- Auth Modal -->
+    <div class="auth-modal" id="authModal">
+        <span class="close-modal" id="closeModal">&times;</span>
+        
+        <!-- Login Form -->
+        <div class="auth-form" id="loginForm">
+            <h2>Login</h2>
+            <form id="loginFormElement">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <div class="error-message" id="loginError"></div>
+                <button type="submit" class="auth-submit">Login</button>
+            </form>
+            <div class="auth-toggle">
+                Don't have an account? <a id="showSignup">Sign up</a>
+            </div>
+        </div>
+
+        <!-- Signup Form -->
+        <div class="auth-form" id="signupForm" style="display: none;">
+            <h2>Sign Up</h2>
+            <form id="signupFormElement">
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupConfirmPassword">Confirm Password</label>
+                    <input type="password" id="signupConfirmPassword" required>
+                </div>
+                <div class="error-message" id="signupError"></div>
+                <button type="submit" class="auth-submit">Sign Up</button>
+            </form>
+            <div class="auth-toggle">
+                Already have an account? <a id="showLogin">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="articles-hero">
+            <h1>All Articles</h1>
+            <p>Discover our students' academic work, research projects, and articles.</p>
+        </section>
+
+        <!-- Filters Section -->
+        <section class="filters-section">
+            <div class="filters-container">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search articles...">
+                </div>
+                
+                <div class="filters-group">
+                    <select id="categoryFilter" class="filter-select">
+                        <option value="all">All Categories</option>
+                        <option value="STEM">STEM</option>
+                        <option value="Social Studies">Social Studies</option>
+                        <option value="Politics">Politics</option>
+                        <option value="Philosophy">Philosophy</option>
+                        <option value="Art & Literature">Art & Literature</option>
+                        <option value="Women Rights">Women Rights</option>
+                        <option value="Science & Technology">Science & Technology</option>
+                    </select>
+                    
+                    <select id="statusFilter" class="filter-select">
+                        <option value="all">All Articles</option>
+                        <option value="editors-pick">Editor's Pick</option>
+                    </select>
+                    
+                    <select id="sortFilter" class="filter-select">
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
+                        <option value="popular">Most Popular</option>
+                        <option value="title">Alphabetical</option>
+                    </select>
+                    
+                    <div class="view-mode-toggle">
+                        <button id="gridViewBtn" class="view-mode-btn active" title="Grid View">
+                            <i class="fas fa-th"></i>
+                        </button>
+                        <button id="listViewBtn" class="view-mode-btn" title="List View">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Info -->
+        <div class="results-info">
+            <p id="resultsCount">Loading articles...</p>
+        </div>
+
+        <!-- Articles Content -->
+        <section class="articles-content">
+            <div id="all-articles-container" class="articles-grid">
+                <!-- Articles will be loaded here -->
+                <div class="loading-state">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading articles...</p>
+                </div>
+            </div>
+            
+            <!-- No Results -->
+            <div id="noResults" class="no-results" style="display: none;">
+                <i class="fas fa-search"></i>
+                <h3>No results found</h3>
+                <p>Try changing your search criteria.</p>
+                <button id="clearFiltersBtn" class="clear-filters-btn">
+                    Clear Filters
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="contact-info">
+                <h3>Contact</h3>
+                <p><i class="fas fa-envelope"></i> rumet@example.com</p>
+                <p><i class="fas fa-phone"></i> 555555555</p>
+                <p><i class="fas fa-map-marker-alt"></i> Diyarbakır, Turkey</p>
+                <div class="coordinator-contact">
+                    <h4>CAS Coordinator</h4>
+                    <p><i class="fas fa-user-tie"></i> Ronahi Esma Eren</p>
+                    <p><i class="fas fa-envelope"></i> rumet@example.com</p>
+                </div>
+            </div>
+            <div class="school-info">
+                <img src="new-logo.jpg" alt="Private Ruzgar Anatolian Lisesi" class="footer-logo">
+                <h4>Private Ruzgar Anatolian Lisesi</h4>
+                <p>IB World School</p>
+            </div>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/auth-ui.js"></script>
+    <script src="js/articles.js"></script>
+    <script src="js/language.js"></script>
+    
+    <script>
+        // Articles Page Functionality
+        class ArticlesPage {
+            constructor() {
+                this.articles = [];
+                this.filteredArticles = [];
+                this.currentViewMode = 'grid';
+                this.filters = {
+                    search: '',
+                    category: 'all',
+                    status: 'all',
+                    sort: 'newest'
+                };
+                this.init();
+            }
+
+            async init() {
+                await this.loadArticles();
+                this.setupEventListeners();
+                this.applyFilters();
+            }
+
+            async loadArticles() {
+                try {
+                    const q = firebase.firestore().collection('articles')
+                        .where('status', '==', 'published');
+                        
+                    const snapshot = await q.get();
+                    
+                    this.articles = snapshot.docs.map(doc => ({
+                        id: doc.id,
+                        ...doc.data()
+                    }));
+                    
+                    console.log('All articles loaded:', this.articles);
+                } catch (error) {
+                    console.error('Error loading articles:', error);
+                    this.articles = [];
+                }
+            }
+
+            setupEventListeners() {
+                // Search
+                document.getElementById('searchInput').addEventListener('input', (e) => {
+                    this.filters.search = e.target.value;
+                    this.applyFilters();
+                });
+
+                // Category filter
+                document.getElementById('categoryFilter').addEventListener('change', (e) => {
+                    this.filters.category = e.target.value;
+                    this.applyFilters();
+                });
+
+                // Status filter
+                document.getElementById('statusFilter').addEventListener('change', (e) => {
+                    this.filters.status = e.target.value;
+                    this.applyFilters();
+                });
+
+                // Sort filter
+                document.getElementById('sortFilter').addEventListener('change', (e) => {
+                    this.filters.sort = e.target.value;
+                    this.applyFilters();
+                });
+
+                // View mode toggle
+                document.getElementById('gridViewBtn').addEventListener('click', () => {
+                    this.setViewMode('grid');
+                });
+
+                document.getElementById('listViewBtn').addEventListener('click', () => {
+                    this.setViewMode('list');
+                });
+
+                // Clear filters
+                document.getElementById('clearFiltersBtn').addEventListener('click', () => {
+                    this.clearFilters();
+                });
+            }
+
+            setViewMode(mode) {
+                this.currentViewMode = mode;
+                
+                const container = document.getElementById('all-articles-container');
+                const gridBtn = document.getElementById('gridViewBtn');
+                const listBtn = document.getElementById('listViewBtn');
+                
+                if (mode === 'grid') {
+                    container.classList.remove('list-view');
+                    gridBtn.classList.add('active');
+                    listBtn.classList.remove('active');
+                } else {
+                    container.classList.add('list-view');
+                    listBtn.classList.add('active');
+                    gridBtn.classList.remove('active');
+                }
+            }
+
+            applyFilters() {
+                let filtered = [...this.articles];
+
+                // Search filter
+                if (this.filters.search) {
+                    const searchTerm = this.filters.search.toLowerCase();
+                    filtered = filtered.filter(article => 
+                        article.title.toLowerCase().includes(searchTerm) ||
+                        article.excerpt.toLowerCase().includes(searchTerm) ||
+                        (typeof article.author === 'string' && article.author.toLowerCase().includes(searchTerm))
+                    );
+                }
+
+                // Category filter
+                if (this.filters.category !== 'all') {
+                    filtered = filtered.filter(article => article.category === this.filters.category);
+                }
+
+                // Status filter
+                if (this.filters.status === 'editors-pick') {
+                    filtered = filtered.filter(article => article.isEditorsPick);
+                }
+
+                // Sort
+                switch (this.filters.sort) {
+                    case 'newest':
+                        filtered.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+                        break;
+                    case 'oldest':
+                        filtered.sort((a, b) => new Date(a.publishedAt).getTime() - new Date(b.publishedAt).getTime());
+                        break;
+                    case 'popular':
+                        filtered.sort((a, b) => (b.views || 0) - (a.views || 0));
+                        break;
+                    case 'title':
+                        filtered.sort((a, b) => a.title.localeCompare(b.title));
+                        break;
+                }
+
+                this.filteredArticles = filtered;
+                this.renderArticles();
+                this.updateResultsCount();
+            }
+
+            renderArticles() {
+                const container = document.getElementById('all-articles-container');
+                const noResults = document.getElementById('noResults');
+                
+                if (this.filteredArticles.length === 0) {
+                    container.innerHTML = '';
+                    noResults.style.display = 'block';
+                    return;
+                }
+
+                noResults.style.display = 'none';
+                container.innerHTML = this.filteredArticles.map(article => {
+                    return window.articleSystem.createArticleCard(article);
+                }).join('');
+
+                // Add click handlers
+                container.querySelectorAll('.article-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        const articleId = card.dataset.id;
+                        window.location.href = `article-detail.html?id=${articleId}`;
+                    });
+                });
+            }
+
+            updateResultsCount() {
+                const resultsElement = document.getElementById('resultsCount');
+                const total = this.articles.length;
+                const filtered = this.filteredArticles.length;
+                
+                let text = `${filtered} of ${total} articles`;
+                if (this.filters.search) {
+                    text += ` for "${this.filters.search}"`;
+                }
+                if (this.filters.category !== 'all') {
+                    text += ` in ${this.filters.category}`;
+                }
+                
+                resultsElement.textContent = text;
+            }
+
+            clearFilters() {
+                this.filters = {
+                    search: '',
+                    category: 'all',
+                    status: 'all',
+                    sort: 'newest'
+                };
+
+                document.getElementById('searchInput').value = '';
+                document.getElementById('categoryFilter').value = 'all';
+                document.getElementById('statusFilter').value = 'all';
+                document.getElementById('sortFilter').value = 'newest';
+
+                this.applyFilters();
+            }
+        }
+
+        // Initialize when DOM and articles system are ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait for articleSystem to be initialized
+            const initArticlesPage = () => {
+                if (window.articleSystem) {
+                    window.articlesPage = new ArticlesPage();
+                } else {
+                    setTimeout(initArticlesPage, 100);
+                }
+            };
+            initArticlesPage();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Düzenle - Admin Panel</title>
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Hide auth modal on admin pages */
+        .auth-modal {
+            display: none !important;
+        }
+
+        /* Video Edit Page Styles */
+        .admin-form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--dark-bg);
+            min-height: 100vh;
+        }
+        
+        /* Test CSS to ensure styles are loading */
+        body {
+            background: var(--dark-bg) !important;
+            color: var(--text-color) !important;
+        }
+
+        .admin-form-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .back-btn {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            padding: 0.75rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+        }
+
+        .form-container {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--white);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--text-light);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .youtube-preview {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .youtube-preview h4 {
+            color: var(--white);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .youtube-preview img {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 0.5rem;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .loading-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-light);
+        }
+
+        .loading-state i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .error-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-light);
+        }
+
+        .error-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #ef4444;
+            display: block;
+        }
+
+        .error-state h2 {
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+
+        .access-denied {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-light);
+        }
+
+        .access-denied i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #ef4444;
+            display: block;
+        }
+
+        .access-denied h2 {
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+
+        .action-btn.primary {
+            background: var(--secondary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .action-btn.primary:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .success-message {
+            color: #10b981;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .admin-form-container {
+                padding: 1rem;
+            }
+
+            .form-container {
+                padding: 1.5rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="logo">
+                <img src="new-logo.jpg" alt="Private Ruzgar Anatolian Lisesi">
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" data-translate="Ana Sayfa">Ana Sayfa</a></li>
+                <li><a href="students.html" data-translate="Öğrenciler">Öğrenciler</a></li>
+                <li><a href="projects.html" data-translate="Projeler">Projeler</a></li>
+                <li><a href="articles.html" data-translate="Makaleler">Makaleler</a></li>
+                <li><a href="videos.html" data-translate="Videolar">Videolar</a></li>
+                <li><a href="about-cas.html" data-translate="CAS Hakkında">CAS Hakkında</a></li>
+                <li><a href="#contact" data-translate="İletişim">İletişim</a></li>
+                <li><a href="#" id="langToggle" class="lang-toggle">EN</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <button class="auth-btn login-btn" id="showLoginBtn">Login</button>
+                <button class="auth-btn signup-btn" id="showSignupBtn">Sign Up</button>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="students.html">Students</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="articles.html">Articles</a></li>
+            <li><a href="videos.html">Videos</a></li>
+            <li><a href="about-cas.html">About CAS</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="auth-buttons">
+            <button class="auth-btn login-btn" id="mobileShowLoginBtn">Login</button>
+            <button class="auth-btn signup-btn" id="mobileShowSignupBtn">Sign Up</button>
+        </div>
+        <a href="#" id="mobileLangToggle" class="lang-toggle">EN</a>
+    </div>
+
+    <!-- Auth Modal -->
+    <div class="auth-modal" id="authModal">
+        <span class="close-modal" id="closeModal">&times;</span>
+        
+        <!-- Login Form -->
+        <div class="auth-form" id="loginForm">
+            <h2>Login</h2>
+            <form id="loginFormElement">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <div class="error-message" id="loginError"></div>
+                <button type="submit" class="auth-submit">Login</button>
+            </form>
+            <div class="auth-toggle">
+                Don't have an account? <a id="showSignup">Sign up</a>
+            </div>
+        </div>
+
+        <!-- Signup Form -->
+        <div class="auth-form" id="signupForm" style="display: none;">
+            <h2>Sign Up</h2>
+            <form id="signupFormElement">
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupConfirmPassword">Confirm Password</label>
+                    <input type="password" id="signupConfirmPassword" required>
+                </div>
+                <div class="error-message" id="signupError"></div>
+                <button type="submit" class="auth-submit">Sign Up</button>
+            </form>
+            <div class="auth-toggle">
+                Already have an account? <a id="showLogin">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <div class="admin-form-container" style="margin-top: 90px;">
+            
+            <!-- Loading State -->
+            <div id="loadingState" class="loading-state">
+                <i class="fas fa-spinner fa-spin"></i>
+                <h3>Video yükleniyor...</h3>
+            </div>
+
+            <!-- Access Denied -->
+            <div id="accessDenied" class="access-denied" style="display: none;">
+                <i class="fas fa-lock"></i>
+                <h2>Erişim Engellendi</h2>
+                <p>Bu sayfaya erişim için admin yetkileriniz olmalı.</p>
+                <a href="index.html" class="action-btn primary">
+                    <i class="fas fa-home"></i>
+                    Ana Sayfaya Dön
+                </a>
+            </div>
+
+            <!-- Error State -->
+            <div id="errorState" class="error-state" style="display: none;">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h2>Video Bulunamadı</h2>
+                <p>Aradığınız video mevcut değil veya kaldırılmış olabilir.</p>
+                <a href="admin-videos.html" class="action-btn primary">
+                    <i class="fas fa-arrow-left"></i>
+                    Video Yönetimine Dön
+                </a>
+            </div>
+
+            <!-- Edit Form -->
+            <div id="editForm" style="display: none;">
+                <!-- Header -->
+                <div class="admin-form-header">
+                    <div class="header-left">
+                        <button class="back-btn" onclick="window.history.back()">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <div>
+                            <h1 style="color: var(--white); margin-bottom: 0.5rem;">Video Düzenle</h1>
+                            <p style="color: var(--text-light);">Video bilgilerini güncelleyin</p>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="videoEditForm" class="form-container">
+                    <div class="form-group">
+                        <label for="videoTitle">Video Başlığı *</label>
+                        <input type="text" id="videoTitle" name="title" required placeholder="Video başlığını girin">
+                        <div class="error-message" id="titleError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="videoDescription">Video Açıklaması *</label>
+                        <textarea id="videoDescription" name="description" required placeholder="Video açıklamasını girin"></textarea>
+                        <div class="error-message" id="descriptionError"></div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="youtubeUrl">YouTube URL *</label>
+                            <input type="url" id="youtubeUrl" name="youtubeUrl" required placeholder="https://www.youtube.com/watch?v=...">
+                            <div class="error-message" id="youtubeUrlError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="videoCategory">Kategori *</label>
+                            <select id="videoCategory" name="category" required>
+                                <option value="">Kategori seçin</option>
+                                <option value="STEM">STEM</option>
+                                <option value="Sanat">Sanat</option>
+                                <option value="Spor">Spor</option>
+                                <option value="Müzik">Müzik</option>
+                                <option value="Tiyatro">Tiyatro</option>
+                                <option value="Diğer">Diğer</option>
+                            </select>
+                            <div class="error-message" id="categoryError"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="videoStatus">Durum *</label>
+                            <select id="videoStatus" name="status" required>
+                                <option value="draft">Taslak</option>
+                                <option value="published">Yayınlanmış</option>
+                            </select>
+                            <div class="error-message" id="statusError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="videoDuration">Süre (opsiyonel)</label>
+                            <input type="text" id="videoDuration" name="duration" placeholder="Örn: 5:30">
+                            <div class="error-message" id="durationError"></div>
+                        </div>
+                    </div>
+
+                    <!-- YouTube Preview -->
+                    <div id="youtubePreview" class="youtube-preview" style="display: none;">
+                        <h4>YouTube Önizleme:</h4>
+                        <img id="previewThumbnail" src="" alt="Video thumbnail">
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="window.history.back()">
+                            <i class="fas fa-times"></i>
+                            İptal
+                        </button>
+                        <button type="button" class="btn btn-danger" id="deleteVideoBtn">
+                            <i class="fas fa-trash"></i>
+                            Videoyu Sil
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            Değişiklikleri Kaydet
+                        </button>
+                    </div>
+
+                    <div class="success-message" id="successMessage"></div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="contact-info">
+                <h3 data-translate="İletişim">İletişim</h3>
+                <p><i class="fas fa-envelope"></i> rumet@example.com</p>
+                <p><i class="fas fa-phone"></i> 555555555</p>
+                <p><i class="fas fa-map-marker-alt"></i> Diyarbakır, Türkiye</p>
+            </div>
+            <div class="school-info">
+                <img src="new-logo.jpg" alt="Private Ruzgar Anatolian Lisesi" class="footer-logo">
+                <h4>Private Ruzgar Anatolian Lisesi</h4>
+                <p>IB World School</p>
+            </div>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/auth-ui.js"></script>
+    <script src="js/articles.js"></script>
+    <script src="js/language.js"></script>
+    
+    <script>
+        // Video Edit Page Functionality
+        class VideoEditPage {
+            constructor() {
+                this.user = null;
+                this.userProfile = null;
+                this.video = null;
+                this.videoId = null;
+                this.init();
+            }
+
+            async init() {
+                // Get video ID from URL
+                const urlParams = new URLSearchParams(window.location.search);
+                this.videoId = urlParams.get('id');
+                
+                if (!this.videoId) {
+                    this.showError();
+                    return;
+                }
+
+                // Check authentication
+                firebase.auth().onAuthStateChanged(async (user) => {
+                    this.user = user;
+                    
+                    if (user) {
+                        await this.checkAdminStatus();
+                        if (this.userProfile?.isAdmin) {
+                            await this.loadVideo();
+                            this.setupEventListeners();
+                        } else {
+                            this.showAccessDenied();
+                        }
+                    } else {
+                        this.showAccessDenied();
+                    }
+                });
+            }
+
+            async checkAdminStatus() {
+                try {
+                    const userDoc = await firebase.firestore().collection('users').doc(this.user.uid).get();
+                    if (userDoc.exists) {
+                        this.userProfile = userDoc.data();
+                    } else {
+                        const isAdmin = this.user.email === 'admin@ruzgaranatolian.edu.tr';
+                        this.userProfile = {
+                            uid: this.user.uid,
+                            email: this.user.email,
+                            displayName: this.user.displayName || 'Admin',
+                            isAdmin: isAdmin,
+                            createdAt: new Date().toISOString()
+                        };
+                        await firebase.firestore().collection('users').doc(this.user.uid).set(this.userProfile);
+                    }
+                } catch (error) {
+                    console.error('Error checking admin status:', error);
+                    this.userProfile = null;
+                }
+            }
+
+            async loadVideo() {
+                try {
+                    const doc = await firebase.firestore().collection('videos').doc(this.videoId).get();
+                    
+                    if (!doc.exists) {
+                        this.showError();
+                        return;
+                    }
+
+                    this.video = {
+                        id: doc.id,
+                        ...doc.data()
+                    };
+
+                    this.populateForm();
+                    this.hideLoading();
+
+                } catch (error) {
+                    console.error('Error loading video:', error);
+                    this.showError();
+                }
+            }
+
+            populateForm() {
+                document.getElementById('videoTitle').value = this.video.title || '';
+                document.getElementById('videoDescription').value = this.video.description || '';
+                document.getElementById('youtubeUrl').value = this.video.youtubeUrl || '';
+                document.getElementById('videoCategory').value = this.video.category || '';
+                document.getElementById('videoStatus').value = this.video.status || 'draft';
+                document.getElementById('videoDuration').value = this.video.duration || '';
+
+                // Update page title
+                document.title = `${this.video.title} - Video Düzenle - Admin Panel`;
+
+                // Show YouTube preview if URL exists
+                if (this.video.youtubeId) {
+                    this.updateYouTubePreview(this.video.youtubeId);
+                }
+            }
+
+            setupEventListeners() {
+                // Form submission
+                document.getElementById('videoEditForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.handleSubmit();
+                });
+
+                // YouTube URL change
+                document.getElementById('youtubeUrl').addEventListener('input', (e) => {
+                    this.handleYouTubeUrlChange(e.target.value);
+                });
+
+                // Delete button
+                document.getElementById('deleteVideoBtn').addEventListener('click', () => {
+                    this.handleDelete();
+                });
+            }
+
+            handleYouTubeUrlChange(url) {
+                const youtubeId = this.extractYouTubeId(url);
+                if (youtubeId) {
+                    this.updateYouTubePreview(youtubeId);
+                } else {
+                    document.getElementById('youtubePreview').style.display = 'none';
+                }
+            }
+
+            extractYouTubeId(url) {
+                const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+                const match = url.match(regExp);
+                return (match && match[2].length === 11) ? match[2] : null;
+            }
+
+            updateYouTubePreview(youtubeId) {
+                const thumbnail = `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`;
+                document.getElementById('previewThumbnail').src = thumbnail;
+                document.getElementById('youtubePreview').style.display = 'block';
+            }
+
+            async handleSubmit() {
+                this.clearErrors();
+                
+                const formData = {
+                    title: document.getElementById('videoTitle').value.trim(),
+                    description: document.getElementById('videoDescription').value.trim(),
+                    youtubeUrl: document.getElementById('youtubeUrl').value.trim(),
+                    category: document.getElementById('videoCategory').value,
+                    status: document.getElementById('videoStatus').value,
+                    duration: document.getElementById('videoDuration').value.trim()
+                };
+
+                // Validation
+                if (!this.validateForm(formData)) {
+                    return;
+                }
+
+                try {
+                    // Extract YouTube ID
+                    const youtubeId = this.extractYouTubeId(formData.youtubeUrl);
+                    if (!youtubeId) {
+                        this.showError('youtubeUrlError', 'Geçerli bir YouTube URL\'si girin');
+                        return;
+                    }
+
+                    // Update video data
+                    const updateData = {
+                        ...formData,
+                        youtubeId: youtubeId,
+                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    };
+
+                    await firebase.firestore().collection('videos').doc(this.videoId).update(updateData);
+                    
+                    this.showSuccess('Video başarıyla güncellendi!');
+                    
+                    // Redirect to admin videos page after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = 'admin-videos.html';
+                    }, 2000);
+
+                } catch (error) {
+                    console.error('Error updating video:', error);
+                    this.showError('general', 'Video güncellenirken hata oluştu');
+                }
+            }
+
+            validateForm(data) {
+                let isValid = true;
+
+                if (!data.title) {
+                    this.showError('titleError', 'Video başlığı gereklidir');
+                    isValid = false;
+                }
+
+                if (!data.description) {
+                    this.showError('descriptionError', 'Video açıklaması gereklidir');
+                    isValid = false;
+                }
+
+                if (!data.youtubeUrl) {
+                    this.showError('youtubeUrlError', 'YouTube URL\'si gereklidir');
+                    isValid = false;
+                } else if (!this.extractYouTubeId(data.youtubeUrl)) {
+                    this.showError('youtubeUrlError', 'Geçerli bir YouTube URL\'si girin');
+                    isValid = false;
+                }
+
+                if (!data.category) {
+                    this.showError('categoryError', 'Kategori seçimi gereklidir');
+                    isValid = false;
+                }
+
+                if (!data.status) {
+                    this.showError('statusError', 'Durum seçimi gereklidir');
+                    isValid = false;
+                }
+
+                return isValid;
+            }
+
+            async handleDelete() {
+                if (confirm('Bu videoyu silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.')) {
+                    try {
+                        await firebase.firestore().collection('videos').doc(this.videoId).delete();
+                        
+                        this.showSuccess('Video başarıyla silindi!');
+                        
+                        // Redirect to admin videos page after 2 seconds
+                        setTimeout(() => {
+                            window.location.href = 'admin-videos.html';
+                        }, 2000);
+
+                    } catch (error) {
+                        console.error('Error deleting video:', error);
+                        this.showError('general', 'Video silinirken hata oluştu');
+                    }
+                }
+            }
+
+            showError(fieldId, message) {
+                if (fieldId === 'general') {
+                    // Show general error message
+                    const successMsg = document.getElementById('successMessage');
+                    successMsg.textContent = message;
+                    successMsg.className = 'error-message';
+                    successMsg.style.display = 'block';
+                } else {
+                    const errorElement = document.getElementById(fieldId);
+                    if (errorElement) {
+                        errorElement.textContent = message;
+                        errorElement.style.display = 'block';
+                    }
+                }
+            }
+
+            showSuccess(message) {
+                const successElement = document.getElementById('successMessage');
+                successElement.textContent = message;
+                successElement.className = 'success-message';
+                successElement.style.display = 'block';
+            }
+
+            clearErrors() {
+                document.querySelectorAll('.error-message').forEach(el => {
+                    el.style.display = 'none';
+                });
+                document.getElementById('successMessage').style.display = 'none';
+            }
+
+            showError() {
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('errorState').style.display = 'block';
+            }
+
+            showAccessDenied() {
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('accessDenied').style.display = 'block';
+            }
+
+            hideLoading() {
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('editForm').style.display = 'block';
+            }
+        }
+
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            window.videoEditPage = new VideoEditPage();
+        });
+    </script>
+</body>
+</html>
+

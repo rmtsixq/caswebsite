@@ -1,0 +1,96 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // ===========================================
+    // GENEL DOSYA YÜKLEME KURALLARI
+    // ===========================================
+    match /{allPaths=**} {
+      // Herkes dosyaları okuyabilir
+      allow read: if true;
+      
+      // Giriş yapmış kullanıcılar dosya yükleyebilir
+      allow write: if request.auth != null && 
+        request.resource.size < 10 * 1024 * 1024 && // 10MB limit
+        (request.resource.contentType.matches('image/.*') || 
+         request.resource.contentType.matches('video/.*') ||
+         request.resource.contentType.matches('audio/.*') ||
+         request.resource.contentType.matches('application/pdf') ||
+         request.resource.contentType.matches('text/.*'));
+    }
+    
+    // ===========================================
+    // PROFİL FOTOĞRAFLARI
+    // ===========================================
+    match /profile-images/{userId}/{fileName} {
+      // Herkes profil fotoğraflarını okuyabilir
+      allow read: if true;
+      
+      // Sadece kendi profil fotoğrafını güncelleyebilir
+      allow write: if request.auth != null && 
+        request.auth.uid == userId &&
+        request.resource.size < 5 * 1024 * 1024 && // 5MB limit
+        request.resource.contentType.matches('image/.*');
+    }
+    
+    // ===========================================
+    // MAKALE RESİMLERİ
+    // ===========================================
+    match /article-images/{articleId}/{fileName} {
+      // Herkes makale resimlerini okuyabilir
+      allow read: if true;
+      
+      // Makale sahibi veya admin resim yükleyebilir
+      allow write: if request.auth != null && 
+        request.resource.size < 5 * 1024 * 1024 && // 5MB limit
+        request.resource.contentType.matches('image/.*') &&
+        (get(/databases/$(database)/documents/articles/$(articleId)).data.createdBy == request.auth.uid ||
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true);
+    }
+    
+    // ===========================================
+    // VIDEO THUMBNAIL'LERİ
+    // ===========================================
+    match /video-thumbnails/{videoId}/{fileName} {
+      // Herkes video thumbnail'lerini okuyabilir
+      allow read: if true;
+      
+      // Video sahibi veya admin thumbnail yükleyebilir
+      allow write: if request.auth != null && 
+        request.resource.size < 2 * 1024 * 1024 && // 2MB limit
+        request.resource.contentType.matches('image/.*') &&
+        (get(/databases/$(database)/documents/videos/$(videoId)).data.createdBy == request.auth.uid ||
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true);
+    }
+    
+    // ===========================================
+    // ADMIN DOSYALARI
+    // ===========================================
+    match /admin/{allPaths=**} {
+      // Sadece adminler admin dosyalarını okuyabilir/yazabilir
+      allow read, write: if request.auth != null && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+    }
+    
+    // ===========================================
+    // GEÇİCİ DOSYALAR (temp uploads)
+    // ===========================================
+    match /temp/{userId}/{fileName} {
+      // Sadece dosya sahibi temp dosyalarını okuyabilir/yazabilir
+      allow read, write: if request.auth != null && 
+        request.auth.uid == userId &&
+        request.resource.size < 10 * 1024 * 1024; // 10MB limit
+    }
+    
+    // ===========================================
+    // BACKUP DOSYALARI
+    // ===========================================
+    match /backups/{allPaths=**} {
+      // Sadece adminler backup dosyalarını okuyabilir/yazabilir
+      allow read, write: if request.auth != null && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+    }
+  }
+}
+
+

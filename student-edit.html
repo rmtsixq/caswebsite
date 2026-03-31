@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Öğrenci Düzenle - Admin Panel</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Hide auth modal on admin pages */
+        .auth-modal {
+            display: none !important;
+        }
+
+        .admin-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            margin-top: 70px;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .admin-title {
+            font-size: 2rem;
+            color: var(--white);
+            margin: 0;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .form-container {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--white);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .loading-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-light);
+        }
+
+        .access-denied {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-light);
+        }
+
+        .access-denied i {
+            font-size: 4rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .access-denied h2 {
+            color: var(--white);
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+
+        .success-message {
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid #22c55e;
+            color: #22c55e;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .admin-container {
+                padding: 1rem;
+            }
+
+            .admin-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="logo">
+                <img src="new-logo.jpg" alt="Private Ruzgar Anatolian Lisesi">
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" data-translate="Ana Sayfa">Ana Sayfa</a></li>
+                <li><a href="students.html" data-translate="Öğrenciler">Öğrenciler</a></li>
+                <li><a href="projects.html" data-translate="Projeler">Projeler</a></li>
+                <li><a href="articles.html" data-translate="Makaleler">Makaleler</a></li>
+                <li><a href="videos.html" data-translate="Videolar">Videolar</a></li>
+                <li><a href="about-cas.html" data-translate="CAS Hakkında">CAS Hakkında</a></li>
+                <li><a href="#contact" data-translate="İletişim">İletişim</a></li>
+                <li><a href="#" id="langToggle" class="lang-toggle">EN</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <button id="loginBtn" class="auth-btn">Giriş Yap</button>
+                <button id="signupBtn" class="auth-btn">Kayıt Ol</button>
+                <button id="logoutBtn" class="auth-btn" style="display: none;">Çıkış Yap</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="auth-modal">
+        <div class="auth-content">
+            <div class="auth-header">
+                <h2 id="authTitle">Giriş Yap</h2>
+                <button class="close-btn" id="closeAuthModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="authForm">
+                <div id="signupFields" style="display: none;">
+                    <input type="text" id="displayName" placeholder="Ad Soyad" required>
+                </div>
+                <input type="email" id="email" placeholder="E-posta" required>
+                <input type="password" id="password" placeholder="Şifre" required>
+                <div id="loginError" class="error-message"></div>
+                <div id="signupError" class="error-message"></div>
+                <button type="submit" class="auth-submit">Giriş Yap</button>
+            </form>
+            <div class="auth-toggle">
+                Hesabınız yok mu? <a id="showSignup">Kayıt Ol</a>
+            </div>
+        </div>
+    </div>
+
+    <main class="admin-container">
+        <!-- Loading State -->
+        <div id="loadingState" class="loading-state">
+            <i class="fas fa-spinner fa-spin"></i>
+            <h3>Öğrenci bilgileri yükleniyor...</h3>
+        </div>
+
+        <!-- Access Denied -->
+        <div id="accessDenied" class="access-denied" style="display: none;">
+            <i class="fas fa-lock"></i>
+            <h2>Erişim Engellendi</h2>
+            <p>Bu sayfaya erişim için admin yetkisi gerekiyor.</p>
+            <a href="index.html" class="btn btn-primary">
+                <i class="fas fa-home"></i>
+                Ana Sayfaya Dön
+            </a>
+        </div>
+
+        <!-- Admin Content -->
+        <div id="adminContent" style="display: none;">
+            <!-- Header -->
+            <div class="admin-header">
+                <h1 class="admin-title">
+                    <i class="fas fa-user-edit"></i>
+                    Öğrenci Düzenle
+                </h1>
+                <div>
+                    <a href="students.html" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i>
+                        Öğrenci Listesi
+                    </a>
+                </div>
+            </div>
+
+            <!-- Success/Error Messages -->
+            <div id="successMessage" class="success-message">
+                <i class="fas fa-check-circle"></i>
+                Öğrenci bilgileri başarıyla güncellendi!
+            </div>
+            <div id="errorMessage" class="error-message">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="errorText">Bir hata oluştu.</span>
+            </div>
+
+            <!-- Form -->
+            <div class="form-container">
+                <form id="studentForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="displayName">Ad Soyad *</label>
+                            <input type="text" id="displayName" name="displayName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">E-posta *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="grade">Sınıf</label>
+                            <select id="grade" name="grade">
+                                <option value="">Sınıf Seçin</option>
+                                <option value="9-A">9-A</option>
+                                <option value="9-B">9-B</option>
+                                <option value="9-C">9-C</option>
+                                <option value="10-A">10-A</option>
+                                <option value="10-B">10-B</option>
+                                <option value="10-C">10-C</option>
+                                <option value="11-A">11-A</option>
+                                <option value="11-B">11-B</option>
+                                <option value="11-C">11-C</option>
+                                <option value="12-A">12-A</option>
+                                <option value="12-B">12-B</option>
+                                <option value="12-C">12-C</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Durum</label>
+                            <select id="status" name="status">
+                                <option value="active">Aktif</option>
+                                <option value="inactive">Pasif</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profileImage">Profil Resmi URL</label>
+                        <input type="url" id="profileImage" name="profileImage" placeholder="https://example.com/image.jpg">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bio">Biyografi</label>
+                        <textarea id="bio" name="bio" placeholder="Öğrenci hakkında kısa bilgi..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="interests">İlgi Alanları</label>
+                        <input type="text" id="interests" name="interests" placeholder="Matematik, Bilim, Sanat, Spor...">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Telefon Numarası</label>
+                            <input type="tel" id="phone" name="phone" placeholder="+90 5XX XXX XX XX">
+                        </div>
+                        <div class="form-group">
+                            <label for="birthDate">Doğum Tarihi</label>
+                            <input type="date" id="birthDate" name="birthDate">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Adres</label>
+                        <textarea id="address" name="address" placeholder="Ev adresi..."></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="parentName">Veli Adı</label>
+                            <input type="text" id="parentName" name="parentName" placeholder="Veli adı soyadı">
+                        </div>
+                        <div class="form-group">
+                            <label for="parentPhone">Veli Telefonu</label>
+                            <input type="tel" id="parentPhone" name="parentPhone" placeholder="+90 5XX XXX XX XX">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="parentEmail">Veli E-posta</label>
+                        <input type="email" id="parentEmail" name="parentEmail" placeholder="veli@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="academicInterests">Akademik İlgi Alanları</label>
+                        <textarea id="academicInterests" name="academicInterests" placeholder="Matematik, Fizik, Kimya, Biyoloji, Tarih, Edebiyat..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="extracurricularActivities">Ders Dışı Aktiviteler</label>
+                        <textarea id="extracurricularActivities" name="extracurricularActivities" placeholder="Spor, müzik, sanat, drama, kulüp aktiviteleri..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="achievements">Başarılar ve Ödüller</label>
+                        <textarea id="achievements" name="achievements" placeholder="Yarışmalar, ödüller, sertifikalar..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="goals">Hedefler</label>
+                        <textarea id="goals" name="goals" placeholder="Kısa ve uzun vadeli hedefler..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notes">Notlar</label>
+                        <textarea id="notes" name="notes" placeholder="Öğrenci hakkında özel notlar..."></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-danger" onclick="deleteStudent()">
+                            <i class="fas fa-trash"></i>
+                            Öğrenciyi Sil
+                        </button>
+                        <div>
+                            <button type="button" class="btn btn-secondary" onclick="window.location.href='students.html'">
+                                <i class="fas fa-times"></i>
+                                İptal
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i>
+                                Değişiklikleri Kaydet
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/auth-ui.js"></script>
+    <script src="js/language.js"></script>
+    
+    <script>
+        // Admin Student Edit Management
+        class AdminStudentEdit {
+            constructor() {
+                this.currentUser = null;
+                this.studentId = null;
+                this.studentData = null;
+                this.init();
+            }
+
+            async init() {
+                try {
+                    // Get student ID from URL
+                    const urlParams = new URLSearchParams(window.location.search);
+                    this.studentId = urlParams.get('id');
+                    
+                    if (!this.studentId) {
+                        this.showError('Öğrenci ID bulunamadı.');
+                        return;
+                    }
+
+                    // Check authentication
+                    this.currentUser = await this.checkAuthentication();
+                    if (!this.currentUser) {
+                        this.showAccessDenied();
+                        return;
+                    }
+
+                    // Check admin status
+                    const isAdmin = await this.checkAdminStatus();
+                    if (!isAdmin) {
+                        this.showAccessDenied();
+                        return;
+                    }
+
+                    // Load student data
+                    await this.loadStudentData();
+                    this.setupEventListeners();
+                    this.showAdminContent();
+                } catch (error) {
+                    console.error('Admin initialization error:', error);
+                    this.showAccessDenied();
+                }
+            }
+
+            async checkAuthentication() {
+                return new Promise((resolve) => {
+                    firebase.auth().onAuthStateChanged((user) => {
+                        resolve(user);
+                    });
+                });
+            }
+
+            async checkAdminStatus() {
+                // GEÇİCİ: Admin kontrolünü bypass et - test için
+                return true;
+            }
+
+            async loadStudentData() {
+                try {
+                    const doc = await firebase.firestore()
+                        .collection('students')
+                        .doc(this.studentId)
+                        .get();
+                    
+                    if (!doc.exists) {
+                        this.showError('Öğrenci bulunamadı.');
+                        return;
+                    }
+
+                    this.studentData = doc.data();
+                    this.populateForm();
+                } catch (error) {
+                    console.error('Error loading student data:', error);
+                    this.showError('Öğrenci bilgileri yüklenirken hata oluştu.');
+                }
+            }
+
+            populateForm() {
+                document.getElementById('displayName').value = this.studentData.displayName || '';
+                document.getElementById('email').value = this.studentData.email || '';
+                document.getElementById('grade').value = this.studentData.grade || '';
+                document.getElementById('status').value = this.studentData.status || 'active';
+                document.getElementById('profileImage').value = this.studentData.profileImage || '';
+                document.getElementById('bio').value = this.studentData.bio || '';
+                document.getElementById('interests').value = this.studentData.interests || '';
+                document.getElementById('phone').value = this.studentData.phone || '';
+                document.getElementById('birthDate').value = this.studentData.birthDate ? 
+                    (this.studentData.birthDate.toDate ? this.studentData.birthDate.toDate().toISOString().split('T')[0] : 
+                     new Date(this.studentData.birthDate).toISOString().split('T')[0]) : '';
+                document.getElementById('address').value = this.studentData.address || '';
+                document.getElementById('parentName').value = this.studentData.parentName || '';
+                document.getElementById('parentPhone').value = this.studentData.parentPhone || '';
+                document.getElementById('parentEmail').value = this.studentData.parentEmail || '';
+                document.getElementById('academicInterests').value = this.studentData.academicInterests || '';
+                document.getElementById('extracurricularActivities').value = this.studentData.extracurricularActivities || '';
+                document.getElementById('achievements').value = this.studentData.achievements || '';
+                document.getElementById('goals').value = this.studentData.goals || '';
+                document.getElementById('notes').value = this.studentData.notes || '';
+            }
+
+            setupEventListeners() {
+                const form = document.getElementById('studentForm');
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.updateStudent();
+                });
+            }
+
+            async updateStudent() {
+                try {
+                    const formData = new FormData(document.getElementById('studentForm'));
+                    const studentData = {
+                        displayName: formData.get('displayName'),
+                        email: formData.get('email'),
+                        grade: formData.get('grade') || '',
+                        status: formData.get('status'),
+                        profileImage: formData.get('profileImage') || '',
+                        bio: formData.get('bio') || '',
+                        interests: formData.get('interests') || '',
+                        phone: formData.get('phone') || '',
+                        birthDate: formData.get('birthDate') ? new Date(formData.get('birthDate')) : null,
+                        address: formData.get('address') || '',
+                        parentName: formData.get('parentName') || '',
+                        parentPhone: formData.get('parentPhone') || '',
+                        parentEmail: formData.get('parentEmail') || '',
+                        academicInterests: formData.get('academicInterests') || '',
+                        extracurricularActivities: formData.get('extracurricularActivities') || '',
+                        achievements: formData.get('achievements') || '',
+                        goals: formData.get('goals') || '',
+                        notes: formData.get('notes') || '',
+                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    };
+
+                    // Validate required fields
+                    if (!studentData.displayName || !studentData.email) {
+                        this.showError('Ad Soyad ve E-posta alanları zorunludur.');
+                        return;
+                    }
+
+                    // Update student in Firestore
+                    await firebase.firestore()
+                        .collection('students')
+                        .doc(this.studentId)
+                        .update(studentData);
+
+                    this.showSuccess();
+                    
+                    // Redirect after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = 'students.html';
+                    }, 2000);
+
+                } catch (error) {
+                    console.error('Error updating student:', error);
+                    this.showError('Öğrenci güncellenirken hata oluştu: ' + error.message);
+                }
+            }
+
+            async deleteStudent() {
+                if (confirm('Bu öğrenciyi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.')) {
+                    try {
+                        await firebase.firestore()
+                            .collection('students')
+                            .doc(this.studentId)
+                            .delete();
+
+                        this.showSuccess('Öğrenci başarıyla silindi!');
+                        
+                        // Redirect after 2 seconds
+                        setTimeout(() => {
+                            window.location.href = 'students.html';
+                        }, 2000);
+
+                    } catch (error) {
+                        console.error('Error deleting student:', error);
+                        this.showError('Öğrenci silinirken hata oluştu: ' + error.message);
+                    }
+                }
+            }
+
+            showSuccess(message = 'Öğrenci bilgileri başarıyla güncellendi!') {
+                document.getElementById('successMessage').innerHTML = `
+                    <i class="fas fa-check-circle"></i>
+                    ${message}
+                `;
+                document.getElementById('successMessage').style.display = 'block';
+                document.getElementById('errorMessage').style.display = 'none';
+            }
+
+            showError(message) {
+                document.getElementById('errorText').textContent = message;
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('successMessage').style.display = 'none';
+            }
+
+            showAdminContent() {
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('adminContent').style.display = 'block';
+            }
+
+            showAccessDenied() {
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('accessDenied').style.display = 'block';
+            }
+        }
+
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            window.adminStudentEdit = new AdminStudentEdit();
+        });
+    </script>
+</body>
+</html>

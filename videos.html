@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects - Private Ruzgar Anatolian Lisesi CAS</title>
+    <title>Videos - Private Ruzgar Anatolian Lisesi CAS</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,10 +29,10 @@
             display: flex;
         }
 
-        /* Projects Page Styles */
-        .projects-hero {
+        /* Videos Page Styles */
+        .videos-hero {
             background: linear-gradient(135deg, rgba(18, 18, 18, 0.95), rgba(26, 26, 26, 0.95)),
-                        url('https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+                        url('https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
             background-size: cover;
             background-position: center;
             padding: 8rem 5% 4rem;
@@ -40,16 +40,59 @@
             margin-top: 70px;
         }
 
-        .projects-hero h1 {
+        .videos-hero h1 {
             font-size: 3rem;
             margin-bottom: 1rem;
             color: var(--white);
+        }
+
+        .videos-hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            color: var(--text-light);
         }
 
         .filter-section {
             padding: 3rem 5% 2rem;
             text-align: center;
             background: var(--dark-bg);
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-color);
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.2);
+        }
+
+        .search-input::placeholder {
+            color: var(--text-light);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
         }
 
         .filter-buttons {
@@ -80,87 +123,83 @@
             transform: translateY(-2px);
         }
 
-        .projects-container {
+        .videos-container {
             padding: 4rem 5%;
             max-width: var(--max-width);
             margin: 0 auto;
         }
 
-        .projects-timeline {
-            position: relative;
-            padding-left: 2rem;
+        .results-info {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--text-light);
         }
 
-        .projects-timeline::before {
-            content: '';
-            position: absolute;
-            left: 1rem;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
         }
 
-        .project-item {
-            position: relative;
-            margin-bottom: 3rem;
-            opacity: 1;
-            transform: translateY(0);
-            transition: var(--transition);
-        }
-
-        .project-item.hidden {
-            opacity: 0;
-            transform: translateY(20px);
-            pointer-events: none;
-        }
-
-        .timeline-dot {
-            position: absolute;
-            left: -1.5rem;
-            top: 1rem;
-            width: 1rem;
-            height: 1rem;
-            background: var(--primary-color);
-            border-radius: 50%;
-            border: 3px solid var(--dark-bg);
-            z-index: 2;
-        }
-
-        .project-content {
+        .video-card {
             background: var(--card-bg);
-            padding: 2rem;
             border-radius: 16px;
+            overflow: hidden;
+            transition: var(--transition);
+            backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
-            transition: var(--transition);
         }
 
-        .project-content:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        .video-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            border-color: var(--secondary-color);
         }
 
-        .project-image {
+        .video-thumbnail {
             width: 100%;
             height: 200px;
-            margin-bottom: 1rem;
-            border-radius: 12px;
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
             overflow: hidden;
         }
 
-        .project-img {
+        .video-thumbnail img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        .video-thumbnail .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            color: white;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: var(--transition);
         }
 
-        .project-content:hover .project-img {
-            transform: scale(1.05);
+        .video-card:hover .play-icon {
+            transform: translate(-50%, -50%) scale(1.1);
         }
 
-        .project-category {
+        .video-content {
+            padding: 1.5rem;
+        }
+
+        .video-category {
             display: inline-block;
             background: var(--primary-color);
             color: white;
@@ -171,66 +210,44 @@
             margin-bottom: 1rem;
         }
 
-        .project-title {
-            font-size: 1.8rem;
+        .video-title {
+            font-size: 1.3rem;
             font-weight: 700;
             color: var(--white);
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
+            line-height: 1.4;
         }
 
-        .project-description {
+        .video-description {
             color: var(--text-color);
             line-height: 1.6;
-            margin-bottom: 1.5rem;
-        }
-
-        .project-participants {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
             margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
-        .participant-tag {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--text-color);
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.8rem;
-        }
-
-        .project-date {
-            color: var(--text-light);
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .project-actions {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
+        .video-meta {
             display: flex;
-            gap: 0.5rem;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: var(--text-light);
         }
 
-        .edit-project-btn {
-            background: rgba(59, 130, 246, 0.2);
-            color: #3b82f6;
-            border: 1px solid #3b82f6;
-            padding: 0.5rem;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: var(--transition);
-            width: 35px;
-            height: 35px;
+        .video-date {
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 0.3rem;
         }
 
-        .edit-project-btn:hover {
-            background: rgba(59, 130, 246, 0.3);
-            transform: scale(1.1);
+        .video-duration {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
         }
 
         .loading-state {
@@ -281,31 +298,51 @@
             margin-bottom: 0.5rem;
         }
 
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: var(--transition);
-            text-decoration: none;
+        .youtube-cta {
+            background: #dc2626;
+            padding: 4rem 5%;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .youtube-cta h2 {
+            color: var(--white);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .youtube-cta p {
+            color: var(--white);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .youtube-btn {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            background: var(--white);
+            color: #dc2626;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: var(--transition);
         }
 
-        .btn-primary {
-            background: var(--primary-color);
-            color: white;
+        .youtube-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
 
-        .btn-primary:hover {
-            background: var(--primary-hover);
-            transform: translateY(-2px);
+        .youtube-btn i {
+            font-size: 1.5rem;
         }
 
         @media (max-width: 768px) {
-            .projects-hero h1 {
+            .videos-hero h1 {
                 font-size: 2rem;
             }
 
@@ -314,26 +351,16 @@
                 align-items: center;
             }
 
-            .projects-timeline {
-                padding-left: 1rem;
+            .videos-grid {
+                grid-template-columns: 1fr;
             }
 
-            .timeline-dot {
-                left: -0.5rem;
+            .video-content {
+                padding: 1rem;
             }
 
-            .project-content {
-                padding: 1.5rem;
-            }
-
-            .project-title {
-                font-size: 1.5rem;
-            }
-
-            .project-actions {
-                position: static;
-                margin-top: 1rem;
-                justify-content: center;
+            .video-title {
+                font-size: 1.1rem;
             }
         }
     </style>
@@ -347,9 +374,9 @@
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="students.html">Students</a></li>
-                <li><a href="projects.html" class="active">Projects</a></li>
+                <li><a href="projects.html">Projects</a></li>
                 <li><a href="articles.html">Articles</a></li>
-                <li><a href="videos.html">Videos</a></li>
+                <li><a href="videos.html" class="active">Videos</a></li>
                 <li><a href="about-cas.html">About CAS</a></li>
                 <li><a href="index.html#contact">Contact</a></li>
                 <li><a href="#" id="langToggle" class="lang-toggle">EN</a></li>
@@ -371,9 +398,9 @@
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="students.html">Students</a></li>
-            <li><a href="projects.html" class="active">Projects</a></li>
+            <li><a href="projects.html">Projects</a></li>
             <li><a href="articles.html">Articles</a></li>
-            <li><a href="videos.html">Videos</a></li>
+            <li><a href="videos.html" class="active">Videos</a></li>
             <li><a href="about-cas.html">About CAS</a></li>
             <li><a href="index.html#contact">Contact</a></li>
         </ul>
@@ -385,36 +412,32 @@
     </div>
 
     <main>
-        <section class="projects-hero">
-            <h1>Our CAS Projects</h1>
-            <p>Discover the inspiring projects our students have undertaken in creativity, activity, and service areas.</p>
+        <section class="videos-hero">
+            <h1>All Videos</h1>
+            <p>Watch our students' video projects, presentations, and educational content.</p>
         </section>
 
         <section class="filter-section">
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="videoSearch" class="search-input" placeholder="Search videos...">
+            </div>
+            
             <div class="filter-buttons">
                 <button class="filter-btn active" data-filter="all">
                     <i class="fas fa-th"></i> All
                 </button>
-                <button class="filter-btn" data-filter="STEM">
-                    <i class="fas fa-microscope"></i> STEM
+                <button class="filter-btn" data-filter="Education">
+                    <i class="fas fa-graduation-cap"></i> Education
                 </button>
-                <button class="filter-btn" data-filter="Art">
-                    <i class="fas fa-paint-brush"></i> Art
+                <button class="filter-btn" data-filter="Project">
+                    <i class="fas fa-project-diagram"></i> Project
                 </button>
-                <button class="filter-btn" data-filter="Sports">
-                    <i class="fas fa-running"></i> Sports
+                <button class="filter-btn" data-filter="Presentation">
+                    <i class="fas fa-presentation"></i> Presentation
                 </button>
-                <button class="filter-btn" data-filter="Music">
-                    <i class="fas fa-music"></i> Music
-                </button>
-                <button class="filter-btn" data-filter="Theater">
-                    <i class="fas fa-theater-masks"></i> Theater
-                </button>
-                <button class="filter-btn" data-filter="Environment">
-                    <i class="fas fa-leaf"></i> Environment
-                </button>
-                <button class="filter-btn" data-filter="Community Service">
-                    <i class="fas fa-hands-helping"></i> Community Service
+                <button class="filter-btn" data-filter="Event">
+                    <i class="fas fa-calendar"></i> Event
                 </button>
                 <button class="filter-btn" data-filter="Other">
                     <i class="fas fa-ellipsis-h"></i> Other
@@ -422,14 +445,28 @@
             </div>
         </section>
 
-        <section class="projects-container">
-            <div class="projects-timeline" id="projectsTimeline">
-                <!-- Project cards will be loaded dynamically from Firebase -->
+        <section class="videos-container">
+            <div class="results-info">
+                <p id="resultsCount">Loading videos...</p>
+            </div>
+
+            <div class="videos-grid" id="videosGrid">
+                <!-- Video cards will be loaded dynamically from Firebase -->
                 <div class="loading-state">
                     <i class="fas fa-spinner fa-spin"></i>
-                    <p>Loading projects...</p>
+                    <p>Loading videos...</p>
                 </div>
             </div>
+        </section>
+
+        <!-- YouTube Channel CTA -->
+        <section class="youtube-cta">
+            <h2>Subscribe to Our YouTube Channel</h2>
+            <p>Subscribe to our YouTube channel to not miss our latest video content.</p>
+            <a href="https://youtube.com/@ruzgaranatolian" target="_blank" rel="noopener noreferrer" class="youtube-btn">
+                <i class="fab fa-youtube"></i>
+                <span>Subscribe on YouTube</span>
+            </a>
         </section>
     </main>
 
@@ -462,80 +499,106 @@
     <script src="js/language.js"></script>
 
     <script>
-        // Projects Management
-        class ProjectsPage {
+        // Videos Management
+        class VideosPage {
             constructor() {
-                this.projects = [];
-                this.filteredProjects = [];
+                this.videos = [];
+                this.filteredVideos = [];
                 this.currentFilter = 'all';
                 this.init();
             }
 
             async init() {
-                await this.loadProjects();
+                await this.loadVideos();
                 this.setupEventListeners();
             }
 
-            async loadProjects() {
+            async loadVideos() {
                 try {
                     const snapshot = await firebase.firestore()
-                        .collection('projects')
+                        .collection('videos')
                         .orderBy('createdAt', 'desc')
                         .get();
                     
-                    this.projects = snapshot.docs.map(doc => ({
+                    this.videos = snapshot.docs.map(doc => ({
                         id: doc.id,
                         ...doc.data()
                     }));
                     
-                    this.filteredProjects = [...this.projects];
-                    this.renderProjects();
+                    this.filteredVideos = [...this.videos];
+                    this.renderVideos();
                 } catch (error) {
-                    console.error('Error loading projects:', error);
+                    console.error('Error loading videos:', error);
                     this.showError();
                 }
             }
 
-            renderProjects() {
-                const container = document.getElementById('projectsTimeline');
+            renderVideos() {
+                const container = document.getElementById('videosGrid');
+                const resultsCount = document.getElementById('resultsCount');
                 
-                if (this.filteredProjects.length === 0) {
+                resultsCount.textContent = `${this.filteredVideos.length} videos found`;
+                
+                if (this.filteredVideos.length === 0) {
                     container.innerHTML = `
                         <div class="empty-state">
-                            <i class="fas fa-project-diagram"></i>
-                            <h3>No projects yet</h3>
-                            <p>Projects will appear here when they are added.</p>
+                            <i class="fas fa-video"></i>
+                            <h3>No videos yet</h3>
+                            <p>Videos will appear here when they are added.</p>
                         </div>
                     `;
                     return;
                 }
 
-                const projectsHTML = this.filteredProjects.map(project => `
-                    <div class="project-item" data-category="${project.category}">
-                        <div class="timeline-dot"></div>
-                        <div class="project-content" onclick="viewProject('${project.id}')" style="cursor: pointer;">
-                            ${project.image ? `
-                                <div class="project-image">
-                                    <img src="${project.image}" alt="${project.title}" class="project-img">
+                const videosHTML = this.filteredVideos.map(video => `
+                    <div class="video-card" data-category="${video.category}" data-video-id="${video.id}">
+                        <div class="video-thumbnail">
+                            ${video.thumbnail ? 
+                                `<img src="${video.thumbnail}" alt="${video.title}">` :
+                                `<i class="fas fa-video"></i>`
+                            }
+                            <div class="play-icon">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <div class="video-content">
+                            <span class="video-category">${video.category}</span>
+                            <h3 class="video-title">${video.title}</h3>
+                            <p class="video-description">${video.description}</p>
+                            <div class="video-meta">
+                                <div class="video-date">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>${this.formatDate(video.createdAt)}</span>
                                 </div>
-                            ` : ''}
-                            <span class="project-category">${project.category}</span>
-                            <h3 class="project-title">${project.title}</h3>
-                            <p class="project-description">${project.description}</p>
-                            ${project.studentName ? `
-                                <div class="project-participants">
-                                    <span class="participant-tag">${project.studentName}</span>
-                                </div>
-                            ` : ''}
-                            <div class="project-date">${this.formatDate(project.startDate)}</div>
+                                ${video.duration ? `<div class="video-duration">${video.duration}</div>` : ''}
+                            </div>
                         </div>
                     </div>
                 `).join('');
 
-                container.innerHTML = projectsHTML;
+                container.innerHTML = videosHTML;
+                
+                // Add click handlers to video cards
+                container.querySelectorAll('.video-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        const videoId = card.dataset.videoId || this.filteredVideos[Array.from(container.children).indexOf(card)].id;
+                        window.location.href = `video-detail.html?id=${videoId}`;
+                    });
+                });
             }
 
             setupEventListeners() {
+                // Search input
+                document.getElementById('videoSearch').addEventListener('input', (e) => {
+                    const searchTerm = e.target.value.toLowerCase();
+                    this.filteredVideos = this.videos.filter(video =>
+                        video.title.toLowerCase().includes(searchTerm) ||
+                        video.description.toLowerCase().includes(searchTerm) ||
+                        video.category.toLowerCase().includes(searchTerm)
+                    );
+                    this.renderVideos();
+                });
+
                 // Filter buttons
                 document.querySelectorAll('.filter-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
@@ -551,13 +614,13 @@
 
             applyFilter() {
                 if (this.currentFilter === 'all') {
-                    this.filteredProjects = [...this.projects];
+                    this.filteredVideos = [...this.videos];
                 } else {
-                    this.filteredProjects = this.projects.filter(project => 
-                        project.category === this.currentFilter
+                    this.filteredVideos = this.videos.filter(video => 
+                        video.category === this.currentFilter
                     );
                 }
-                this.renderProjects();
+                this.renderVideos();
             }
 
             formatDate(date) {
@@ -565,32 +628,27 @@
                 const d = date.toDate ? date.toDate() : new Date(date);
                 return d.toLocaleDateString('en-US', { 
                     year: 'numeric', 
-                    month: 'long' 
+                    month: 'long',
+                    day: 'numeric'
                 });
             }
 
             showError() {
-                const container = document.getElementById('projectsTimeline');
+                const container = document.getElementById('videosGrid');
                 container.innerHTML = `
                     <div class="error-state">
                         <i class="fas fa-exclamation-triangle"></i>
                         <h3>Error occurred</h3>
-                        <p>An error occurred while loading projects.</p>
+                        <p>An error occurred while loading videos.</p>
                         <button onclick="location.reload()" class="btn btn-primary">Try Again</button>
                     </div>
                 `;
             }
         }
 
-        // Global function for viewing project details
-        function viewProject(projectId) {
-            // Redirect to project detail page
-            window.location.href = `project-detail.html?id=${projectId}`;
-        }
-
         // Initialize when DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
-            window.projectsPage = new ProjectsPage();
+            window.videosPage = new VideosPage();
         });
     </script>
     <script src="js/auth.js"></script>

@@ -78,7 +78,7 @@ A modern, beautiful website showcasing the CAS (Creativity, Activity, Service) p
 ├── about-cas.html         # About CAS information
 ├── styles.css             # Main stylesheet
 ├── globe.js              # Beautiful 3D globe (preserved)
-├── mühür.png             # School logo
+├── mühür.png             # School logo (replaced with Instagram profile image)
 └── js/
     ├── language.js        # Bilingual functionality
     ├── main.js           # Main website interactions

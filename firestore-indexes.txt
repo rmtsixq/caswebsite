@@ -1,0 +1,112 @@
+# Firebase Firestore Index'leri
+
+## Gerekli Composite Index'ler
+
+Firebase Console'da aşağıdaki index'leri oluşturun:
+
+### 1. ARTICLES COLLECTION INDEX'LERİ
+
+#### Index 1: Status + PublishedAt (Ana liste için)
+- **Collection ID:** `articles`
+- **Fields:**
+  - `status` (Ascending)
+  - `publishedAt` (Descending)
+
+#### Index 2: Status + IsEditorsPick + PublishedAt (Editor's Pick için)
+- **Collection ID:** `articles`
+- **Fields:**
+  - `status` (Ascending)
+  - `isEditorsPick` (Ascending)
+  - `publishedAt` (Descending)
+
+#### Index 3: Status + Category + PublishedAt (Kategori filtreleme için)
+- **Collection ID:** `articles`
+- **Fields:**
+  - `status` (Ascending)
+  - `category` (Ascending)
+  - `publishedAt` (Descending)
+
+#### Index 4: Status + CreatedBy + PublishedAt (Kullanıcı makaleleri için)
+- **Collection ID:** `articles`
+- **Fields:**
+  - `status` (Ascending)
+  - `createdBy` (Ascending)
+  - `publishedAt` (Descending)
+
+### 2. VIDEOS COLLECTION INDEX'LERİ
+
+#### Index 1: Status + PublishedAt (Ana liste için)
+- **Collection ID:** `videos`
+- **Fields:**
+  - `status` (Ascending)
+  - `publishedAt` (Descending)
+
+#### Index 2: Status + Category + PublishedAt (Kategori filtreleme için)
+- **Collection ID:** `videos`
+- **Fields:**
+  - `status` (Ascending)
+  - `category` (Ascending)
+  - `publishedAt` (Descending)
+
+#### Index 3: Status + CreatedBy + PublishedAt (Kullanıcı videoları için)
+- **Collection ID:** `videos`
+- **Fields:**
+  - `status` (Ascending)
+  - `createdBy` (Ascending)
+  - `publishedAt` (Descending)
+
+### 3. COMMENTS COLLECTION INDEX'LERİ (gelecekte kullanım için)
+
+#### Index 1: ArticleId + CreatedAt (Makale yorumları için)
+- **Collection ID:** `comments`
+- **Fields:**
+  - `articleId` (Ascending)
+  - `createdAt` (Descending)
+
+#### Index 2: ArticleId + Status + CreatedAt (Aktif yorumlar için)
+- **Collection ID:** `comments`
+- **Fields:**
+  - `articleId` (Ascending)
+  - `status` (Ascending)
+  - `createdAt` (Descending)
+
+### 4. USERS COLLECTION INDEX'LERİ
+
+#### Index 1: IsAdmin + CreatedAt (Admin kullanıcılar için)
+- **Collection ID:** `users`
+- **Fields:**
+  - `isAdmin` (Ascending)
+  - `createdAt` (Descending)
+
+## Index Oluşturma Adımları
+
+1. **Firebase Console'a git:** https://console.firebase.google.com
+2. **Projenizi seçin:** `windgriff-6cbd7`
+3. **Firestore Database'e git**
+4. **Indexes sekmesine tıklayın**
+5. **"Create Index" butonuna tıklayın**
+6. **Collection ID yazın** (örn: `articles`)
+7. **Fields ekleyin:**
+   - İlk field: `status` (Ascending)
+   - İkinci field: `publishedAt` (Descending)
+8. **"Create" butonuna tıklayın**
+
+## Index Durumu
+
+- Index'ler oluşturulduktan sonra "Building" durumunda olacak
+- Bu işlem 2-5 dakika sürebilir
+- Index'ler hazır olduğunda "Enabled" durumuna geçecek
+
+## Önemli Notlar
+
+1. **Tek field index'ler** otomatik oluşturulur, sadece **composite index'ler** manuel oluşturulmalı
+2. **OrderBy** kullanılan her field için index gerekli
+3. **Where + OrderBy** kombinasyonları için composite index gerekli
+4. Index'ler oluşturulana kadar sorgular çalışmayabilir
+
+## Geçici Çözüm
+
+Index'ler oluşturulana kadar:
+- `orderBy` kullanımını kaldırın
+- Client-side sorting yapın
+- Index'ler hazır olduğunda `orderBy`'ı geri ekleyin

@@ -1,0 +1,116 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ===========================================
+    // USERS COLLECTION
+    // ===========================================
+    match /users/{userId} {
+      // Kullanıcı kendi profilini okuyup yazabilir
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      
+      // Adminler tüm kullanıcı profillerini okuyabilir
+      allow read: if request.auth != null && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+      
+      // Kullanıcı kayıt olurken profil oluşturabilir
+      allow create: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // ===========================================
+    // ARTICLES COLLECTION
+    // ===========================================
+    match /articles/{articleId} {
+      // Herkes published makaleleri okuyabilir
+      allow read: if resource.data.status == 'published';
+      
+      // Giriş yapmış kullanıcılar makale oluşturabilir
+      allow create: if request.auth != null;
+      
+      // Makale sahibi veya admin makaleyi güncelleyebilir
+      allow update: if request.auth != null && (
+        resource.data.createdBy == request.auth.uid ||
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true
+      );
+      
+      // Makale sahibi veya admin makaleyi silebilir
+      allow delete: if request.auth != null && (
+        resource.data.createdBy == request.auth.uid ||
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true
+      );
+    }
+    
+    // ===========================================
+    // VIDEOS COLLECTION
+    // ===========================================
+    match /videos/{videoId} {
+      // Herkes published videoları okuyabilir
+      allow read: if resource.data.status == 'published';
+      
+      // Giriş yapmış kullanıcılar video oluşturabilir
+      allow create: if request.auth != null;
+      
+      // Video sahibi veya admin videoyu güncelleyebilir
+      allow update: if request.auth != null && (
+        resource.data.createdBy == request.auth.uid ||
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true
+      );
+      
+      // Video sahibi veya admin videoyu silebilir
+      allow delete: if request.auth != null && (
+        resource.data.createdBy == request.auth.uid ||
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true
+      );
+    }
+    
+    // ===========================================
+    // CATEGORIES COLLECTION
+    // ===========================================
+    match /categories/{categoryId} {
+      // Herkes kategorileri okuyabilir
+      allow read: if true;
+      
+      // Sadece adminler kategori oluşturabilir/güncelleyebilir/silebilir
+      allow create, update, delete: if request.auth != null && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+    }
+    
+    // ===========================================
+    // COMMENTS COLLECTION (gelecekte kullanım için)
+    // ===========================================
+    match /comments/{commentId} {
+      // Herkes published makalelerin yorumlarını okuyabilir
+      allow read: if get(/databases/$(database)/documents/articles/$(resource.data.articleId)).data.status == 'published';
+      
+      // Giriş yapmış kullanıcılar yorum yazabilir
+      allow create: if request.auth != null && request.auth.uid == resource.data.userId;
+      
+      // Yorum sahibi veya admin yorumu güncelleyebilir/silebilir
+      allow update, delete: if request.auth != null && (
+        resource.data.userId == request.auth.uid ||
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true
+      );
+    }
+    
+    // ===========================================
+    // ANALYTICS COLLECTION (admin için)
+    // ===========================================
+    match /analytics/{analyticsId} {
+      // Sadece adminler analytics verilerini okuyabilir/yazabilir
+      allow read, write: if request.auth != null && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+    }
+    
+    // ===========================================
+    // SETTINGS COLLECTION (site ayarları)
+    // ===========================================
+    match /settings/{settingId} {
+      // Herkes ayarları okuyabilir
+      allow read: if true;
+      
+      // Sadece adminler ayarları güncelleyebilir
+      allow write: if request.auth != null && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+    }
+  }
+}
